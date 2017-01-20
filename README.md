@@ -15,12 +15,16 @@
 
 ----------------------------------------------------------------
 
-. hover over comment arrow appear drop down
+DONE -- . hover over comment arrow appear drop down
   - when over the root el show the arrow, on reply show both root arrow and reply arrow
+DONE -- . hover over comment arrow show tooltip
+DONE -- . see more for comments longer than 600 characters
 
-. reply comment component type
 
+. reply comment
 . reply my comment line
+. show 10 more replies in this thread button at end of replies (pages 10 at a time)
+. load n (10 if over 10, actual number if less) more comments button after default show num posts val
 
-
-. show 10 more replies in this thread (pages 10 at a time)
+. report to facebook popup
+. delete comment popup
