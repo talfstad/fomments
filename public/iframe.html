@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function resizeIframe(obj) {
+        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+      }
+    </script>
+  </head>
+  <body>
+    <div class="fomments-iframe-container">
+      <iframe src="template.html" onload="resizeIframe(this)" frameborder="0" width="100%" scrolling="no" />
+    </div>
+  </body>
+</html>
