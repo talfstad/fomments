@@ -254,7 +254,6 @@
 .fomments-container .comment-container .header .sort-by em {
   font-weight: normal;
   color: #4b4f56;
-
 }
 
 .fomments-container .comment-container .sort-by button {
@@ -272,6 +271,7 @@
   text-shadow: none;
   vertical-align: middle;
   height: 20px;
+  text-transform: capitalize;
 }
 
 .fomments-container .comment-container .sort-by button[aria-expanded="true"] {
@@ -380,6 +380,7 @@
 }
 .fomments-container .sort-by .dropdown-menu ul a {
   padding-left: 20px;
+  text-transform: capitalize;
 }
 
 .fomments-container .sort-by .dropdown-menu ul a:hover,
