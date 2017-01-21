@@ -1,26 +1,28 @@
 import {
   ADD_COMMENT,
   CHANGE_SORT_BY,
+  ADD_LIKE,
+  REMOVE_LIKE,
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  NumCommentsToShowOnLoad: 5,
   user: {
     name: 'Customer Comment',
     url: '',
     image: '/images/noprofilepic.jpg',
     affiliation: {
       name: '',
-      url: '',
+      url: 'affiliationurl.com',
     },
   },
-  count: 6, // total comments
   sortBy: {
     top: true,
     newest: false,
     oldest: false,
   },
-  list: [
-    {
+  list: {
+    1: {
       id: 1,
       content: 'And that my friends is why President Elect Donald Trump won. We are sick of it. We are sick of the left claiming to be the ones that are tolerant but at every chance they get they call us racists, bigots, homophobes, zenophobes, and every other phobes and ists you can think of and every time they are running for anything they pull the race card. I am 56 years old and as long as I have been a voter they have been doing this and they have lumped me in with all this long enough. I am so sick of these politically correct babies that I want change and Donald Trump is the one I believe will keep his word to do it because I have no trust in either establishment Democrat or Republican. I am done with them until I see some real change.',
       user: {
@@ -33,28 +35,40 @@ const INITIAL_STATE = {
         },
       },
       options: {
-        collapse: true,
-        spam: true,
-        report: true,
-        edit: false,
-        delete: false,
+        collapse: {
+          enabled: true,
+          content: 'Collapse comment',
+        },
+        spam: {
+          enabled: true,
+          content: 'Mark as spam',
+        },
+        report: {
+          enabled: true,
+          content: 'Report',
+        },
+        edit: {
+          enabled: false,
+          content: 'Edit comment',
+        },
+        delete: {
+          enabled: false,
+          content: 'Delete comment',
+        },
       },
       likes: 586,
       date: 'Nov 20, 2016 7:57pm',
-      status: {
-        report: false,
-        spam: false,
-      },
       reply: {
         editing: false,
         content: '',
       },
-      state: {
-        showing: true,
-        editing: false,
-        collapsed: false,
-        truncated: true,
-      },
+      report: false,
+      spam: false,
+      showing: true,
+      editing: false,
+      collapsed: false,
+      truncated: true,
+      liked: false,
       replies: [
         {
           id: 2,
@@ -86,7 +100,7 @@ const INITIAL_STATE = {
         },
       ],
     },
-  ],
+  },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -105,12 +119,41 @@ export default (state = INITIAL_STATE, action) => {
       };
     }
     case ADD_COMMENT: {
+      const id = action.payload.id;
       return {
         ...state,
-        list: [
+        list: {
           ...state.list,
-          action.payload,
-        ],
+          [id]: action.payload,
+        },
+      };
+    }
+    case ADD_LIKE: {
+      const { id, likes } = action.payload;
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [id]: {
+            ...action.payload,
+            liked: true,
+            likes: likes + 1,
+          },
+        },
+      };
+    }
+    case REMOVE_LIKE: {
+      const { id, likes } = action.payload;
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [id]: {
+            ...action.payload,
+            liked: false,
+            likes: likes - 1,
+          },
+        },
       };
     }
     default:

@@ -5,11 +5,11 @@ import Comment from './comment';
 
 const CommentList = props =>
   <div className="comment-list">
-    {props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
+    {Object.keys(props.comments).map(key => <Comment key={key} comment={props.comments[key]} />)}
   </div>;
 
 CommentList.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.object),
+  comments: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({

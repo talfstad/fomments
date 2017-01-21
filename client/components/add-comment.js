@@ -12,32 +12,44 @@ class AddComment extends Component {
 
   getDefaultState(props = this.props) {
     return {
-      id: Math.floor(Math.random() * 1000),
+      id: [Math.floor(Math.random() * 1000)],
       user: props.user,
       content: '',
       options: {
-        collapse: true,
-        spam: true,
-        report: true,
-        edit: false,
-        delete: false,
+        collapse: {
+          enabled: true,
+          content: 'Collapse comment',
+        },
+        spam: {
+          enabled: false,
+          content: 'Mark as spam',
+        },
+        report: {
+          enabled: false,
+          content: 'Report',
+        },
+        edit: {
+          enabled: true,
+          content: 'Edit comment',
+        },
+        delete: {
+          enabled: true,
+          content: 'Delete comment',
+        },
       },
-      likes: 586,
-      date: 'Nov 20, 2016 7:57pm',
-      status: {
-        report: false,
-        spam: false,
-      },
+      likes: 0,
+      date: 'Just Now', // TODO make this a real date
       reply: {
         editing: false,
         content: '',
       },
-      state: {
-        showing: true,
-        editing: false,
-        collapsed: false,
-        truncated: true,
-      },
+      report: false,
+      spam: false,
+      showing: true,
+      editing: false,
+      collapsed: false,
+      truncated: true,
+      liked: false,
       replies: [],
     };
   }
@@ -61,7 +73,7 @@ class AddComment extends Component {
     const initialState = () =>
       <div className="add-comment">
         <div className="row">
-          <textarea value={content} onFocus={() => this.setState({ state: { editing: true } })} type="text" placeholder="Add a comment..." />
+          <textarea value={content} onFocus={() => this.setState({ editing: true })} type="text" placeholder="Add a comment..." />
         </div>
       </div>;
 
@@ -77,7 +89,7 @@ class AddComment extends Component {
         </div>
       </div>;
 
-    if (this.state.state.editing) {
+    if (this.state.editing) {
       return editingState();
     }
 
@@ -90,9 +102,7 @@ class AddComment extends Component {
     return (
       <div className="row comment-row">
         <div className="profile-pic">
-          <a href="#profilelink">
-            <img src={user.image} alt="" />
-          </a>
+          <img src={user.image} alt="" />
         </div>
         {this.buildCommentBox()}
       </div>
