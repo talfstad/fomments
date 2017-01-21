@@ -3,7 +3,16 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  count: 900, // total comments
+  user: {
+    name: 'Customer Comment',
+    url: '',
+    image: '/images/noprofilepic.jpg',
+    affiliation: {
+      name: '',
+      url: '',
+    },
+  },
+  count: 6, // total comments
   sortBy: {
     top: true,
     newest: false,
@@ -35,12 +44,16 @@ const INITIAL_STATE = {
         report: false,
         spam: false,
       },
-      replying: {
-        showing: false,
+      reply: {
+        editing: false,
         content: '',
       },
-      truncated: true,
-      collapsed: false,
+      state: {
+        showing: true,
+        editing: false,
+        collapsed: false,
+        truncated: true,
+      },
       replies: [
         {
           _id: 2,
