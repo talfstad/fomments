@@ -14,8 +14,9 @@ class Header extends Component {
 
   handleSortBy(e) {
     e.preventDefault();
+    const { changeSortBy } = this.props;
     const sortby = e.currentTarget.getAttribute('data-sortby');
-    this.props.changeSortBy(sortby);
+    changeSortBy(sortby);
   }
 
   buildSortByMenu() {
