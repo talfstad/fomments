@@ -24,7 +24,25 @@ class Comment extends Component {
     );
   }
 
-  static buildCommentText({ content, user }) {
+  constructor(props) {
+    super(props);
+
+    const options = {
+      collapsed: false,
+      truncated: false,
+    };
+
+    if (props.comment.content.length > 600) {
+      options.truncated = true;
+    }
+
+    this.state = {
+      ...options,
+      showing: false,
+    };
+  }
+
+  buildCommentText({ content, user }) {
     const buildAffiliation = () => {
       if (user.affiliation.name) {
         return (
@@ -54,6 +72,24 @@ class Comment extends Component {
       );
     };
 
+    const buildCommentContent = () => {
+      if (this.state.truncated) {
+        const truncatedContent = content.substring(0, 600);
+        return (
+          <span>
+            {truncatedContent}
+            <span className="see-more">... <span> <a onClick={() => this.setState({ truncated: false })} href="#see-more">See More</a></span></span>
+          </span>
+        );
+      }
+
+      return (
+        <span>
+          {content}
+        </span>
+      );
+    };
+
     return (
       <div className="row">
         <div className="user-info">
@@ -61,17 +97,10 @@ class Comment extends Component {
           {buildAffiliation()}
         </div>
         <div className="comment-text">
-          {content}
+          {buildCommentContent()}
         </div>
       </div>
     );
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showing: false,
-    };
   }
 
   buildCommentInfo(comment) {
@@ -146,7 +175,7 @@ class Comment extends Component {
           <CommentMenu showing={this.state.showing} menuOptions={comment.options} />
           {Comment.buildProfilePic(comment)}
           <div className="comment-detail">
-            {Comment.buildCommentText(comment)}
+            {this.buildCommentText(comment)}
             {this.buildCommentInfo(comment)}
           </div>
           {/* <ReplyList /> */}
@@ -157,7 +186,9 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.shape({}),
+  comment: PropTypes.shape({
+    content: PropTypes.string,
+  }),
   addLike: PropTypes.func,
   removeLike: PropTypes.func,
 };
