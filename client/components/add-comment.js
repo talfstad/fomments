@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { getDefaultCommentState } from '../defaults';
+import { GetDefaultCommentState } from '../defaults';
 
 import * as actions from '../actions/index';
 
@@ -9,7 +9,7 @@ class AddComment extends Component {
 
   constructor(props) {
     super(props);
-    this.state = getDefaultCommentState(props.user);
+    this.state = GetDefaultCommentState(props.user);
   }
 
   handleContentChange(e) {
@@ -22,7 +22,7 @@ class AddComment extends Component {
     e.preventDefault();
     const { addComment, user } = this.props;
     addComment(this.state);
-    this.setState(getDefaultCommentState(user));
+    this.setState(GetDefaultCommentState(user));
   }
 
   buildCommentBox() {

@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import { CommentInfo } from './shared-components';
 import * as actions from '../actions/index';
 
 class Reply extends Component {
   render() {
-    const { reply } = this.props;
+    const { comment } = this.props;
 
     return (
       <div className="row comment-row">
@@ -38,25 +38,15 @@ class Reply extends Component {
         <div className="comment-detail">
           <div className="row">
             <div className="user-info">
-              <a className="name" href={reply.user.url}>{reply.user.name}</a>
+              <a className="name" href={comment.user.url}>{comment.user.name}</a>
               <span className="dot"> · </span>
-              <a className="page" href={reply.user.affiliation.url}>{reply.user.affiliation.name}</a>
+              <a className="page" href={comment.user.affiliation.url}>{comment.user.affiliation.name}</a>
             </div>
             <div className="comment-text">
-              {reply.content}
+              {comment.content}
             </div>
           </div>
-          <div className="row comment-info">
-            <a href="#like"><em>Like</em></a>
-            <span className="dot"> · </span>
-            <a href="#reply"><em>Reply</em></a>
-            <span className="dot"> · </span>
-            <span>
-              <i className="like-icon" /> {reply.likes}
-            </span>
-            <span className="dot"> · </span>
-            {reply.date}
-          </div>
+          <CommentInfo {...this.props} />
         </div>
       </div>
     );
@@ -64,7 +54,7 @@ class Reply extends Component {
 }
 
 Reply.propTypes = {
-  reply: PropTypes.shape({}),
+  comment: PropTypes.shape({}),
 };
 
 export default connect(null, actions)(Reply);

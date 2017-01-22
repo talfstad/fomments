@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import CommentMenu from './comment-menu';
 import ReplyList from './reply-list';
+import { CommentInfo } from './shared-components';
 
 class Comment extends Component {
 
@@ -177,7 +178,7 @@ class Comment extends Component {
           {Comment.buildProfilePic(comment)}
           <div className="comment-detail">
             {this.buildCommentText(comment)}
-            {this.buildCommentInfo(comment)}
+            <CommentInfo {...this.props} />
           </div>
           <ReplyList replies={comment.replies} />
         </div>
@@ -189,6 +190,7 @@ class Comment extends Component {
 Comment.propTypes = {
   comment: PropTypes.shape({
     content: PropTypes.string,
+    replies: PropTypes.object,
   }),
   addLike: PropTypes.func,
   removeLike: PropTypes.func,

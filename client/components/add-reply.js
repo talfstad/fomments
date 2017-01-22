@@ -1,15 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { getDefaultReplyState } from '../defaults';
+import { GetDefaultReplyState } from '../defaults';
 
 import * as actions from '../actions/index';
 
-class ReplyComment extends Component {
+class AddReply extends Component {
 
   constructor(props) {
+    const { user, parentId } = props;
     super(props);
-    this.state = getDefaultReplyState(props.user);
+    this.state = GetDefaultReplyState({ user, parentId });
   }
 
   handleContentChange(e) {
@@ -20,9 +21,9 @@ class ReplyComment extends Component {
 
   handleSubmitComment(e) {
     e.preventDefault();
-    const { addComment, user } = this.props;
+    const { addComment, user, parentId } = this.props;
     addComment(this.state);
-    this.setState(getDefaultReplyState(user));
+    this.setState(GetDefaultReplyState({ user, parentId }));
   }
 
   buildCommentBox() {
@@ -78,13 +79,14 @@ class ReplyComment extends Component {
   }
 }
 
-ReplyComment.propTypes = {
+AddReply.propTypes = {
   user: PropTypes.shape({}),
   addComment: PropTypes.func,
+  parentId: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
   user: state.comments.user,
 });
 
-export default connect(mapStateToProps, actions)(ReplyComment);
+export default connect(mapStateToProps, actions)(AddReply);
