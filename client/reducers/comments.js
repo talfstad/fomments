@@ -13,7 +13,7 @@ const INITIAL_STATE = {
     image: '/images/noprofilepic.jpg',
     affiliation: {
       name: '',
-      url: 'affiliationurl.com',
+      url: '',
     },
   },
   sortBy: {

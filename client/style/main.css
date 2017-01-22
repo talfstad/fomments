@@ -409,6 +409,10 @@
   border-top-right-radius: 0;
 }
 
+.fomments-container .user-info .name {
+  font-weight: bold;
+  color: #365899;
+}
 
 .mr5 {
   margin-right: 5px !important;

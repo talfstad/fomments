@@ -67,7 +67,7 @@ Header.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  commentCount: state.comments.list.length,
+  commentCount: Object.keys(state.comments.list).length,
   sortBy: state.comments.sortBy,
 });
 

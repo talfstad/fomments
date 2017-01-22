@@ -4,12 +4,21 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
 class CommentMenu extends Component {
- // ({ showing, menuOptions }) => {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      tooltip: false,
     };
+  }
+
+  componentDidMount() {
+    $(this.dropdown).on('show.bs.dropdown', () => this.setState({ open: true }));
+    $(this.dropdown).on('hide.bs.dropdown', () => this.setState({ open: false }));
+  }
+
+  componentWillUnmount() {
+    $(this.dropdown).off();
   }
 
   buildCommentList() {
@@ -29,16 +38,33 @@ class CommentMenu extends Component {
     });
   }
 
+  showTooltip() {
+    this.setState({ tooltip: true });
+  }
+
+  hideTooltip() {
+    this.setState({ tooltip: false });
+  }
+
   render() {
     const { showing } = this.props;
+    const { open, tooltip } = this.state;
 
     return (
-      <div className={`comment-menu ${(showing) ? '' : 'hidden'}`}>
-        <div className="menu dropdown">
-          <button className="comment-menu-dropdown pull-right dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <div className={`comment-menu ${(showing || open) ? '' : 'hidden'}`}>
+        <div ref={(c) => { this.dropdown = c; }} className="menu dropdown">
+          <div className={`comment-menu-tooltip ${(tooltip) ? '' : 'hidden'}`}>
+            <div className="outer">
+              <div className="tooltip-text">
+                <span>Menu</span>
+              </div>
+              <i className="arrow" />
+            </div>
+          </div>
+          <button onMouseEnter={() => this.showTooltip()} onMouseLeave={() => this.hideTooltip()} className="comment-menu-dropdown pull-right dropdown-toggle" type="button" data-toggle="dropdown">
             <i className="down-arrow-wide" />
           </button>
-          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="comment-menu-dropdown">
+          <div className="dropdown-menu dropdown-menu-right">
             <ul role="menu">
               {this.buildCommentList()}
             </ul>

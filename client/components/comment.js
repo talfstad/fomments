@@ -7,11 +7,19 @@ import CommentMenu from './comment-menu';
 class Comment extends Component {
 
   static buildProfilePic({ user }) {
+    if (user.url) {
+      return (
+        <div className="profile-pic">
+          <a target="_blank" rel="noopener noreferrer" href={user.url}>
+            <img src={user.image} alt="" />
+          </a>
+        </div>
+      );
+    }
+
     return (
       <div className="profile-pic">
-        <a target="_blank" rel="noopener noreferrer" href={user.url}>
-          <img src={user.image} alt="" />
-        </a>
+        <img src={user.image} alt="" />
       </div>
     );
   }
@@ -31,10 +39,25 @@ class Comment extends Component {
       return '';
     };
 
+    const buildUserName = () => {
+      if (user.url) {
+        return (
+          <a className="name" target="_blank" rel="noopener noreferrer" href={user.url}>
+            {user.name}
+          </a>
+        );
+      }
+      return (
+        <span className="name">
+          {user.name}
+        </span>
+      );
+    };
+
     return (
       <div className="row">
         <div className="user-info">
-          <a className="name" target="_blank" rel="noopener noreferrer" href={user.url}>{user.name}</a>
+          {buildUserName()}
           {buildAffiliation()}
         </div>
         <div className="comment-text">
