@@ -1,9 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { CommentInfo } from './shared-components';
+import { ProfilePic, CommentInfo, CommentText } from './shared-components';
 import * as actions from '../actions/index';
 
 class Reply extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      collapsed: false,
+      truncated: (props.comment.content.length > 600),
+      showing: false,
+    };
+  }
+
+  setTruncated(truncated) {
+    this.setState({ truncated });
+  }
+
   render() {
     const { comment } = this.props;
 
@@ -29,23 +44,13 @@ class Reply extends Component {
             </div>
           </div>
         </div>
-        <div className="profile-pic">
-          <a href="#profilelink">
-            <img src="https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/c0.12.48.48/p48x48/5417_10208966960280793_2802424953995387521_n.jpg?oh=ad0814b805499e5987de27f8407cf608&oe=591F107C" alt="" />
-          </a>
-        </div>
-
+        <ProfilePic user={comment.user} />
         <div className="comment-detail">
-          <div className="row">
-            <div className="user-info">
-              <a className="name" href={comment.user.url}>{comment.user.name}</a>
-              <span className="dot"> · </span>
-              <a className="page" href={comment.user.affiliation.url}>{comment.user.affiliation.name}</a>
-            </div>
-            <div className="comment-text">
-              {comment.content}
-            </div>
-          </div>
+          <CommentText
+            {...this.props}
+            truncated={this.state.truncated}
+            setTruncated={truncated => this.setTruncated(truncated)}
+          />
           <CommentInfo {...this.props} />
         </div>
       </div>
@@ -54,7 +59,10 @@ class Reply extends Component {
 }
 
 Reply.propTypes = {
-  comment: PropTypes.shape({}),
+  comment: PropTypes.shape({
+    content: PropTypes.string,
+    length: PropTypes.number,
+  }),
 };
 
 export default connect(null, actions)(Reply);

@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
-import Reply from './reply';
+import Comment from './comment';
 import AddReply from './add-reply';
 import ShowMoreReplies from './show-more-replies';
 
 const ReplyList = ({ replies, parentId }) => {
+  if (!replies) return null;
+
   const buildReplyList = () =>
     Object.keys(replies)
-      .map(key => <Reply key={key} comment={replies[key]} />);
+      .map(key => <Comment key={key} comment={replies[key]} />);
 
   return (
     <div className="replies">
