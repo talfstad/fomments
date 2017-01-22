@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions/index';
 import CommentMenu from './comment-menu';
+import ReplyList from './reply-list';
 
 class Comment extends Component {
 
@@ -178,7 +179,7 @@ class Comment extends Component {
             {this.buildCommentText(comment)}
             {this.buildCommentInfo(comment)}
           </div>
-          {/* <ReplyList /> */}
+          <ReplyList replies={comment.replies} />
         </div>
       </div>
     );

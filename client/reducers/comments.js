@@ -69,8 +69,8 @@ const INITIAL_STATE = {
       collapsed: false,
       truncated: true,
       liked: false,
-      replies: [
-        {
+      replies: {
+        2: {
           id: 2,
           content: 'Another damn fool that needs to be schooled. Trump won because the Electoral College voted for him not the people. Hillary would be the president if the people had a say. Right now she has more than one million votes more than Trump. I don\'t think she is the person for the job either so no I\'m not a Hillary supporter. So please climb down off of your high horse because you had absolutely nothing to do with him being the president elect. Also just know that the inauguration hasn\'t occurred yet. 56 years old and still a damn sheep. Dummy doesn have an ist on it does it?',
           user: {
@@ -95,10 +95,8 @@ const INITIAL_STATE = {
             report: false,
             spam: false,
           },
-          truncated: true,
-          collapsed: false,
         },
-      ],
+      },
     },
   },
 };

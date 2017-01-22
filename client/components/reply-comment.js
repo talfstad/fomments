@@ -1,15 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { getDefaultCommentState } from '../defaults';
+import { getDefaultReplyState } from '../defaults';
 
 import * as actions from '../actions/index';
 
-class AddComment extends Component {
+class ReplyComment extends Component {
 
   constructor(props) {
     super(props);
-    this.state = getDefaultCommentState(props.user);
+    this.state = getDefaultReplyState(props.user);
   }
 
   handleContentChange(e) {
@@ -22,7 +22,7 @@ class AddComment extends Component {
     e.preventDefault();
     const { addComment, user } = this.props;
     addComment(this.state);
-    this.setState(getDefaultCommentState(user));
+    this.setState(getDefaultReplyState(user));
   }
 
   buildCommentBox() {
@@ -55,20 +55,30 @@ class AddComment extends Component {
   }
 
   render() {
-    const { user } = this.props;
-
     return (
       <div className="row comment-row">
         <div className="profile-pic">
-          <img src={user.image} alt="" />
+          <a href="#profilelink">
+            <img src="/images/noprofilepic.jpg" alt="" />
+          </a>
         </div>
-        {this.buildCommentBox()}
+        <div className="add-comment reply">
+          <div className="row">
+            <textarea type="text" placeholder="Add a reply..." />
+          </div>
+          <div className="row">
+            <div className="post clearfix">
+              <button className="add-comment disabled pull-right"><em>Reply</em></button>
+              <button className="cancel-comment mr5 pull-right"><em>Cancel</em></button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-AddComment.propTypes = {
+ReplyComment.propTypes = {
   user: PropTypes.shape({}),
   addComment: PropTypes.func,
 };
@@ -77,4 +87,4 @@ const mapStateToProps = state => ({
   user: state.comments.user,
 });
 
-export default connect(mapStateToProps, actions)(AddComment);
+export default connect(mapStateToProps, actions)(ReplyComment);
