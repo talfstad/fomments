@@ -14,21 +14,30 @@ const ReplyList = (props) => {
 
   if (!replies) return null;
 
-  const buildReplyList = () =>
-    Object.keys(replies)
-      .map(key =>
+  const buildReplyList = () => Object.keys(replies).map((key) => {
+    const { spam, report } = replies[key];
+    if (!spam && !report) {
+      return (
         <Comment
           key={key}
           setReplyShowing={setReplyShowing}
           comment={replies[key]}
-        />);
+        />
+      );
+    }
+    return null;
+  });
 
   if (collapsed) return null;
   return (
     <div className="replies">
       {buildReplyList()}
       <ShowMoreReplies />
-      <AddReply setReplyShowing={setReplyShowing} replyShowing={replyShowing} parentId={parentId} />
+      <AddReply
+        setReplyShowing={setReplyShowing}
+        replyShowing={replyShowing}
+        parentId={parentId}
+      />
     </div>
   );
 };
