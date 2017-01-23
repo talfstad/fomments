@@ -36,7 +36,6 @@ const getSharedDefaults = user => ({
 });
 
 export const INITIAL_STATE = {
-  NumCommentsToShowOnLoad: 5,
   user: {
     name: 'Customer Comment',
     url: '',
@@ -92,8 +91,6 @@ export const INITIAL_STATE = {
       spam: false,
       showing: true,
       editing: false,
-      collapsed: false,
-      truncated: true,
       liked: false,
       replies: {
         2: {
@@ -134,10 +131,8 @@ export const INITIAL_STATE = {
           liked: false,
           likes: 0,
           date: 'Nov 23, 2016 10:09am',
-          status: {
-            report: false,
-            spam: false,
-          },
+          report: false,
+          spam: false,
         },
       },
     },

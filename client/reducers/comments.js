@@ -1,9 +1,11 @@
 import {
   ADD_COMMENT,
+  UPDATE_COMMENT,
   CHANGE_SORT_BY,
   ADD_LIKE,
   REMOVE_LIKE,
   ADD_REPLY,
+  UPDATE_REPLY,
 } from '../actions/types';
 
 import { INITIAL_STATE } from '../defaults';
@@ -23,6 +25,19 @@ export default (state = INITIAL_STATE, action) => {
         sortBy,
       };
     }
+    case UPDATE_COMMENT: {
+      const { id, updates } = action.payload;
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [id]: {
+            ...state.list[id],
+            ...updates,
+          },
+        },
+      };
+    }
     case ADD_COMMENT: {
       const { id } = action.payload;
       return {
@@ -30,6 +45,25 @@ export default (state = INITIAL_STATE, action) => {
         list: {
           ...state.list,
           [id]: action.payload,
+        },
+      };
+    }
+    case UPDATE_REPLY: {
+      const { id, parentId, updates } = action.payload;
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [parentId]: {
+            ...state.list[parentId],
+            replies: {
+              ...state.list[parentId].replies,
+              [id]: {
+                ...state.list[parentId].replies[id],
+                ...updates,
+              },
+            },
+          },
         },
       };
     }

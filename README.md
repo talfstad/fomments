@@ -3,20 +3,28 @@ static organization:
 
 todo:
 
-. collapse comment collapses comment (in state)
-  . on click show the comment collapsed with undo button, remove it from menu options
-  . show undo button which changes menu options back, shows comment
+. collapsed disabled mark as spam option in menu as well
+
+- on reply show spam/undo and remove mark as spam from menu and collapse
+- on comment show spam/undo and remove mark as spam from menu and collapse
+
+  . mark as spam is saved to store
+
 
 . mark comment as spam, undo. on refresh comment disappears for good
 
 . report shows modal and removes comment
+  redux modals videos to do these ->
+  . report to facebook popup
+  . delete comment popup
 
-. show n more replies in this thread (3 default replies showing)
 
 . date of new comment is date, shows a to text version like facebook
 'just now', '5 min', '10 min', 'an hour ago' else shows the date/time
 
 . sort by works newest, oldest, top. top shows users comments then other ones by likes
+
+. show n more replies in this thread (3 default replies showing)
 
 . make text area grow vertically using html
 
@@ -72,22 +80,3 @@ comment/reply (container configurable):
 
 
 ----------------------------------------------------------------
-
-DONE -- . hover over comment arrow appear drop down
-  - when over the root el show the arrow, on reply show both root arrow and reply arrow
-DONE -- . hover over comment arrow show tooltip
-DONE -- . see more for comments longer than 600 characters
-
-
-DONE -- . reply comment
-DONE -- . reply my comment line
-
-DONE -- . show 10 more replies in this thread button at end of replies (pages 10 at a time)
-DONE -- . load n (10 if over 10, actual number if less) more comments button after default show num posts val
-
-. react components each no dynamic
-
-
-redux modals videos to do these ->
-. report to facebook popup
-. delete comment popup

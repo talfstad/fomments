@@ -28,10 +28,11 @@ export const CommentText = (props) => {
     truncated,
     setTruncated,
     collapsed,
-    setCollapsed } = props;
+    spam,
+    setCollapsed,
+    setSpam } = props;
 
   const { content, user } = comment;
-
   const buildAffiliation = () => {
     if (user.affiliation.name) {
       return (
@@ -71,6 +72,20 @@ export const CommentText = (props) => {
       e.preventDefault();
       setCollapsed(false);
     };
+
+    const handleSetSpam = (e) => {
+      e.preventDefault();
+      setSpam(false);
+    };
+
+    if (spam) {
+      return (
+        <span className="collapsed">
+          <em>This comment is marked as spam. </em>
+          <a onClick={e => handleSetSpam(e)} href="#df">Undo</a>
+        </span>
+      );
+    }
 
     if (collapsed) {
       return (
@@ -114,8 +129,10 @@ export const CommentText = (props) => {
 CommentText.propTypes = {
   comment: PropTypes.shape({}),
   truncated: PropTypes.bool,
+  spam: PropTypes.bool,
   collapsed: PropTypes.bool,
   setCollapsed: PropTypes.func,
+  setSpam: PropTypes.func,
   setTruncated: PropTypes.func,
 };
 
@@ -126,6 +143,7 @@ export const CommentInfo = (props) => {
     addLike,
     removeLike,
     collapsed,
+    spam,
   } = props;
 
   const { likes, date } = comment;
@@ -175,7 +193,7 @@ export const CommentInfo = (props) => {
     setReplyShowing(true);
   };
 
-  if (collapsed) return null;
+  if (collapsed || spam) return null;
 
   return (
     <div className="row comment-info">
@@ -194,4 +212,6 @@ CommentInfo.propTypes = {
   addLike: PropTypes.func,
   removeLike: PropTypes.func,
   setReplyShowing: PropTypes.func,
+  spam: PropTypes.bool,
+  collapsed: PropTypes.bool,
 };

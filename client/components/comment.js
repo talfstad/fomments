@@ -31,12 +31,31 @@ class Comment extends Component {
           ...this.state.menuOptions.collapse,
           enabled: !collapsed,
         },
+        spam: {
+          ...this.state.menuOptions.spam,
+          enabled: !collapsed,
+        },
       },
     });
   }
 
-  setMenuOptions(menuOptions) {
-    this.setState({ menuOptions });
+  setSpam(spam) {
+    const { comment, updateComment, updateReply } = this.props;
+    const { id, parentId } = comment;
+    this.setCollapsed(spam);
+
+    if (parentId) {
+      updateReply({
+        id,
+        parentId,
+        updates: { spam },
+      });
+    } else {
+      updateComment({
+        id,
+        updates: { spam },
+      });
+    }
   }
 
   setReplyShowing(showing) {
@@ -63,8 +82,8 @@ class Comment extends Component {
         <div onMouseEnter={() => this.handleShowOptionsMenu(true)} onMouseLeave={() => this.handleShowOptionsMenu(false)} className="row comment-row">
           <CommentMenu
             showing={this.state.showing}
-            setMenuOptions={options => this.setMenuOptions(options)}
             setCollapsed={collapsed => this.setCollapsed(collapsed)}
+            setSpam={spam => this.setSpam(spam)}
             menuOptions={this.state.menuOptions}
           />
           <ProfilePic user={comment.user} />
@@ -75,10 +94,13 @@ class Comment extends Component {
               truncated={this.state.truncated}
               setTruncated={truncated => this.setTruncated(truncated)}
               setCollapsed={collapsed => this.setCollapsed(collapsed)}
+              setSpam={spam => this.setSpam(spam)}
+              spam={comment.spam}
             />
             <CommentInfo
               {...this.props}
               collapsed={this.state.collapsed}
+              spam={comment.spam}
               setReplyShowing={this.state.setReplyShowing}
               reply={this.state.reply}
             />
@@ -97,8 +119,12 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
+  spam: PropTypes.bool,
+  updateComment: PropTypes.func,
+  updateReply: PropTypes.func,
   setReplyShowing: PropTypes.func,
   comment: PropTypes.shape({
+    id: PropTypes.number,
     content: PropTypes.string,
     replies: PropTypes.object,
   }),

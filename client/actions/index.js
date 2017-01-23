@@ -1,7 +1,9 @@
 import {
   CHANGE_SORT_BY,
   ADD_COMMENT,
+  UPDATE_COMMENT,
   ADD_REPLY,
+  UPDATE_REPLY,
   ADD_LIKE,
   REMOVE_LIKE,
 } from './types';
@@ -16,9 +18,19 @@ export const addComment = post => ({
   payload: post,
 });
 
+export const updateComment = updates => ({
+  type: UPDATE_COMMENT,
+  payload: updates,
+});
+
 export const addReply = reply => ({
   type: ADD_REPLY,
   payload: reply,
+});
+
+export const updateReply = updates => ({
+  type: UPDATE_REPLY,
+  payload: updates,
 });
 
 export const addLike = comment => ({

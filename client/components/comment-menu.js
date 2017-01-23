@@ -21,18 +21,16 @@ class CommentMenu extends Component {
     $(this.dropdown).off();
   }
 
-  handleSelectMenuOption(key) {
-    const { menuOptions, setMenuOptions, setCollapsed } = this.props;
+  handleSelectMenuOption(e, key) {
+    e.preventDefault();
+    const { setCollapsed, setSpam } = this.props;
     switch (key) {
+      case 'spam': {
+        setSpam(true);
+        break;
+      }
       case 'collapse': {
-        setCollapsed(true);
-        setMenuOptions({
-          ...menuOptions,
-          collapse: {
-            ...menuOptions.collapse,
-            enabled: false,
-          },
-        });
+        if (key === 'collapse') setCollapsed(true);
         break;
       }
       default:
@@ -47,7 +45,7 @@ class CommentMenu extends Component {
       if (menuOptions[key].enabled) {
         return (
           <li key={key}>
-            <a onClick={() => this.handleSelectMenuOption(key)} className="" href="#d">
+            <a onClick={e => this.handleSelectMenuOption(e, key)} className="" href="#d">
               <em>{menuOptions[key].content}</em>
             </a>
           </li>
@@ -95,8 +93,8 @@ class CommentMenu extends Component {
 }
 
 CommentMenu.propTypes = {
-  setMenuOptions: PropTypes.func,
   setCollapsed: PropTypes.func,
+  setSpam: PropTypes.func,
   menuOptions: PropTypes.shape({}),
   showing: PropTypes.bool,
 };
