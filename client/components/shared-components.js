@@ -1,4 +1,63 @@
 import React, { PropTypes } from 'react';
+import Modal from './modal';
+
+export const ReportCommentModal = ({ show, marginTop }) => {
+  if (show) {
+    return (
+      <Modal marginTop={marginTop}>
+        <div className="fomments-modal-header">
+          <h3><em>Report Comment</em></h3>
+        </div>
+        <div className="fomments-modal-body">
+          <em>Are you sure you want to report this comment?</em>
+        </div>
+        <div className="clearfix fomments-modal-footer">
+          <button className="report pull-right">
+            <em>Confirm Report</em>
+          </button>
+          <button className="cancel-comment mr5 pull-right">
+            <em>Cancel</em>
+          </button>
+        </div>
+      </Modal>
+    );
+  }
+  return null;
+};
+
+ReportCommentModal.propTypes = {
+  show: PropTypes.bool,
+  marginTop: PropTypes.number,
+};
+
+export const DeleteCommentModal = ({ show, marginTop }) => {
+  if (show) {
+    return (
+      <Modal marginTop={marginTop}>
+        <div className="fomments-modal-header">
+          <h3><em>Report Comment</em></h3>
+        </div>
+        <div className="fomments-modal-body">
+          <em>Are you sure you want to report this comment?</em>
+        </div>
+        <div className="clearfix fomments-modal-footer">
+          <button className="report pull-right">
+            <em>Confirm Report</em>
+          </button>
+          <button className="cancel-comment mr5 pull-right">
+            <em>Cancel</em>
+          </button>
+        </div>
+      </Modal>
+    );
+  }
+  return null;
+};
+
+DeleteCommentModal.propTypes = {
+  show: PropTypes.bool,
+  marginTop: PropTypes.number,
+};
 
 export const ProfilePic = ({ user }) => {
   if (user.url) {

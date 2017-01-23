@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import CommentMenu from './comment-menu';
 import ReplyList from './reply-list';
-import { CommentInfo, CommentText, ProfilePic } from './shared-components';
+import { ReportCommentModal, CommentInfo, CommentText, ProfilePic } from './shared-components';
 
 class Comment extends Component {
 
@@ -19,6 +19,9 @@ class Comment extends Component {
       truncated: (comment.content.length > 600),
       showing: false,
       menuOptions: comment.options,
+      confirmReportShowing: false,
+      confirmDeleteShowing: false,
+      offsetY: 0, //used to place modal where dropdown was selected
     };
   }
 
@@ -66,6 +69,11 @@ class Comment extends Component {
     this.setState({ truncated });
   }
 
+  showReportModal(showReportModal) {
+    const offsetY = $(this.el).offset().top;
+    this.setState({ showReportModal, offsetY });
+  }
+
   handleShowOptionsMenu(show) {
     if (show) {
       this.setState({ showing: true });
@@ -82,11 +90,12 @@ class Comment extends Component {
     if (!collapsed && comment.spam) return null;
 
     return (
-      <div>
+      <div ref={(c) => { this.el = c; }}>
         <div onMouseEnter={() => this.handleShowOptionsMenu(true)} onMouseLeave={() => this.handleShowOptionsMenu(false)} className="row comment-row">
           <CommentMenu
             showing={this.state.showing}
             setCollapsed={collapse => this.setCollapsed(collapse)}
+            showReportModal={show => this.showReportModal(show)}
             setSpam={spam => this.setSpam(spam)}
             menuOptions={this.state.menuOptions}
           />
@@ -117,6 +126,7 @@ class Comment extends Component {
             parentId={comment.id}
           />
         </div>
+        <ReportCommentModal marginTop={this.state.offsetY} show={this.state.showReportModal} />
       </div>
     );
   }

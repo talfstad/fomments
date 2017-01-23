@@ -11,12 +11,14 @@ const createStoreWithMiddleware = applyMiddleware(
   ReduxThunk,
 )(createStore);
 
+const store = createStoreWithMiddleware(reducers);
+
 Meteor.startup(() => {
   ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
+    <Provider store={store}>
       <App />
     </Provider>
     , document.getElementById('fomments'));
 });
 
-export default createStoreWithMiddleware;
+export default store;

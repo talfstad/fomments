@@ -178,19 +178,22 @@
   border: 1px solid #4267b2;
 }
 
-.fomments-container .comment-container .add-comment .post button.cancel-comment {
+.fomments-container .comment-container .add-comment .post button.cancel-comment,
+.fomments-modal button.cancel-comment {
   background-color: rgb(246, 247, 249);
   border: 1px solid rgb(206, 208, 212);
 }
-.fomments-container .comment-container .add-comment .post button.cancel-comment:hover {
+.fomments-container .comment-container .add-comment .post button.cancel-comment:hover,
+.fomments-modal button.cancel-comment:hover {
   background-color: #e9ebee;
   border: 1px solid rgb(206, 208, 212);
   text-decoration: none;
 }
 
-.fomments-container .comment-container .add-comment .post button {
-  /*background-color: #4267b2;*/
-  /*border: 1px solid #4267b2;*/
+.fomments-container .comment-container .add-comment .post button,
+.fomments-modal button {
+  background-color: #4267b2;
+  border: 1px solid #4267b2;
   border-radius: 2px;
   box-sizing: content-box;
   -webkit-font-smoothing: antialiased;
@@ -219,6 +222,20 @@
 
 .fomments-container .comment-container .add-comment .post button em {
   font-style: normal;
+  color: #fff;
+}
+
+.fomments-modal button em {
+  font-style: normal;
+  font-size: 12px;
+}
+
+.fomments-modal button.report {
+  color: #fff;
+}
+
+.fomments-modal button.report:hover {
+  background-color: #365899;
   color: #fff;
 }
 
@@ -417,6 +434,68 @@
 .fomments-container .user-info .name {
   font-weight: bold;
   color: #365899;
+}
+
+.fomments-modal-bg {
+  background-color: rgba(0, 0, 0, .4);
+  position: fixed;
+  bottom: 60px;
+  left: 60px;
+  right: 60px;
+  top: 60px;
+}
+
+.fomments-modal-footer {
+    padding: 12px 0;
+    margin: 0 10px;
+    border-top: 1px solid #dddfe2;
+}
+
+.fomments-modal-header {
+  background-color: #f6f7f9;
+  border-bottom: 1px solid #e5e5e5;
+  color: #1d2129;
+  padding: 10px 12px;
+  border-radius: 3px 3px 0px 0px;
+}
+
+.fomments-modal-body {
+  padding: 12px;
+}
+
+.fomments-modal-body em {
+  font-style: normal;
+}
+
+.fomments-modal-header h3 {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.fomments-modal-header h3 em {
+  font-style: normal;
+  line-height: 19px;
+}
+
+.fomments-modal-content {
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 26px rgba(0, 0, 0, .3), 0 0 0 1px rgba(0, 0, 0, .1);
+  margin: 0 auto 40px;
+  position: relative;
+  width: 445px;
+}
+
+.fomments-modal {
+  border-radius: 4px;
+  outline: none;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  position: absolute;
+  top: 0;
 }
 
 .mr5 {
