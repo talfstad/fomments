@@ -230,11 +230,13 @@
   font-size: 12px;
 }
 
-.fomments-modal button.report {
+.fomments-modal button.report,
+.fomments-modal button.delete {
   color: #fff;
 }
 
-.fomments-modal button.report:hover {
+.fomments-modal button.report:hover,
+.fomments-modal button.delete:hover {
   background-color: #365899;
   color: #fff;
 }

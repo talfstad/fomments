@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import CommentMenu from './comment-menu';
 import ReplyList from './reply-list';
-import { ReportCommentModal, CommentInfo, CommentText, ProfilePic } from './shared-components';
+import { DeleteCommentModal, ReportCommentModal, CommentInfo, CommentText, ProfilePic } from './shared-components';
 
 class Comment extends Component {
 
@@ -19,9 +19,9 @@ class Comment extends Component {
       truncated: (comment.content.length > 600),
       showing: false,
       menuOptions: comment.options,
-      confirmReportShowing: false,
-      confirmDeleteShowing: false,
-      offsetY: 0, //used to place modal where dropdown was selected
+      offsetY: 0, // used to place modal where dropdown was selected
+      showReportCommentModal: false,
+      showDeleteCommentModal: false,
     };
   }
 
@@ -69,9 +69,14 @@ class Comment extends Component {
     this.setState({ truncated });
   }
 
-  showReportModal(showReportModal) {
+  showReportCommentModal(showReportCommentModal) {
     const offsetY = $(this.el).offset().top;
-    this.setState({ showReportModal, offsetY });
+    this.setState({ showReportCommentModal, offsetY });
+  }
+
+  showDeleteCommentModal(showDeleteCommentModal) {
+    const offsetY = $(this.el).offset().top;
+    this.setState({ showDeleteCommentModal, offsetY });
   }
 
   handleShowOptionsMenu(show) {
@@ -95,7 +100,8 @@ class Comment extends Component {
           <CommentMenu
             showing={this.state.showing}
             setCollapsed={collapse => this.setCollapsed(collapse)}
-            showReportModal={show => this.showReportModal(show)}
+            showReportCommentModal={show => this.showReportCommentModal(show)}
+            showDeleteCommentModal={show => this.showDeleteCommentModal(show)}
             setSpam={spam => this.setSpam(spam)}
             menuOptions={this.state.menuOptions}
           />
@@ -126,7 +132,14 @@ class Comment extends Component {
             parentId={comment.id}
           />
         </div>
-        <ReportCommentModal marginTop={this.state.offsetY} show={this.state.showReportModal} />
+        <ReportCommentModal
+          marginTop={this.state.offsetY}
+          show={this.state.showReportCommentModal}
+        />
+        <DeleteCommentModal
+          marginTop={this.state.offsetY}
+          show={this.state.showDeleteCommentModal}
+        />
       </div>
     );
   }

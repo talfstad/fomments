@@ -35,14 +35,14 @@ export const DeleteCommentModal = ({ show, marginTop }) => {
     return (
       <Modal marginTop={marginTop}>
         <div className="fomments-modal-header">
-          <h3><em>Report Comment</em></h3>
+          <h3><em>Delete Comment</em></h3>
         </div>
         <div className="fomments-modal-body">
-          <em>Are you sure you want to report this comment?</em>
+          <em>Are you sure you want to delete this comment?</em>
         </div>
         <div className="clearfix fomments-modal-footer">
-          <button className="report pull-right">
-            <em>Confirm Report</em>
+          <button className="delete pull-right">
+            <em>Confirm Delete</em>
           </button>
           <button className="cancel-comment mr5 pull-right">
             <em>Cancel</em>

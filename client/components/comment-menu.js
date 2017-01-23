@@ -23,7 +23,13 @@ class CommentMenu extends Component {
 
   handleSelectMenuOption(e, key) {
     e.preventDefault();
-    const { setCollapsed, showReportModal, setSpam } = this.props;
+    const {
+      setCollapsed,
+      showReportCommentModal,
+      showDeleteCommentModal,
+      setSpam,
+    } = this.props;
+
     switch (key) {
       case 'spam': {
         setSpam(true);
@@ -34,7 +40,11 @@ class CommentMenu extends Component {
         break;
       }
       case 'report': {
-        showReportModal(true);
+        showReportCommentModal(true);
+        break;
+      }
+      case 'delete': {
+        showDeleteCommentModal(true);
         break;
       }
       default:
@@ -98,7 +108,8 @@ class CommentMenu extends Component {
 
 CommentMenu.propTypes = {
   setCollapsed: PropTypes.func,
-  showReportModal: PropTypes.func,
+  showDeleteCommentModal: PropTypes.func,
+  showReportCommentModal: PropTypes.func,
   setSpam: PropTypes.func,
   menuOptions: PropTypes.shape({}),
   showing: PropTypes.bool,
