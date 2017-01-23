@@ -76,13 +76,17 @@ class Comment extends Component {
 
   render() {
     const { comment } = this.props;
+    const { collapsed } = this.state;
+
+    // if marked spam leave rendered until next page load
+    if (!collapsed && comment.spam) return null;
 
     return (
       <div>
         <div onMouseEnter={() => this.handleShowOptionsMenu(true)} onMouseLeave={() => this.handleShowOptionsMenu(false)} className="row comment-row">
           <CommentMenu
             showing={this.state.showing}
-            setCollapsed={collapsed => this.setCollapsed(collapsed)}
+            setCollapsed={collapse => this.setCollapsed(collapse)}
             setSpam={spam => this.setSpam(spam)}
             menuOptions={this.state.menuOptions}
           />
@@ -92,8 +96,8 @@ class Comment extends Component {
               {...this.props}
               collapsed={this.state.collapsed}
               truncated={this.state.truncated}
-              setTruncated={truncated => this.setTruncated(truncated)}
-              setCollapsed={collapsed => this.setCollapsed(collapsed)}
+              setTruncated={truncate => this.setTruncated(truncate)}
+              setCollapsed={collapse => this.setCollapsed(collapse)}
               setSpam={spam => this.setSpam(spam)}
               spam={comment.spam}
             />
@@ -119,7 +123,6 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
-  spam: PropTypes.bool,
   updateComment: PropTypes.func,
   updateReply: PropTypes.func,
   setReplyShowing: PropTypes.func,

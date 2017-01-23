@@ -3,17 +3,9 @@ import { connect } from 'react-redux';
 
 import Comment from './comment';
 
-const CommentList = ({ comments }) =>
+const CommentList = props =>
   <div className="comment-list">
-    {
-      Object.keys(comments).map((key) => {
-        const { spam, report } = comments[key];
-        if (!spam && !report) {
-          return <Comment key={key} comment={comments[key]} />;
-        }
-        return null;
-      })
-    }
+    {Object.keys(props.comments).map(key => <Comment key={key} comment={props.comments[key]} />)}
   </div>;
 
 CommentList.propTypes = {

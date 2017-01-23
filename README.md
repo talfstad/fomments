@@ -3,21 +3,10 @@ static organization:
 
 todo:
 
-. collapsed disabled mark as spam option in menu as well
-
-- on reply show spam/undo and remove mark as spam from menu and collapse
-- on comment show spam/undo and remove mark as spam from menu and collapse
-
-  . mark as spam is saved to store
-
-
-. mark comment as spam, undo. on refresh comment disappears for good
-
 . report shows modal and removes comment
   redux modals videos to do these ->
   . report to facebook popup
   . delete comment popup
-
 
 . date of new comment is date, shows a to text version like facebook
 'just now', '5 min', '10 min', 'an hour ago' else shows the date/time
@@ -30,11 +19,7 @@ todo:
 
 . if comment edited show 'edited' to right of date
 
-
-
 . a reply to a reply includes the reply users name in the content
-
-
 
 
 header: (container)
