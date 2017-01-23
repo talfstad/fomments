@@ -135,10 +135,12 @@ class Comment extends Component {
         <ReportCommentModal
           marginTop={this.state.offsetY}
           show={this.state.showReportCommentModal}
+          showReportCommentModal={show => this.showReportCommentModal(show)}
         />
         <DeleteCommentModal
           marginTop={this.state.offsetY}
           show={this.state.showDeleteCommentModal}
+          showDeleteCommentModal={show => this.showDeleteCommentModal(show)}
         />
       </div>
     );

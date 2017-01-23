@@ -1,7 +1,12 @@
 import React, { PropTypes } from 'react';
 import Modal from './modal';
 
-export const ReportCommentModal = ({ show, marginTop }) => {
+export const ReportCommentModal = ({ showReportCommentModal, show, marginTop }) => {
+  const handleCancelButtonClick = (e) => {
+    e.preventDefault();
+    showReportCommentModal(false);
+  };
+
   if (show) {
     return (
       <Modal marginTop={marginTop}>
@@ -15,7 +20,7 @@ export const ReportCommentModal = ({ show, marginTop }) => {
           <button className="report pull-right">
             <em>Confirm Report</em>
           </button>
-          <button className="cancel-comment mr5 pull-right">
+          <button onClick={e => handleCancelButtonClick(e)} className="cancel-comment mr5 pull-right">
             <em>Cancel</em>
           </button>
         </div>
@@ -28,9 +33,15 @@ export const ReportCommentModal = ({ show, marginTop }) => {
 ReportCommentModal.propTypes = {
   show: PropTypes.bool,
   marginTop: PropTypes.number,
+  showReportCommentModal: PropTypes.func,
 };
 
-export const DeleteCommentModal = ({ show, marginTop }) => {
+export const DeleteCommentModal = ({ showDeleteCommentModal, show, marginTop }) => {
+  const handleCancelButtonClick = (e) => {
+    e.preventDefault();
+    showDeleteCommentModal(false);
+  };
+
   if (show) {
     return (
       <Modal marginTop={marginTop}>
@@ -44,7 +55,7 @@ export const DeleteCommentModal = ({ show, marginTop }) => {
           <button className="delete pull-right">
             <em>Confirm Delete</em>
           </button>
-          <button className="cancel-comment mr5 pull-right">
+          <button onClick={e => handleCancelButtonClick(e)} className="cancel-comment mr5 pull-right">
             <em>Cancel</em>
           </button>
         </div>
@@ -55,6 +66,7 @@ export const DeleteCommentModal = ({ show, marginTop }) => {
 };
 
 DeleteCommentModal.propTypes = {
+  showDeleteCommentModal: PropTypes.func,
   show: PropTypes.bool,
   marginTop: PropTypes.number,
 };
