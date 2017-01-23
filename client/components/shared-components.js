@@ -1,7 +1,11 @@
 import React, { PropTypes } from 'react';
 import Modal from './modal';
 
-export const ReportCommentModal = ({ showReportCommentModal, show, marginTop }) => {
+export const ReportCommentModal = ({
+  handleDeleteComment,
+  showReportCommentModal,
+  show,
+  marginTop }) => {
   const handleCancelButtonClick = (e) => {
     e.preventDefault();
     showReportCommentModal(false);
@@ -17,7 +21,7 @@ export const ReportCommentModal = ({ showReportCommentModal, show, marginTop }) 
           <em>Are you sure you want to report this comment?</em>
         </div>
         <div className="clearfix fomments-modal-footer">
-          <button className="report pull-right">
+          <button onClick={() => handleDeleteComment()} className="report pull-right">
             <em>Confirm Report</em>
           </button>
           <button onClick={e => handleCancelButtonClick(e)} className="cancel-comment mr5 pull-right">
@@ -33,10 +37,15 @@ export const ReportCommentModal = ({ showReportCommentModal, show, marginTop }) 
 ReportCommentModal.propTypes = {
   show: PropTypes.bool,
   marginTop: PropTypes.number,
+  handleDeleteComment: PropTypes.func,
   showReportCommentModal: PropTypes.func,
 };
 
-export const DeleteCommentModal = ({ showDeleteCommentModal, show, marginTop }) => {
+export const DeleteCommentModal = ({
+  handleDeleteComment,
+  showDeleteCommentModal,
+  show,
+  marginTop }) => {
   const handleCancelButtonClick = (e) => {
     e.preventDefault();
     showDeleteCommentModal(false);
@@ -52,7 +61,7 @@ export const DeleteCommentModal = ({ showDeleteCommentModal, show, marginTop }) 
           <em>Are you sure you want to delete this comment?</em>
         </div>
         <div className="clearfix fomments-modal-footer">
-          <button className="delete pull-right">
+          <button onClick={() => handleDeleteComment()} className="delete pull-right">
             <em>Confirm Delete</em>
           </button>
           <button onClick={e => handleCancelButtonClick(e)} className="cancel-comment mr5 pull-right">
@@ -66,6 +75,7 @@ export const DeleteCommentModal = ({ showDeleteCommentModal, show, marginTop }) 
 };
 
 DeleteCommentModal.propTypes = {
+  handleDeleteComment: PropTypes.func,
   showDeleteCommentModal: PropTypes.func,
   show: PropTypes.bool,
   marginTop: PropTypes.number,

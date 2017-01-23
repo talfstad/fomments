@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   ADD_COMMENT,
   UPDATE_COMMENT,
@@ -6,6 +7,8 @@ import {
   REMOVE_LIKE,
   ADD_REPLY,
   UPDATE_REPLY,
+  DELETE_COMMENT,
+  DELETE_REPLY,
 } from '../actions/types';
 
 import { INITIAL_STATE } from '../defaults';
@@ -45,6 +48,28 @@ export default (state = INITIAL_STATE, action) => {
         list: {
           ...state.list,
           [id]: action.payload,
+        },
+      };
+    }
+    case DELETE_COMMENT: {
+      const { id } = action.payload;
+      return {
+        ...state,
+        list: _.omitBy(state.list, (value, key) =>
+          parseFloat(key) === parseFloat(id)),
+      };
+    }
+    case DELETE_REPLY: {
+      const { id, parentId } = action.payload;
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [parentId]: {
+            ...state.list[parentId],
+            replies: _.omitBy(state.list[parentId].replies, (value, key) =>
+            parseFloat(key) === parseFloat(id)),
+          },
         },
       };
     }

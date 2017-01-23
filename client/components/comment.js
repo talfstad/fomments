@@ -87,6 +87,17 @@ class Comment extends Component {
     }
   }
 
+  handleDeleteComment() {
+    const { comment, deleteReply, deleteComment } = this.props;
+    const { parentId } = comment;
+
+    if (parentId) {
+      deleteReply(comment);
+    } else {
+      deleteComment(comment);
+    }
+  }
+
   render() {
     const { comment } = this.props;
     const { collapsed } = this.state;
@@ -135,11 +146,13 @@ class Comment extends Component {
         <ReportCommentModal
           marginTop={this.state.offsetY}
           show={this.state.showReportCommentModal}
+          handleDeleteComment={() => this.handleDeleteComment()}
           showReportCommentModal={show => this.showReportCommentModal(show)}
         />
         <DeleteCommentModal
           marginTop={this.state.offsetY}
           show={this.state.showDeleteCommentModal}
+          handleDeleteComment={() => this.handleDeleteComment()}
           showDeleteCommentModal={show => this.showDeleteCommentModal(show)}
         />
       </div>
@@ -150,6 +163,8 @@ class Comment extends Component {
 Comment.propTypes = {
   updateComment: PropTypes.func,
   updateReply: PropTypes.func,
+  deleteReply: PropTypes.func,
+  deleteComment: PropTypes.func,
   setReplyShowing: PropTypes.func,
   comment: PropTypes.shape({
     id: PropTypes.number,
