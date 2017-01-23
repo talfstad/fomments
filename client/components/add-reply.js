@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { GetDefaultReplyState } from '../defaults';
+import { GetDefaultCommentState } from '../defaults';
 
 import * as actions from '../actions/index';
 
@@ -10,7 +10,7 @@ class AddReply extends Component {
   constructor(props) {
     const { user, parentId } = props;
     super(props);
-    this.state = GetDefaultReplyState({ user, parentId });
+    this.state = GetDefaultCommentState({ user, parentId });
   }
 
   handleContentChange(e) {
@@ -23,7 +23,7 @@ class AddReply extends Component {
     e.preventDefault();
     const { addComment, user, parentId } = this.props;
     addComment(this.state);
-    this.setState(GetDefaultReplyState({ user, parentId }));
+    this.setState(GetDefaultCommentState({ user, parentId }));
   }
 
   buildCommentBox() {
@@ -56,30 +56,35 @@ class AddReply extends Component {
   }
 
   render() {
-    return (
-      <div className="row comment-row">
-        <div className="profile-pic">
-          <a href="#profilelink">
-            <img src="/images/noprofilepic.jpg" alt="" />
-          </a>
-        </div>
-        <div className="add-comment reply">
-          <div className="row">
-            <textarea type="text" placeholder="Add a reply..." />
+    const { replyShowing } = this.props;
+    if (replyShowing) {
+      return (
+        <div className="row comment-row">
+          <div className="profile-pic">
+            <a href="#profilelink">
+              <img src="/images/noprofilepic.jpg" alt="" />
+            </a>
           </div>
-          <div className="row">
-            <div className="post clearfix">
-              <button className="add-comment disabled pull-right"><em>Reply</em></button>
-              <button className="cancel-comment mr5 pull-right"><em>Cancel</em></button>
+          <div className="add-comment reply">
+            <div className="row">
+              <textarea type="text" placeholder="Add a reply..." />
+            </div>
+            <div className="row">
+              <div className="post clearfix">
+                <button className="add-comment disabled pull-right"><em>Reply</em></button>
+                <button className="cancel-comment mr5 pull-right"><em>Cancel</em></button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 
 AddReply.propTypes = {
+  replyShowing: PropTypes.bool,
   user: PropTypes.shape({}),
   addComment: PropTypes.func,
   parentId: PropTypes.number,

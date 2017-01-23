@@ -90,7 +90,7 @@ CommentText.propTypes = {
   setTruncated: PropTypes.func,
 };
 
-export const CommentInfo = ({ comment, addLike, removeLike }) => {
+export const CommentInfo = ({ setReplyShowing, comment, addLike, removeLike }) => {
   const { likes, date } = comment;
 
   const buildLikes = () => {
@@ -132,11 +132,17 @@ export const CommentInfo = ({ comment, addLike, removeLike }) => {
     );
   };
 
+  const handleSetReply = (e) => {
+    e.preventDefault();
+    e.currentTarget.blur();
+    setReplyShowing(true);
+  };
+
   return (
     <div className="row comment-info">
       {buildLikeLink()}
       <span className="dot"> · </span>
-      <a href="#reply"><em>Reply</em></a>
+      <a onClick={e => handleSetReply(e)} href="#reply"><em>Reply</em></a>
       {buildLikes()}
       <span className="dot"> · </span>
       {date}
@@ -148,4 +154,5 @@ CommentInfo.propTypes = {
   comment: PropTypes.shape({}),
   addLike: PropTypes.func,
   removeLike: PropTypes.func,
+  setReplyShowing: PropTypes.func,
 };

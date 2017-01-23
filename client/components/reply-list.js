@@ -3,25 +3,32 @@ import Comment from './comment';
 import AddReply from './add-reply';
 import ShowMoreReplies from './show-more-replies';
 
-const ReplyList = ({ replies, parentId }) => {
+const ReplyList = ({ setReplyShowing, replyShowing, replies, parentId }) => {
   if (!replies) return null;
 
   const buildReplyList = () =>
     Object.keys(replies)
-      .map(key => <Comment key={key} comment={replies[key]} />);
+      .map(key =>
+        <Comment
+          key={key}
+          setReplyShowing={setReplyShowing}
+          comment={replies[key]}
+        />);
 
   return (
     <div className="replies">
       {buildReplyList()}
       <ShowMoreReplies />
-      <AddReply parentId={parentId} />
+      <AddReply replyShowing={replyShowing} parentId={parentId} />
     </div>
   );
 };
 
 ReplyList.propTypes = {
-  replies: PropTypes.shape({}),
   parentId: PropTypes.number,
+  replies: PropTypes.shape({}),
+  replyShowing: PropTypes.bool,
+  setReplyShowing: PropTypes.func,
 };
 
 export default ReplyList;

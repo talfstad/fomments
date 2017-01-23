@@ -12,10 +12,19 @@ class Comment extends Component {
     super(props);
 
     this.state = {
+      replyShowing: false,
+      setReplyShowing:
+        props.setReplyShowing ?
+          props.setReplyShowing :
+            showing => this.setReplyShowing(showing),
       collapsed: false,
       truncated: (props.comment.content.length > 600),
       showing: false,
     };
+  }
+
+  setReplyShowing(showing) {
+    this.setState({ replyShowing: showing });
   }
 
   setTruncated(truncated) {
@@ -44,9 +53,17 @@ class Comment extends Component {
               truncated={this.state.truncated}
               setTruncated={truncated => this.setTruncated(truncated)}
             />
-            <CommentInfo {...this.props} />
+            <CommentInfo
+              {...this.props}
+              setReplyShowing={this.state.setReplyShowing}
+              reply={this.state.reply}
+            />
           </div>
-          <ReplyList replies={comment.replies} />
+          <ReplyList
+            setReplyShowing={this.state.setReplyShowing}
+            replyShowing={this.state.replyShowing}
+            replies={comment.replies}
+          />
         </div>
       </div>
     );
@@ -54,6 +71,7 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
+  setReplyShowing: PropTypes.func,
   comment: PropTypes.shape({
     content: PropTypes.string,
     replies: PropTypes.object,

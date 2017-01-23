@@ -88,10 +88,6 @@ export const INITIAL_STATE = {
       },
       likes: 586,
       date: 'Nov 20, 2016 7:57pm',
-      reply: {
-        editing: false,
-        content: '',
-      },
       report: false,
       spam: false,
       showing: true,
@@ -151,15 +147,5 @@ export const INITIAL_STATE = {
 export const GetDefaultCommentState = user =>
   ({
     ...sharedDefaults(user),
-    reply: {
-      editing: false,
-      content: '',
-    },
     replies: {},
-  });
-
-export const GetDefaultReplyState = ({ user, parentId }) =>
-  ({
-    ...sharedDefaults(user),
-    parentId,
   });
