@@ -19,7 +19,7 @@ const ReplyList = ({ setReplyShowing, replyShowing, replies, parentId }) => {
     <div className="replies">
       {buildReplyList()}
       <ShowMoreReplies />
-      <AddReply replyShowing={replyShowing} parentId={parentId} />
+      <AddReply setReplyShowing={setReplyShowing} replyShowing={replyShowing} parentId={parentId} />
     </div>
   );
 };

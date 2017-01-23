@@ -54,12 +54,17 @@ export const CommentText = ({ comment, truncated, setTruncated }) => {
   };
 
   const buildCommentContent = () => {
+    const handleSeeMore = (e) => {
+      e.preventDefault();
+      setTruncated(false);
+    };
+
     if (truncated) {
       const truncatedContent = content.substring(0, 600);
       return (
         <span>
           {truncatedContent}
-          <span className="see-more">... <span> <a onClick={() => setTruncated(false)} href="#see-more">See More</a></span></span>
+          <span className="see-more">... <span> <a onClick={e => handleSeeMore(e)} href="#see-more">See More</a></span></span>
         </span>
       );
     }
