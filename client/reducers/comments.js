@@ -3,6 +3,7 @@ import {
   CHANGE_SORT_BY,
   ADD_LIKE,
   REMOVE_LIKE,
+  ADD_REPLY,
 } from '../actions/types';
 
 import { INITIAL_STATE } from '../defaults';
@@ -23,12 +24,30 @@ export default (state = INITIAL_STATE, action) => {
       };
     }
     case ADD_COMMENT: {
-      const id = action.payload.id;
+      const { id } = action.payload;
       return {
         ...state,
         list: {
           ...state.list,
           [id]: action.payload,
+        },
+      };
+    }
+    case ADD_REPLY: {
+      const { id, parentId } = action.payload;
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [parentId]: {
+            ...state.list[parentId],
+            replies: {
+              ...state.list[parentId].replies,
+              [id]: {
+                ...action.payload,
+              },
+            },
+          },
         },
       };
     }

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { GetDefaultCommentState } from '../defaults';
+import { GetDefaultReplyState } from '../defaults';
 
 import * as actions from '../actions/index';
 
@@ -10,7 +10,7 @@ class AddReply extends Component {
   constructor(props) {
     const { user, parentId } = props;
     super(props);
-    this.state = GetDefaultCommentState({ user, parentId });
+    this.state = GetDefaultReplyState({ user, parentId });
   }
 
   handleContentChange(e) {
@@ -21,9 +21,10 @@ class AddReply extends Component {
 
   handleSubmitReply(e) {
     e.preventDefault();
-    const { addComment, user, parentId } = this.props;
-    addComment(this.state);
-    this.setState(GetDefaultCommentState({ user, parentId }));
+    const { setReplyShowing, addReply, user, parentId } = this.props;
+    addReply(this.state);
+    setReplyShowing(false);
+    this.setState(GetDefaultReplyState({ user, parentId }));
   }
 
   handleCancelReply(e) {
@@ -71,7 +72,7 @@ AddReply.propTypes = {
   setReplyShowing: PropTypes.func,
   replyShowing: PropTypes.bool,
   user: PropTypes.shape({}),
-  addComment: PropTypes.func,
+  addReply: PropTypes.func,
   parentId: PropTypes.number,
 };
 

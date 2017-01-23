@@ -63,6 +63,7 @@ class Comment extends Component {
             setReplyShowing={this.state.setReplyShowing}
             replyShowing={this.state.replyShowing}
             replies={comment.replies}
+            parentId={comment.id}
           />
         </div>
       </div>

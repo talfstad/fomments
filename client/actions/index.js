@@ -1,6 +1,7 @@
 import {
   CHANGE_SORT_BY,
   ADD_COMMENT,
+  ADD_REPLY,
   ADD_LIKE,
   REMOVE_LIKE,
 } from './types';
@@ -13,6 +14,11 @@ export const changeSortBy = sortby => ({
 export const addComment = post => ({
   type: ADD_COMMENT,
   payload: post,
+});
+
+export const addReply = reply => ({
+  type: ADD_REPLY,
+  payload: reply,
 });
 
 export const addLike = comment => ({

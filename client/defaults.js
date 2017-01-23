@@ -149,3 +149,9 @@ export const GetDefaultCommentState = user =>
     ...sharedDefaults(user),
     replies: {},
   });
+
+export const GetDefaultReplyState = ({ user, parentId }) =>
+  ({
+    ...sharedDefaults(user),
+    parentId,
+  });
