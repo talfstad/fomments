@@ -52,14 +52,12 @@ class AddReply extends Component {
   }
 
   render() {
-    const { replyShowing } = this.props;
+    const { replyShowing, user } = this.props;
     if (replyShowing) {
       return (
         <div className="row comment-row">
           <div className="profile-pic">
-            <a href="#profilelink">
-              <img src="/images/noprofilepic.jpg" alt="" />
-            </a>
+            <img src={user.image} alt="" />
           </div>
           {this.buildReplyBox()}
         </div>
