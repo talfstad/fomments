@@ -12,6 +12,11 @@
   padding: 32px;
 }
 
+.fomments-container .collapsed em {
+  font-style: normal;
+  color: #90949c;
+}
+
 .fomments-container .comment-menu-tooltip {
   position: absolute;
   top: -31px;

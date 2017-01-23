@@ -21,6 +21,25 @@ class CommentMenu extends Component {
     $(this.dropdown).off();
   }
 
+  handleSelectMenuOption(key) {
+    const { menuOptions, setMenuOptions, setCollapsed } = this.props;
+    switch (key) {
+      case 'collapse': {
+        setCollapsed(true);
+        setMenuOptions({
+          ...menuOptions,
+          collapse: {
+            ...menuOptions.collapse,
+            enabled: false,
+          },
+        });
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
   buildCommentList() {
     const { menuOptions } = this.props;
     const keys = Object.keys(menuOptions);
@@ -28,7 +47,7 @@ class CommentMenu extends Component {
       if (menuOptions[key].enabled) {
         return (
           <li key={key}>
-            <a className="" href="#d">
+            <a onClick={() => this.handleSelectMenuOption(key)} className="" href="#d">
               <em>{menuOptions[key].content}</em>
             </a>
           </li>
@@ -76,6 +95,8 @@ class CommentMenu extends Component {
 }
 
 CommentMenu.propTypes = {
+  setMenuOptions: PropTypes.func,
+  setCollapsed: PropTypes.func,
   menuOptions: PropTypes.shape({}),
   showing: PropTypes.bool,
 };

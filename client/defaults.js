@@ -1,4 +1,4 @@
-const sharedDefaults = user => ({
+const getSharedDefaults = user => ({
   user,
   id: Math.floor(Math.random() * 1000),
   content: '',
@@ -146,12 +146,22 @@ export const INITIAL_STATE = {
 
 export const GetDefaultCommentState = user =>
   ({
-    ...sharedDefaults(user),
+    ...getSharedDefaults(user),
     replies: {},
   });
 
-export const GetDefaultReplyState = ({ user, parentId }) =>
-  ({
-    ...sharedDefaults(user),
+export const GetDefaultReplyState = ({ user, parentId }) => {
+  const sharedDefaults = getSharedDefaults(user);
+
+  return ({
+    ...sharedDefaults,
+    options: {
+      ...sharedDefaults.options,
+      collapse: {
+        enabled: false,
+        content: 'Collapse comment',
+      },
+    },
     parentId,
   });
+};

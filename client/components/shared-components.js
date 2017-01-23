@@ -22,8 +22,16 @@ ProfilePic.propTypes = {
   user: PropTypes.shape({}),
 };
 
-export const CommentText = ({ comment, truncated, setTruncated }) => {
+export const CommentText = (props) => {
+  const {
+    comment,
+    truncated,
+    setTruncated,
+    collapsed,
+    setCollapsed } = props;
+
   const { content, user } = comment;
+
   const buildAffiliation = () => {
     if (user.affiliation.name) {
       return (
@@ -59,6 +67,20 @@ export const CommentText = ({ comment, truncated, setTruncated }) => {
       setTruncated(false);
     };
 
+    const handleSetCollapsed = (e) => {
+      e.preventDefault();
+      setCollapsed(false);
+    };
+
+    if (collapsed) {
+      return (
+        <span className="collapsed">
+          <em>This comment is collapsed. </em>
+          <a onClick={e => handleSetCollapsed(e)} href="#df">Undo</a>
+        </span>
+      );
+    }
+
     if (truncated) {
       const truncatedContent = content.substring(0, 600);
       return (
@@ -92,10 +114,20 @@ export const CommentText = ({ comment, truncated, setTruncated }) => {
 CommentText.propTypes = {
   comment: PropTypes.shape({}),
   truncated: PropTypes.bool,
+  collapsed: PropTypes.bool,
+  setCollapsed: PropTypes.func,
   setTruncated: PropTypes.func,
 };
 
-export const CommentInfo = ({ setReplyShowing, comment, addLike, removeLike }) => {
+export const CommentInfo = (props) => {
+  const {
+    setReplyShowing,
+    comment,
+    addLike,
+    removeLike,
+    collapsed,
+  } = props;
+
   const { likes, date } = comment;
 
   const buildLikes = () => {
@@ -142,6 +174,8 @@ export const CommentInfo = ({ setReplyShowing, comment, addLike, removeLike }) =
     e.currentTarget.blur();
     setReplyShowing(true);
   };
+
+  if (collapsed) return null;
 
   return (
     <div className="row comment-info">

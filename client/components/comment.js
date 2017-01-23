@@ -10,17 +10,33 @@ class Comment extends Component {
 
   constructor(props) {
     super(props);
-
+    const { comment, setReplyShowing } = props;
     this.state = {
       replyShowing: false,
       setReplyShowing:
-        props.setReplyShowing ?
-          props.setReplyShowing :
-            showing => this.setReplyShowing(showing),
+        setReplyShowing || (showing => this.setReplyShowing(showing)),
       collapsed: false,
-      truncated: (props.comment.content.length > 600),
+      truncated: (comment.content.length > 600),
       showing: false,
+      menuOptions: comment.options,
     };
+  }
+
+  setCollapsed(collapsed) {
+    this.setState({
+      collapsed,
+      menuOptions: {
+        ...this.state.menuOptions,
+        collapse: {
+          ...this.state.menuOptions.collapse,
+          enabled: !collapsed,
+        },
+      },
+    });
+  }
+
+  setMenuOptions(menuOptions) {
+    this.setState({ menuOptions });
   }
 
   setReplyShowing(showing) {
@@ -45,21 +61,30 @@ class Comment extends Component {
     return (
       <div>
         <div onMouseEnter={() => this.handleShowOptionsMenu(true)} onMouseLeave={() => this.handleShowOptionsMenu(false)} className="row comment-row">
-          <CommentMenu showing={this.state.showing} menuOptions={comment.options} />
+          <CommentMenu
+            showing={this.state.showing}
+            setMenuOptions={options => this.setMenuOptions(options)}
+            setCollapsed={collapsed => this.setCollapsed(collapsed)}
+            menuOptions={this.state.menuOptions}
+          />
           <ProfilePic user={comment.user} />
           <div className="comment-detail">
             <CommentText
               {...this.props}
+              collapsed={this.state.collapsed}
               truncated={this.state.truncated}
               setTruncated={truncated => this.setTruncated(truncated)}
+              setCollapsed={collapsed => this.setCollapsed(collapsed)}
             />
             <CommentInfo
               {...this.props}
+              collapsed={this.state.collapsed}
               setReplyShowing={this.state.setReplyShowing}
               reply={this.state.reply}
             />
           </div>
           <ReplyList
+            collapsed={this.state.collapsed}
             setReplyShowing={this.state.setReplyShowing}
             replyShowing={this.state.replyShowing}
             replies={comment.replies}

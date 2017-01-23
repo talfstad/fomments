@@ -3,7 +3,15 @@ import Comment from './comment';
 import AddReply from './add-reply';
 import ShowMoreReplies from './show-more-replies';
 
-const ReplyList = ({ setReplyShowing, replyShowing, replies, parentId }) => {
+const ReplyList = (props) => {
+  const {
+    collapsed,
+    setReplyShowing,
+    replyShowing,
+    replies,
+    parentId,
+  } = props;
+
   if (!replies) return null;
 
   const buildReplyList = () =>
@@ -15,6 +23,7 @@ const ReplyList = ({ setReplyShowing, replyShowing, replies, parentId }) => {
           comment={replies[key]}
         />);
 
+  if (collapsed) return null;
   return (
     <div className="replies">
       {buildReplyList()}
@@ -25,8 +34,9 @@ const ReplyList = ({ setReplyShowing, replyShowing, replies, parentId }) => {
 };
 
 ReplyList.propTypes = {
-  parentId: PropTypes.number,
   replies: PropTypes.shape({}),
+  parentId: PropTypes.number,
+  collapsed: PropTypes.bool,
   replyShowing: PropTypes.bool,
   setReplyShowing: PropTypes.func,
 };

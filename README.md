@@ -4,6 +4,8 @@ static organization:
 todo:
 
 . collapse comment collapses comment (in state)
+  . on click show the comment collapsed with undo button, remove it from menu options
+  . show undo button which changes menu options back, shows comment
 
 . mark comment as spam, undo. on refresh comment disappears for good
 
