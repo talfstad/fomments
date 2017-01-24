@@ -441,10 +441,10 @@
 .fomments-modal-bg {
   background-color: rgba(0, 0, 0, .4);
   position: fixed;
-  bottom: 60px;
-  left: 60px;
-  right: 60px;
-  top: 60px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  top: 0px;
 }
 
 .fomments-modal-footer {

@@ -3,10 +3,6 @@ static organization:
 
 todo:
 
-. report shows modal and removes comment
-  redux modals videos to do these ->
-  . report to facebook popup
-  . delete comment popup
 
 . date of new comment is date, shows a to text version like facebook
 'just now', '5 min', '10 min', 'an hour ago' else shows the date/time
@@ -15,15 +11,15 @@ todo:
 
 . show n more replies in this thread (3 default replies showing)
 
+. edit comment changes comment for user and shows 'edited' after date
+
 . make text area grow vertically using html
 
 . if comment edited show 'edited' to right of date
 
 . a reply to a reply includes the reply users name in the content
 
-
-header: (container)
-  - needs:
+. refactor tooltips to be reusable container
 
 
 
