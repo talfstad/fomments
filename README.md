@@ -3,12 +3,6 @@ static organization:
 
 todo:
 
-SORT BY TOP, NEW, OLD
-
-- use real dates for date in comments
-
-- convert real date to visible date using moment
-
 
 . date of new comment is date, shows a to text version like facebook
 'just now', '5 min', '10 min', 'an hour ago' else shows the date/time

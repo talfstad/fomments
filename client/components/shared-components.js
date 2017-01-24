@@ -275,8 +275,13 @@ export const CommentInfo = (props) => {
     setReplyShowing(true);
   };
 
-  const setDate = () =>
-    moment(date).format('MMM DD, YYYY h:MMa');
+  const setDate = () => {
+    const now = moment();
+    if (!moment(date).add(1, 'day').isBefore(now)) {
+      return moment(date).fromNow();
+    }
+    return moment(date).format('MMM DD, YYYY h:MMa');
+  };
 
   if (collapsed || spam) return null;
 
