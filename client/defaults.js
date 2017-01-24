@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const getSharedDefaults = user => ({
   user,
   id: Math.floor(Math.random() * 1000),
@@ -25,7 +27,7 @@ const getSharedDefaults = user => ({
     },
   },
   likes: 0,
-  date: 'Just Now', // TODO make this a real date
+  date: (moment().unix()) * 1000,
   report: false,
   spam: false,
   showing: true,
@@ -86,7 +88,7 @@ export const INITIAL_STATE = {
         },
       },
       likes: 586,
-      date: 'Nov 20, 2016 7:57pm',
+      date: 1318781776406,
       report: false,
       spam: false,
       showing: true,
@@ -130,7 +132,7 @@ export const INITIAL_STATE = {
           },
           liked: false,
           likes: 0,
-          date: 'Nov 23, 2016 10:09am',
+          date: 1318981876406,
           report: false,
           spam: false,
         },

@@ -19,12 +19,12 @@ const sortComments = (comments) => {
   switch (sortByKey) {
     case 'newest': {
       return Object.keys(list)
-        .sort((a, b) => list[a].date - list[b].date)
+        .sort((a, b) => list[b].date - list[a].date)
         .map(key => list[key]);
     }
     case 'oldest': {
       return Object.keys(list)
-        .sort((a, b) => list[b].date - list[a].date)
+        .sort((a, b) => list[a].date - list[b].date)
         .map(key => list[key]);
     }
     default: {

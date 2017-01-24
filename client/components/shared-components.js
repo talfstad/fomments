@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import moment from 'moment';
 import Modal from './modal';
 
 export const ReportCommentModal = ({
@@ -274,6 +275,9 @@ export const CommentInfo = (props) => {
     setReplyShowing(true);
   };
 
+  const setDate = () =>
+    moment(date).format('MMM DD, YYYY h:MMa');
+
   if (collapsed || spam) return null;
 
   return (
@@ -283,7 +287,7 @@ export const CommentInfo = (props) => {
       <a onClick={e => handleSetReply(e)} href="#reply"><em>Reply</em></a>
       {buildLikes()}
       <span className="dot"> · </span>
-      {date}
+      {setDate()}
     </div>
   );
 };

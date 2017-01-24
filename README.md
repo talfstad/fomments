@@ -3,11 +3,22 @@ static organization:
 
 todo:
 
+SORT BY TOP, NEW, OLD
+
+- use real dates for date in comments
+
+- convert real date to visible date using moment
+
 
 . date of new comment is date, shows a to text version like facebook
 'just now', '5 min', '10 min', 'an hour ago' else shows the date/time
 
 . sort by works newest, oldest, top. top shows users comments then other ones by likes
+
+PAGE COMMENTS
+
+
+PAGE REPLIES
 
 . show n more replies in this thread (3 default replies showing)
 
@@ -15,11 +26,11 @@ todo:
 
 . make text area grow vertically using html
 
-. if comment edited show 'edited' to right of date
-
 . a reply to a reply includes the reply users name in the content
 
-. refactor tooltips to be reusable container
+
+
+HOOK TO LOCAL STORAGE
 
 
 
