@@ -1,15 +1,13 @@
 static organization:
 
 
-todo:
+. on load get (3) replies from state
 
+reply list shows # of replies set in state, defaults to 3
 
-. date of new comment is date, shows a to text version like facebook
-'just now', '5 min', '10 min', 'an hour ago' else shows the date/time
+passes callback down to the show more replies component to show more replies
+passes how many replies there are and how many are showing
 
-. sort by works newest, oldest, top. top shows users comments then other ones by likes
-
-PAGE COMMENTS
 
 
 PAGE REPLIES
@@ -18,51 +16,15 @@ PAGE REPLIES
 
 . edit comment changes comment for user and shows 'edited' after date
 
-. make text area grow vertically using html
 
-. a reply to a reply includes the reply users name in the content
+PAGE COMMENTS
+
 
 
 
 HOOK TO LOCAL STORAGE
 
 
+. make text area grow vertically using html
 
-
-new comment/reply comment: (container configurable)
-  - needs:
-    . redux form to submit the comment & validate
-
-comment list (component):
-  - needs:
-    . dumb list of comments
-
-comment/reply (container configurable):
-  - needs:
-    . change like count
-    . open reply box
-
-  = reply list (dumb component)
-    = reply (container)
-      . change likes
-      . trigger a reply
-
-
-
-
-
-. rip basic comment section html
-  . show different states for likes
-  . show more comments html
-  . replies, no replies, etc.
-
-. plan out react components
-
-. create base react components
-
-. hook into redux & local storage
-
-
-
-
-----------------------------------------------------------------
+. a reply to a reply includes the reply users name in the content

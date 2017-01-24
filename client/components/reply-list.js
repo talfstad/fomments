@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Comment from './comment';
 import AddReply from './add-reply';
 import ShowMoreReplies from './show-more-replies';
+import { sortComments } from './shared-components';
 
 const ReplyList = (props) => {
   const {
@@ -13,14 +14,20 @@ const ReplyList = (props) => {
   } = props;
 
   if (!replies) return null;
+  const sortedReplies = sortComments({
+    list: replies,
+    sortBy: {
+      oldest: true,
+    },
+  });
 
   const buildReplyList = () =>
-    Object.keys(replies)
+    Object.keys(sortedReplies)
       .map(key =>
         <Comment
           key={key}
           setReplyShowing={setReplyShowing}
-          comment={replies[key]}
+          comment={sortedReplies[key]}
         />);
 
   if (collapsed) return null;
