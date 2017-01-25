@@ -3,7 +3,7 @@ import moment from 'moment';
 import Modal from './modal';
 
 export const sortComments = (comments) => {
-  const { list, sortBy } = comments;
+  const { user, list, sortBy } = comments;
   const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
 
   switch (sortByKey) {
@@ -18,10 +18,27 @@ export const sortComments = (comments) => {
         .map(key => list[key]);
     }
     default: {
-      // default to top
-      return Object.keys(list)
+      // remove users comments from list
+      const userComments = Object.keys(list).filter((key) => {
+        const comment = list[key];
+        return comment.user.name === user.name;
+      })
+      .sort((a, b) => list[b].date - list[a].date)
+      .map(key => list[key]);
+
+      // sort remaining (remove users comments)
+      const sortedComments = Object.keys(list)
+        .filter((key) => {
+          const comment = list[key];
+          return comment.user.name !== user.name;
+        })
         .sort((a, b) => list[b].likes - list[a].likes)
         .map(key => list[key]);
+
+      return [
+        ...userComments,
+        ...sortedComments,
+      ];
     }
   }
 };

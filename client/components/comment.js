@@ -96,6 +96,7 @@ class Comment extends Component {
     } else {
       deleteComment(comment);
     }
+    this.showDeleteCommentModal(false);
   }
 
   render() {
