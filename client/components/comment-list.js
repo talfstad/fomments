@@ -5,14 +5,23 @@ import Comment from './comment';
 
 const CommentList = props =>
   <div className="comment-list">
-    {props.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
+    {props.comments.map(comment =>
+      <Comment
+        key={comment.id}
+        comment={comment}
+        defaultRepliesToShow={props.defaultRepliesToShow}
+        defaultRepliesToLoadAtOnce={props.defaultRepliesToLoadAtOnce}
+      />)}
   </div>;
 
 CommentList.propTypes = {
-  comments: PropTypes.arrayOf(React.PropTypes.object),
+  defaultRepliesToLoadAtOnce: PropTypes.number,
+  comments: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = state => ({
+  defaultRepliesToShow: state.comments.defaultRepliesToShow,
+  defaultRepliesToLoadAtOnce: state.comments.defaultRepliesToLoadAtOnce,
   comments: sortComments(state.comments),
 });
 

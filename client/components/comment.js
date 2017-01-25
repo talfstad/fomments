@@ -10,8 +10,16 @@ class Comment extends Component {
 
   constructor(props) {
     super(props);
-    const { comment, setReplyShowing } = props;
+    const {
+      comment,
+      setReplyShowing,
+      defaultRepliesToLoadAtOnce,
+      defaultRepliesToShow,
+    } = props;
+
     this.state = {
+      defaultRepliesToShow,
+      defaultRepliesToLoadAtOnce,
       replyShowing: false,
       setReplyShowing:
         setReplyShowing || (showing => this.setReplyShowing(showing)),
@@ -97,6 +105,7 @@ class Comment extends Component {
       deleteComment(comment);
     }
     this.showDeleteCommentModal(false);
+    this.showReportCommentModal(false);
   }
 
   render() {
@@ -142,6 +151,8 @@ class Comment extends Component {
             replyShowing={this.state.replyShowing}
             replies={comment.replies}
             parentId={comment.id}
+            defaultRepliesToShow={this.state.defaultRepliesToShow}
+            defaultRepliesToLoadAtOnce={this.state.defaultRepliesToLoadAtOnce}
           />
         </div>
         <ReportCommentModal
@@ -162,6 +173,8 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
+  defaultRepliesToLoadAtOnce: PropTypes.number,
+  defaultRepliesToShow: PropTypes.number,
   updateComment: PropTypes.func,
   updateReply: PropTypes.func,
   deleteReply: PropTypes.func,

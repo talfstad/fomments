@@ -4,6 +4,8 @@ const getSharedDefaults = user => ({
   user,
   id: Math.floor(Math.random() * 1000),
   content: '',
+  defaultRepliesToShow: 1,
+  defaultRepliesToLoadAtOnce: 10,
   options: {
     collapse: {
       enabled: true,
@@ -38,6 +40,8 @@ const getSharedDefaults = user => ({
 });
 
 export const INITIAL_STATE = {
+  defaultRepliesToShow: 1,
+  defaultRepliesToLoadAtOnce: 10,
   user: {
     name: 'Customer Comment',
     url: '',
@@ -95,6 +99,47 @@ export const INITIAL_STATE = {
       editing: false,
       liked: false,
       replies: {
+        3: {
+          id: 3,
+          parentId: 1,
+          content: 'Another damn fool that needs to be schooled. Trump won because the Electoral College voted for him not the people. Hillary would be the president if the people had a say. Right now she has more than one million votes more than Trump. I don\'t think she is the person for the job either so no I\'m not a Hillary supporter. So please climb down off of your high horse because you had absolutely nothing to do with him being the president elect. Also just know that the inauguration hasn\'t occurred yet. 56 years old and still a damn sheep. Dummy doesn have an ist on it does it?',
+          user: {
+            name: 'Cassie Jay',
+            url: 'https://www.facebook.com/cassandra.jenkins.54',
+            image: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/p48x48/12208311_10207714506010947_4805234041899762623_n.jpg?oh=4f3635bea9ab87812edfc106526dbe95&oe=5906C831',
+            affiliation: {
+              name: '',
+              url: '',
+            },
+          },
+          options: {
+            collapse: {
+              enabled: false,
+              content: 'Collapse comment',
+            },
+            spam: {
+              enabled: true,
+              content: 'Mark as spam',
+            },
+            report: {
+              enabled: true,
+              content: 'Report',
+            },
+            edit: {
+              enabled: false,
+              content: 'Edit comment',
+            },
+            delete: {
+              enabled: false,
+              content: 'Delete comment',
+            },
+          },
+          liked: false,
+          likes: 0,
+          date: 1318981876406,
+          report: false,
+          spam: false,
+        },
         2: {
           id: 2,
           parentId: 1,
