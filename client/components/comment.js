@@ -34,6 +34,9 @@ class Comment extends Component {
   }
 
   setCollapsed(collapsed) {
+    const userId = this.props.user.id;
+    const commentUserId = this.props.comment.user.id;
+
     this.setState({
       collapsed,
       menuOptions: {
@@ -44,7 +47,7 @@ class Comment extends Component {
         },
         spam: {
           ...this.state.menuOptions.spam,
-          enabled: !collapsed,
+          enabled: (!collapsed && userId !== commentUserId),
         },
       },
     });
@@ -180,7 +183,13 @@ Comment.propTypes = {
   deleteReply: PropTypes.func,
   deleteComment: PropTypes.func,
   setReplyShowing: PropTypes.func,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+  }),
   comment: PropTypes.shape({
+    user: PropTypes.shape({
+      id: PropTypes.number,
+    }),
     id: PropTypes.number,
     content: PropTypes.string,
     replies: PropTypes.object,

@@ -8,7 +8,6 @@ import CommentPaging from './comment-paging';
 class CommentList extends Component {
   constructor(props) {
     super(props);
-
     const {
       comments,
       defaultCommentsToShow,
@@ -59,11 +58,12 @@ class CommentList extends Component {
   }
 
   buildCommentList() {
-    const { defaultRepliesToShow, defaultRepliesToLoadAtOnce } = this.props;
+    const { user, defaultRepliesToShow, defaultRepliesToLoadAtOnce } = this.props;
 
     return this.pageComments(this.props.comments.map(comment =>
       <Comment
         key={comment.id}
+        user={user}
         comment={comment}
         defaultRepliesToShow={defaultRepliesToShow}
         defaultRepliesToLoadAtOnce={defaultRepliesToLoadAtOnce}
@@ -101,6 +101,7 @@ CommentList.propTypes = {
   defaultRepliesToShow: PropTypes.number,
   defaultRepliesToLoadAtOnce: PropTypes.number,
   comments: PropTypes.arrayOf(PropTypes.object),
+  user: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({
@@ -108,6 +109,7 @@ const mapStateToProps = state => ({
   defaultCommentsToLoadAtOnce: state.comments.defaultCommentsToLoadAtOnce,
   defaultRepliesToShow: state.comments.defaultRepliesToShow,
   defaultRepliesToLoadAtOnce: state.comments.defaultRepliesToLoadAtOnce,
+  user: state.comments.user,
   comments: sortComments(state.comments),
 });
 

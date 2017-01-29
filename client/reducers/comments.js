@@ -11,7 +11,7 @@ import {
   DELETE_REPLY,
 } from '../actions/types';
 
-import { INITIAL_STATE } from '../defaults';
+import INITIAL_STATE from '../initial-state';
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
