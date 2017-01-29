@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Comment from './comment';
 import AddReply from './add-reply';
-import ShowMoreReplies from './show-more-replies';
+import ReplyPaging from './reply-paging';
 import { sortComments } from './shared-components';
 
 class ReplyList extends Component {
@@ -13,10 +13,11 @@ class ReplyList extends Component {
       defaultRepliesToShow,
     } = this.props;
 
-    let showing = defaultRepliesToShow;
+    let showing = 0;
     let total = 0;
     if (replies) {
-      showing = defaultRepliesToShow > replies.length ? replies.length : defaultRepliesToShow;
+      showing = defaultRepliesToShow > Object.keys(replies).length ?
+        Object.keys(replies).length : defaultRepliesToShow;
       total = Object.keys(replies).length;
     }
 
@@ -38,8 +39,21 @@ class ReplyList extends Component {
     }
   }
 
+  incrementReplies() {
+    this.setState({
+      showing: this.state.showing + 1,
+      total: this.state.total + 1,
+    });
+  }
+
   buildReplyList() {
-    const { setReplyShowing, replies } = this.props;
+    const {
+      setReplyShowing,
+      replies,
+      collapsed,
+    } = this.props;
+
+    if (!replies || collapsed) return null;
 
     const sortedReplies = sortComments({
       list: replies,
@@ -61,21 +75,17 @@ class ReplyList extends Component {
 
   render() {
     const {
-      collapsed,
       setReplyShowing,
       replyShowing,
-      replies,
       parentId,
       defaultRepliesToShow,
       defaultRepliesToLoadAtOnce,
     } = this.props;
 
-    if (!replies || collapsed) return null;
-
     return (
       <div className="replies">
         {this.buildReplyList()}
-        <ShowMoreReplies
+        <ReplyPaging
           showing={this.state.showing}
           total={this.state.total}
           handleShowMoreReplies={() => this.handleShowMoreReplies()}
@@ -83,6 +93,7 @@ class ReplyList extends Component {
           defaultRepliesToLoadAtOnce={defaultRepliesToLoadAtOnce}
         />
         <AddReply
+          incrementReplies={() => this.incrementReplies()}
           setReplyShowing={setReplyShowing}
           replyShowing={replyShowing}
           parentId={parentId}

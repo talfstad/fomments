@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const ShowMoreReplies = (props) => {
+const ReplyPaging = (props) => {
   const { showing, total, defaultRepliesToLoadAtOnce } = props;
 
   const handleShowMoreReplies = (e) => {
@@ -10,8 +10,8 @@ const ShowMoreReplies = (props) => {
 
   if (showing === total) return null;
 
-  const willLoadCount = showing + defaultRepliesToLoadAtOnce;
-  const toLoadText = (willLoadCount > total) ? total - showing : willLoadCount;
+  const newTotalShowing = showing + defaultRepliesToLoadAtOnce;
+  const toLoadText = (newTotalShowing >= total) ? total - showing : newTotalShowing;
   return (
     <div className="show-more-replies">
       <a onClick={e => handleShowMoreReplies(e)} href="#show-more-replies"><em>Show {toLoadText} more {`${toLoadText === 1 ? 'reply' : 'replies'}`} in this thread</em><i className="more-replies-arrow" /></a>
@@ -19,10 +19,10 @@ const ShowMoreReplies = (props) => {
   );
 };
 
-ShowMoreReplies.propTypes = {
+ReplyPaging.propTypes = {
   showing: PropTypes.number,
   total: PropTypes.number,
   defaultRepliesToLoadAtOnce: PropTypes.number,
 };
 
-export default ShowMoreReplies;
+export default ReplyPaging;
