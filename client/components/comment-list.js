@@ -45,7 +45,7 @@ class CommentList extends Component {
 
   decrementComments() {
     this.setState({
-      showing: this.state.showing - 1,
+      showing: this.state.showing > 1 ? this.state.showing - 1 : 1,
     });
   }
 
