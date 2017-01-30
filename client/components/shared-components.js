@@ -5,7 +5,6 @@ import Modal from './modal';
 export const sortComments = (comments) => {
   const { user, list, sortBy } = comments;
   const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
-
   switch (sortByKey) {
     case 'newest': {
       return Object.keys(list)

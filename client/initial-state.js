@@ -57,7 +57,7 @@ export default {
       likes: 586,
       date: 1318781776406,
       report: false,
-      spam: false,
+      spam: true,
       showing: true,
       editing: false,
       liked: false,

@@ -84,7 +84,10 @@ class ReplyList extends Component {
       defaultRepliesToShow,
       defaultRepliesToLoadAtOnce,
       total,
+      spam,
     } = this.props;
+
+    if (spam) return null;
 
     return (
       <div className="replies">
@@ -114,6 +117,7 @@ ReplyList.propTypes = {
   replies: PropTypes.shape({}),
   parentId: PropTypes.number,
   collapsed: PropTypes.bool,
+  spam: PropTypes.bool,
   replyShowing: PropTypes.bool,
   setReplyShowing: PropTypes.func,
 };

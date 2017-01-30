@@ -89,11 +89,13 @@ class Comment extends Component {
         id,
         parentId,
         updates: { spam },
+        save: true,
       });
     } else {
       updateComment({
         id,
         updates: { spam },
+        save: true,
       });
     }
   }
@@ -159,10 +161,6 @@ class Comment extends Component {
 
   render() {
     const { comment } = this.props;
-    const { collapsed } = this.state;
-
-    // if marked spam leave rendered until next page load
-    if (!collapsed && comment.spam) return null;
 
     return (
       <div ref={(c) => { this.el = c; }}>
@@ -207,6 +205,7 @@ class Comment extends Component {
             />
           </div>
           <ReplyList
+            spam={comment.spam}
             collapsed={this.state.collapsed}
             setReplyShowing={this.state.setReplyShowing}
             replyShowing={this.state.replyShowing}
