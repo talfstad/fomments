@@ -34,23 +34,42 @@ class Comment extends Component {
   }
 
   setCollapsed(collapsed) {
-    const userId = this.props.user.id;
-    const commentUserId = this.props.comment.user.id;
+    const { parentId } = this.props.comment;
 
-    this.setState({
-      collapsed,
-      menuOptions: {
-        ...this.state.menuOptions,
-        collapse: {
-          ...this.state.menuOptions.collapse,
-          enabled: !collapsed,
+    if (parentId) {
+      this.setState({
+        collapsed,
+        menuOptions: {
+          ...this.state.menuOptions,
+          collapse: {
+            ...this.state.menuOptions.collapse,
+            enabled: !collapsed,
+          },
+          spam: {
+            ...this.state.menuOptions.spam,
+            enabled: !collapsed,
+          },
         },
-        spam: {
-          ...this.state.menuOptions.spam,
-          enabled: (!collapsed && userId !== commentUserId),
+      });
+    } else {
+      const userId = this.props.user.id;
+      const commentUserId = this.props.comment.user.id;
+
+      this.setState({
+        collapsed,
+        menuOptions: {
+          ...this.state.menuOptions,
+          collapse: {
+            ...this.state.menuOptions.collapse,
+            enabled: !collapsed,
+          },
+          spam: {
+            ...this.state.menuOptions.spam,
+            enabled: (!collapsed && userId !== commentUserId),
+          },
         },
-      },
-    });
+      });
+    }
   }
 
   setSpam(spam) {
@@ -187,10 +206,11 @@ Comment.propTypes = {
     id: PropTypes.number,
   }),
   comment: PropTypes.shape({
+    id: PropTypes.number,
+    parentId: PropTypes.number,
     user: PropTypes.shape({
       id: PropTypes.number,
     }),
-    id: PropTypes.number,
     content: PropTypes.string,
     replies: PropTypes.object,
   }),

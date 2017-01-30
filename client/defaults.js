@@ -32,8 +32,6 @@ const getSharedDefaults = user => ({
   spam: false,
   showing: true,
   editing: false,
-  collapsed: false,
-  truncated: true,
   liked: false,
 });
 

@@ -1,4 +1,5 @@
 import {
+  LOAD_LOCAL_STORAGE,
   CHANGE_SORT_BY,
   ADD_COMMENT,
   UPDATE_COMMENT,
@@ -9,6 +10,11 @@ import {
   DELETE_COMMENT,
   DELETE_REPLY,
 } from './types';
+
+export const loadLocalStorageState = state => ({
+  type: LOAD_LOCAL_STORAGE,
+  payload: state,
+});
 
 export const changeSortBy = sortby => ({
   type: CHANGE_SORT_BY,

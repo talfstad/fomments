@@ -5,6 +5,8 @@ import Comment from './comment';
 import { sortComments } from './shared-components';
 import CommentPaging from './comment-paging';
 
+import * as actions from '../actions/index';
+
 class CommentList extends Component {
   constructor(props) {
     super(props);
@@ -113,4 +115,4 @@ const mapStateToProps = state => ({
   comments: sortComments(state.comments),
 });
 
-export default connect(mapStateToProps)(CommentList);
+export default connect(mapStateToProps, actions)(CommentList);

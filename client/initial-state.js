@@ -1,7 +1,7 @@
 export default {
-  defaultCommentsToShow: 5,
+  defaultCommentsToShow: 1,
   defaultCommentsToLoadAtOnce: 10,
-  defaultRepliesToShow: 3,
+  defaultRepliesToShow: 1,
   defaultRepliesToLoadAtOnce: 10,
   user: {
     id: 134,
@@ -19,8 +19,8 @@ export default {
     oldest: false,
   },
   list: {
-    0: {
-      id: 0,
+    98762: {
+      id: 98762,
       content: 'And that my friends is why President Elect Donald Trump won. We are sick of it. We are sick of the left claiming to be the ones that are tolerant but at every chance they get they call us racists, bigots, homophobes, zenophobes, and every other phobes and ists you can think of and every time they are running for anything they pull the race card. I am 56 years old and as long as I have been a voter they have been doing this and they have lumped me in with all this long enough. I am so sick of these politically correct babies that I want change and Donald Trump is the one I believe will keep his word to do it because I have no trust in either establishment Democrat or Republican. I am done with them until I see some real change.',
       user: {
         id: 8987,

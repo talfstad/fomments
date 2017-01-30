@@ -7,3 +7,4 @@ export const REMOVE_LIKE = 'REMOVE_LIKE';
 export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const UPDATE_REPLY = 'UPDATE_REPLY';
 export const DELETE_REPLY = 'DELETE_REPLY';
+export const LOAD_LOCAL_STORAGE = 'LOAD_LOCAL_STORAGE';

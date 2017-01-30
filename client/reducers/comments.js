@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import {
+  LOAD_LOCAL_STORAGE,
   ADD_COMMENT,
   UPDATE_COMMENT,
   CHANGE_SORT_BY,
@@ -15,6 +16,14 @@ import INITIAL_STATE from '../initial-state';
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case LOAD_LOCAL_STORAGE: {
+      return {
+        ...state,
+        list: {
+          ...action.payload,
+        },
+      };
+    }
     case CHANGE_SORT_BY: {
       const sortBy = {
         top: false,
@@ -43,25 +52,36 @@ export default (state = INITIAL_STATE, action) => {
     }
     case ADD_COMMENT: {
       const { id } = action.payload;
-      return {
+
+      const newState = {
         ...state,
         list: {
           ...state.list,
           [id]: action.payload,
         },
       };
+
+      localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
+
     case DELETE_COMMENT: {
       const { id } = action.payload;
-      return {
+      const newState = {
         ...state,
         list: _.omitBy(state.list, (value, key) =>
           parseFloat(key) === parseFloat(id)),
       };
+
+      localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
+
     case DELETE_REPLY: {
       const { id, parentId } = action.payload;
-      return {
+      const newState = {
         ...state,
         list: {
           ...state.list,
@@ -72,7 +92,12 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
+
+      localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
+
     case UPDATE_REPLY: {
       const { id, parentId, updates } = action.payload;
       return {
@@ -94,7 +119,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case ADD_REPLY: {
       const { id, parentId } = action.payload;
-      return {
+      const newState = {
         ...state,
         list: {
           ...state.list,
@@ -109,12 +134,15 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
+
+      localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
     case ADD_LIKE: {
       const { id, likes, parentId } = action.payload;
       if (parentId) {
-        // add like to the reply of the parent comment
-        return {
+        const newState = {
           ...state,
           list: {
             ...state.list,
@@ -131,8 +159,13 @@ export default (state = INITIAL_STATE, action) => {
             },
           },
         };
+
+        localStorage.setItem('fomments', JSON.stringify(newState.list));
+        // add like to the reply of the parent comment
+        return newState;
       }
-      return {
+
+      const newState = {
         ...state,
         list: {
           ...state.list,
@@ -143,12 +176,16 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
+
+      localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
+
     case REMOVE_LIKE: {
       const { id, likes, parentId } = action.payload;
       if (parentId) {
-        // add like to the reply of the parent comment
-        return {
+        const newState = {
           ...state,
           list: {
             ...state.list,
@@ -165,9 +202,14 @@ export default (state = INITIAL_STATE, action) => {
             },
           },
         };
+
+        localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+        // add like to the reply of the parent comment
+        return newState;
       }
 
-      return {
+      const newState = {
         ...state,
         list: {
           ...state.list,
@@ -178,6 +220,10 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
+
+      localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
     default:
       return state;
