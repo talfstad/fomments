@@ -10,7 +10,7 @@ const CommentPaging = (props) => {
 
   if (showing === total) return null;
   const newTotalShowing = showing + defaultCommentsToLoadAtOnce;
-  const toLoadText = (newTotalShowing >= total) ? total - showing : newTotalShowing;
+  const toLoadText = (newTotalShowing >= total) ? total - showing : defaultCommentsToLoadAtOnce;
   return (
     <div className="load-more-comments">
       <button onClick={e => handleShowMoreComments(e)}>

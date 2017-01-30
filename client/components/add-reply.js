@@ -16,6 +16,10 @@ class AddReply extends Component {
   handleContentChange(e) {
     e.preventDefault();
     const content = e.currentTarget.value;
+
+    this.textarea.style.height = '1px';
+    this.textarea.style.height = `${25 + this.textarea.scrollHeight}px`;
+
     this.setState({ content });
   }
 
@@ -47,7 +51,7 @@ class AddReply extends Component {
     return (
       <div className="add-comment reply">
         <div className="row">
-          <textarea onChange={e => this.handleContentChange(e)} value={content} className="active" type="text" placeholder="Add a reply..." />
+          <textarea ref={(c) => { this.textarea = c; }} onChange={e => this.handleContentChange(e)} value={content} className="active" type="text" placeholder="Add a reply..." />
         </div>
         <div className="row">
           <div className="post clearfix">
