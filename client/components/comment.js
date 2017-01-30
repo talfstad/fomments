@@ -149,7 +149,7 @@ class Comment extends Component {
         parentId: comment.parentId,
         id: comment.id,
         save: true,
-        updates: { content },
+        updates: { content, edited: true },
       });
     } else {
       updateComment({ id: comment.id, save: true, updates: { content, edited: true } });
