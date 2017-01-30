@@ -27,6 +27,7 @@ class CommentMenu extends Component {
       setCollapsed,
       showReportCommentModal,
       showDeleteCommentModal,
+      showEditComment,
       setSpam,
     } = this.props;
 
@@ -45,6 +46,10 @@ class CommentMenu extends Component {
       }
       case 'delete': {
         showDeleteCommentModal(true);
+        break;
+      }
+      case 'edit': {
+        showEditComment(true);
         break;
       }
       default:
@@ -78,8 +83,10 @@ class CommentMenu extends Component {
   }
 
   render() {
-    const { showing } = this.props;
+    const { showEdit, showing } = this.props;
     const { open, tooltip } = this.state;
+
+    if(showEdit) return null;
 
     return (
       <div className={`comment-menu ${(showing || open) ? '' : 'hidden'}`}>
@@ -107,7 +114,9 @@ class CommentMenu extends Component {
 }
 
 CommentMenu.propTypes = {
+  showEdit: PropTypes.bool,
   setCollapsed: PropTypes.func,
+  showEditComment: PropTypes.func,
   showDeleteCommentModal: PropTypes.func,
   showReportCommentModal: PropTypes.func,
   setSpam: PropTypes.func,

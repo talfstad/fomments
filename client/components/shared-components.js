@@ -152,8 +152,11 @@ export const CommentText = (props) => {
     setTruncated,
     collapsed,
     spam,
+    showEdit,
     setCollapsed,
     setSpam } = props;
+
+  if (showEdit) return null;
 
   const { content, user } = comment;
   const buildAffiliation = () => {
@@ -252,6 +255,7 @@ export const CommentText = (props) => {
 CommentText.propTypes = {
   comment: PropTypes.shape({}),
   truncated: PropTypes.bool,
+  showEdit: PropTypes.bool,
   spam: PropTypes.bool,
   collapsed: PropTypes.bool,
   setCollapsed: PropTypes.func,
@@ -267,7 +271,10 @@ export const CommentInfo = (props) => {
     removeLike,
     collapsed,
     spam,
+    showEdit,
   } = props;
+
+  if (showEdit) return null;
 
   const { likes, date } = comment;
 
@@ -339,6 +346,7 @@ export const CommentInfo = (props) => {
 };
 
 CommentInfo.propTypes = {
+  showEdit: PropTypes.bool,
   comment: PropTypes.shape({}),
   addLike: PropTypes.func,
   removeLike: PropTypes.func,

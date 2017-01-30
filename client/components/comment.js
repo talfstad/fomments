@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions/index';
 import CommentMenu from './comment-menu';
+import CommentEdit from './comment-edit';
 import ReplyList from './reply-list';
-import { DeleteCommentModal, ReportCommentModal, CommentInfo, CommentText, ProfilePic } from './shared-components';
+import {
+  DeleteCommentModal,
+  ReportCommentModal,
+  CommentInfo,
+  CommentText,
+  ProfilePic } from './shared-components';
 
 class Comment extends Component {
 
@@ -25,11 +31,12 @@ class Comment extends Component {
         setReplyShowing || (showing => this.setReplyShowing(showing)),
       collapsed: false,
       truncated: (comment.content.length > 600),
-      showing: false,
+      showing: false, // this is for menu options
       menuOptions: comment.options,
       offsetY: 0, // used to place modal where dropdown was selected
       showReportCommentModal: false,
       showDeleteCommentModal: false,
+      showEdit: false,
     };
   }
 
@@ -130,6 +137,25 @@ class Comment extends Component {
     this.showReportCommentModal(false);
   }
 
+  showEditComment(show) {
+    this.setState({ showEdit: show });
+  }
+
+  saveEditComment(content) {
+    const { updateComment, updateReply, comment } = this.props;
+    if (comment.parentId) {
+      updateReply({
+        parentId: comment.parentId,
+        id: comment.id,
+        save: true,
+        updates: { content },
+      });
+    } else {
+      updateComment({ id: comment.id, save: true, updates: { content } });
+    }
+  }
+
+
   render() {
     const { comment } = this.props;
     const { collapsed } = this.state;
@@ -145,6 +171,8 @@ class Comment extends Component {
             setCollapsed={collapse => this.setCollapsed(collapse)}
             showReportCommentModal={show => this.showReportCommentModal(show)}
             showDeleteCommentModal={show => this.showDeleteCommentModal(show)}
+            showEdit={this.state.showEdit}
+            showEditComment={show => this.showEditComment(show)}
             setSpam={spam => this.setSpam(spam)}
             menuOptions={this.state.menuOptions}
           />
@@ -153,14 +181,23 @@ class Comment extends Component {
             <CommentText
               {...this.props}
               collapsed={this.state.collapsed}
+              showEdit={this.state.showEdit}
               truncated={this.state.truncated}
               setTruncated={truncate => this.setTruncated(truncate)}
               setCollapsed={collapse => this.setCollapsed(collapse)}
               setSpam={spam => this.setSpam(spam)}
               spam={comment.spam}
             />
+            <CommentEdit
+              showEdit={this.state.showEdit}
+              showEditComment={() => this.showEditComment()}
+              saveEditComment={content =>
+                this.saveEditComment(content)}
+              content={comment.content}
+            />
             <CommentInfo
               {...this.props}
+              showEdit={this.state.showEdit}
               collapsed={this.state.collapsed}
               spam={comment.spam}
               setReplyShowing={this.state.setReplyShowing}
@@ -201,6 +238,7 @@ Comment.propTypes = {
   updateReply: PropTypes.func,
   deleteReply: PropTypes.func,
   deleteComment: PropTypes.func,
+  saveEditComment: PropTypes.func,
   setReplyShowing: PropTypes.func,
   user: PropTypes.shape({
     id: PropTypes.number,

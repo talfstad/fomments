@@ -51,7 +51,7 @@ class AddReply extends Component {
     return (
       <div className="add-comment reply">
         <div className="row">
-          <textarea ref={(c) => { this.textarea = c; }} onChange={e => this.handleContentChange(e)} value={content} className="active" type="text" placeholder="Add a reply..." />
+          <textarea autoFocus ref={(c) => { this.textarea = c; }} onChange={e => this.handleContentChange(e)} value={content} className="active" type="text" placeholder="Add a reply..." />
         </div>
         <div className="row">
           <div className="post clearfix">

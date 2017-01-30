@@ -38,8 +38,8 @@ export default (state = INITIAL_STATE, action) => {
       };
     }
     case UPDATE_COMMENT: {
-      const { id, updates } = action.payload;
-      return {
+      const { id, updates, save } = action.payload;
+      const newState = {
         ...state,
         list: {
           ...state.list,
@@ -49,6 +49,10 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
+
+      if (save) localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
     case ADD_COMMENT: {
       const { id } = action.payload;
@@ -99,8 +103,9 @@ export default (state = INITIAL_STATE, action) => {
     }
 
     case UPDATE_REPLY: {
-      const { id, parentId, updates } = action.payload;
-      return {
+      const { id, parentId, updates, save } = action.payload;
+
+      const newState = {
         ...state,
         list: {
           ...state.list,
@@ -116,6 +121,10 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
+
+      if (save) localStorage.setItem('fomments', JSON.stringify(newState.list));
+
+      return newState;
     }
     case ADD_REPLY: {
       const { id, parentId } = action.payload;
