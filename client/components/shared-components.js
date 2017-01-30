@@ -272,6 +272,7 @@ export const CommentInfo = (props) => {
     collapsed,
     spam,
     showEdit,
+    edited,
   } = props;
 
   if (showEdit) return null;
@@ -323,6 +324,18 @@ export const CommentInfo = (props) => {
     setReplyShowing(true);
   };
 
+  const showIfEdited = () => {
+    if (edited) {
+      return (
+        <span>
+          <span className="dot"> · </span>
+          Edited
+        </span>
+      );
+    }
+    return null;
+  };
+
   const setDate = () => {
     const now = moment();
     if (!moment(date).add(1, 'day').isBefore(now)) {
@@ -341,12 +354,14 @@ export const CommentInfo = (props) => {
       {buildLikes()}
       <span className="dot"> · </span>
       {setDate()}
+      {showIfEdited()}
     </div>
   );
 };
 
 CommentInfo.propTypes = {
   showEdit: PropTypes.bool,
+  edited: PropTypes.bool,
   comment: PropTypes.shape({}),
   addLike: PropTypes.func,
   removeLike: PropTypes.func,

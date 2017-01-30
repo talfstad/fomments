@@ -152,7 +152,7 @@ class Comment extends Component {
         updates: { content },
       });
     } else {
-      updateComment({ id: comment.id, save: true, updates: { content } });
+      updateComment({ id: comment.id, save: true, updates: { content, edited: true } });
     }
   }
 
@@ -203,6 +203,7 @@ class Comment extends Component {
               spam={comment.spam}
               setReplyShowing={this.state.setReplyShowing}
               reply={this.state.reply}
+              edited={comment.edited}
             />
           </div>
           <ReplyList
