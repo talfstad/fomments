@@ -14,22 +14,19 @@ class ReplyList extends Component {
     } = this.props;
 
     let showing = 0;
-    let total = 0;
     if (replies) {
       showing = defaultRepliesToShow > Object.keys(replies).length ?
         Object.keys(replies).length : defaultRepliesToShow;
-      total = Object.keys(replies).length;
     }
 
     this.state = {
       showing,
-      total,
     };
   }
 
   handleShowMoreReplies() {
-    const { defaultRepliesToLoadAtOnce } = this.props;
-    const { showing, total } = this.state;
+    const { defaultRepliesToLoadAtOnce, total } = this.props;
+    const { showing } = this.state;
 
     const newShowing = showing + defaultRepliesToLoadAtOnce;
     if (newShowing > total) {
@@ -42,7 +39,6 @@ class ReplyList extends Component {
   incrementReplies() {
     this.setState({
       showing: this.state.showing + 1,
-      total: this.state.total + 1,
     });
   }
 
@@ -80,6 +76,7 @@ class ReplyList extends Component {
       parentId,
       defaultRepliesToShow,
       defaultRepliesToLoadAtOnce,
+      total,
     } = this.props;
 
     return (
@@ -87,7 +84,7 @@ class ReplyList extends Component {
         {this.buildReplyList()}
         <ReplyPaging
           showing={this.state.showing}
-          total={this.state.total}
+          total={total}
           handleShowMoreReplies={() => this.handleShowMoreReplies()}
           defaultRepliesToShow={defaultRepliesToShow}
           defaultRepliesToLoadAtOnce={defaultRepliesToLoadAtOnce}
@@ -104,6 +101,7 @@ class ReplyList extends Component {
 }
 
 ReplyList.propTypes = {
+  total: PropTypes.number,
   defaultRepliesToLoadAtOnce: PropTypes.number,
   defaultRepliesToShow: PropTypes.number,
   replies: PropTypes.shape({}),

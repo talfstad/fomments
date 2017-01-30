@@ -209,6 +209,7 @@ class Comment extends Component {
             setReplyShowing={this.state.setReplyShowing}
             replyShowing={this.state.replyShowing}
             replies={comment.replies}
+            total={Object.keys(comment.replies || []).length}
             parentId={comment.id}
             defaultRepliesToShow={this.state.defaultRepliesToShow}
             defaultRepliesToLoadAtOnce={this.state.defaultRepliesToLoadAtOnce}

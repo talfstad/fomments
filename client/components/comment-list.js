@@ -16,22 +16,19 @@ class CommentList extends Component {
     } = this.props;
 
     let showing = defaultCommentsToShow;
-    let total = 0;
     if (comments) {
       showing = defaultCommentsToShow > Object.keys(comments).length ?
         Object.keys(comments).length : defaultCommentsToShow;
-      total = Object.keys(comments).length;
     }
 
     this.state = {
       showing,
-      total,
     };
   }
 
   handleShowMoreComments() {
-    const { defaultCommentsToLoadAtOnce } = this.props;
-    const { showing, total } = this.state;
+    const { defaultCommentsToLoadAtOnce, total } = this.props;
+    const { showing } = this.state;
     const newShowing = showing + defaultCommentsToLoadAtOnce;
     if (newShowing > total) {
       this.setState({ showing: total });
@@ -43,7 +40,6 @@ class CommentList extends Component {
   incrementComments() {
     this.setState({
       showing: this.state.showing + 1,
-      total: this.state.total + 1,
     });
   }
 
@@ -76,6 +72,7 @@ class CommentList extends Component {
     const {
       defaultCommentsToShow,
       defaultCommentsToLoadAtOnce,
+      total,
     } = this.props;
 
     return (
@@ -86,7 +83,7 @@ class CommentList extends Component {
         {this.buildCommentList()}
         <CommentPaging
           showing={this.state.showing}
-          total={this.state.total}
+          total={total}
           handleShowMoreComments={() => this.handleShowMoreComments()}
           defaultCommentsToShow={defaultCommentsToShow}
           defaultCommentsToLoadAtOnce={defaultCommentsToLoadAtOnce}
@@ -104,9 +101,11 @@ CommentList.propTypes = {
   defaultRepliesToLoadAtOnce: PropTypes.number,
   comments: PropTypes.arrayOf(PropTypes.object),
   user: PropTypes.shape({}),
+  total: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
+  total: Object.keys(state.comments.list).length,
   defaultCommentsToShow: state.comments.defaultCommentsToShow,
   defaultCommentsToLoadAtOnce: state.comments.defaultCommentsToLoadAtOnce,
   defaultRepliesToShow: state.comments.defaultRepliesToShow,
