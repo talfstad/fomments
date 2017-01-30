@@ -42,6 +42,12 @@ class ReplyList extends Component {
     });
   }
 
+  decrementReplies() {
+    this.setState({
+      showing: this.state.showing - 1,
+    });
+  }
+
   buildReplyList() {
     const {
       setReplyShowing,
@@ -64,6 +70,7 @@ class ReplyList extends Component {
     return pageReplies(Object.keys(sortedReplies).map(key =>
       <Comment
         key={key}
+        decrementComments={() => this.decrementReplies()}
         setReplyShowing={setReplyShowing}
         comment={sortedReplies[key]}
       />));

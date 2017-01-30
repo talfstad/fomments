@@ -43,6 +43,12 @@ class CommentList extends Component {
     });
   }
 
+  decrementComments() {
+    this.setState({
+      showing: this.state.showing - 1,
+    });
+  }
+
   pageComments(sortedCommentList) {
     const { defaultCommentsToShow } = this.props;
     const { showing } = this.state;
@@ -63,6 +69,7 @@ class CommentList extends Component {
         key={comment.id}
         user={user}
         comment={comment}
+        decrementComments={() => this.decrementComments()}
         defaultRepliesToShow={defaultRepliesToShow}
         defaultRepliesToLoadAtOnce={defaultRepliesToLoadAtOnce}
       />));

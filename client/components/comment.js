@@ -125,7 +125,7 @@ class Comment extends Component {
   }
 
   handleDeleteComment() {
-    const { comment, deleteReply, deleteComment } = this.props;
+    const { comment, deleteReply, deleteComment, decrementComments } = this.props;
     const { parentId } = comment;
 
     if (parentId) {
@@ -133,6 +133,7 @@ class Comment extends Component {
     } else {
       deleteComment(comment);
     }
+    decrementComments();
     this.showDeleteCommentModal(false);
     this.showReportCommentModal(false);
   }
@@ -239,7 +240,7 @@ Comment.propTypes = {
   updateReply: PropTypes.func,
   deleteReply: PropTypes.func,
   deleteComment: PropTypes.func,
-  saveEditComment: PropTypes.func,
+  decrementComments: PropTypes.func,
   setReplyShowing: PropTypes.func,
   user: PropTypes.shape({
     id: PropTypes.number,

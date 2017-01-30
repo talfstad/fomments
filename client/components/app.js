@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Header from './header';
 import CommentList from './comment-list';
 import CreditLink from './credit-link';
 
+import INITIAL_STATE from '../initial-state';
 import * as actions from '../actions/index';
 
 class App extends Component {
@@ -11,11 +12,12 @@ class App extends Component {
     // load up the data
     const { loadLocalStorageState } = this.props;
     if (localStorage) {
-      const comments = JSON.parse(localStorage.getItem('fomments'));
-      if (comments) {
-        loadLocalStorageState(comments);
+      const storedComments = localStorage.getItem('fomments');
+      // localStorage keeps things as strings so test string undefined
+      if (storedComments) {
+        loadLocalStorageState(JSON.parse(storedComments));
       } else {
-        localStorage.setItem('fomments', JSON.stringify(this.props.comments));
+        localStorage.setItem('fomments', JSON.stringify(INITIAL_STATE.list));
       }
     }
   }
@@ -32,5 +34,9 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  loadLocalStorageState: PropTypes.func,
+};
 
 export default connect(null, actions)(App);

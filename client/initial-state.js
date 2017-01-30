@@ -61,6 +61,7 @@ export default {
       showing: true,
       editing: false,
       liked: false,
+      edited: false,
     },
     1: {
       id: 1,
@@ -104,6 +105,7 @@ export default {
       showing: true,
       editing: false,
       liked: false,
+      edited: false,
       replies: {
         3: {
           id: 3,
@@ -146,6 +148,7 @@ export default {
           date: 1318981876406,
           report: false,
           spam: false,
+          edited: false,
         },
         2: {
           id: 2,
@@ -188,6 +191,7 @@ export default {
           date: 1318981876406,
           report: false,
           spam: false,
+          edited: true,
         },
       },
     },
