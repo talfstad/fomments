@@ -221,7 +221,15 @@ export const CommentText = (props) => {
       );
     }
 
-    if (truncated) {
+    if (comment.parentId && truncated) {
+      const truncatedContent = content.substring(0, 100);
+      return (
+        <span>
+          {truncatedContent}
+          <span className="see-more">... <span> <a onClick={e => handleSeeMore(e)} href="#see-more">See More</a></span></span>
+        </span>
+      );
+    } else if (truncated) {
       const truncatedContent = content.substring(0, 600);
       return (
         <span>

@@ -30,7 +30,9 @@ class Comment extends Component {
       setReplyShowing:
         setReplyShowing || (showing => this.setReplyShowing(showing)),
       collapsed: false,
-      truncated: (comment.content.length > 600),
+      truncated:
+        (comment.parentId && comment.content.length > 100) ||
+        (comment.content.length > 600),
       showing: false, // this is for menu options
       menuOptions: comment.options,
       offsetY: 0, // used to place modal where dropdown was selected
