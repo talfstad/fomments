@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Frame from 'react-frame-component';
-import Header from './header';
-import CommentList from './comment-list';
-import CreditLink from './credit-link';
-
+import jQuery from 'jquery';
+import Main from './main';
 import INITIAL_STATE from '../initial-state';
 import * as actions from '../actions/index';
 
@@ -23,22 +20,63 @@ class App extends Component {
     }
   }
 
-  contentDidMount() {
-    // set iframe width, height listener
-    console.log('content did mount');
+  registerParentEvents() {
+    // add window listener to update iframe height
+    window.addEventListener('message', (e) => {
+      const iframeId = e.data[1];
+      const iframe = jQuery(`#${iframeId}`);
+      const eventName = e.data[0];
+      const height = e.data[2];
+      switch (eventName) {
+        case 'setFommentsIframeHeight':
+          if (`${height}px` !== iframe.css('height')) {
+            iframe.css('height', `${height}px`);
+          }
+          break;
+        default:
+          break;
+      }
+    }, false);
+  }
+
+  liveUpdateHeight() {
+    const updateHeight = () => {
+      setTimeout(() => {
+        if (this.el) {
+          const height = jQuery(this.el).outerHeight(true);
+          window.parent.postMessage(['setFommentsIframeHeight', window.frameElement.getAttribute('id'), height], '*');
+          updateHeight();
+        }
+      }, 100);
+    };
+
+    updateHeight();
+  }
+
+  setEl(el) {
+    this.el = el;
   }
 
   render() {
+    // if we're in an iframe render just the app, if not render the iframe with the src
+    if (window.self !== window.top) {
+      // inside iframe render app
+      this.liveUpdateHeight();
+      return (
+        <Main setEl={el => this.setEl(el)} />
+      );
+    }
+
+    this.registerParentEvents();
+    // not in iframe so show iframe with src
+    // TODO: dynamically update ID based on url
     return (
-      <Frame contentDidMount={() => this.contentDidMount()} head={<link rel="stylesheet" href="/style/main.css" />}>
-        <div className="container-fluid fomments-container">
-          <div className="comment-container">
-            <Header />
-            <CommentList />
-            <CreditLink />
-          </div>
-        </div>
-      </Frame>
+      <iframe
+        id="fomments-ski3001nch"
+        width="100%"
+        frameBorder="0"
+        src="/index.html"
+      />
     );
   }
 }
