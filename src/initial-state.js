@@ -1,8 +1,8 @@
 export default {
   defaultCommentsToShow: 1,
-  defaultCommentsToLoadAtOnce: 2,
-  defaultRepliesToShow: 2,
-  defaultRepliesToLoadAtOnce: 1,
+  defaultCommentsToLoadAtOnce: 1,
+  defaultRepliesToShow: 3,
+  defaultRepliesToLoadAtOnce: 10,
   user: {
     id: 134,
     name: 'Customer Comment',

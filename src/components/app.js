@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Frame from 'react-frame-component';
 import Header from './header';
 import CommentList from './comment-list';
 import CreditLink from './credit-link';
@@ -22,15 +23,22 @@ class App extends Component {
     }
   }
 
+  contentDidMount() {
+    // set iframe width, height listener
+    console.log('content did mount');
+  }
+
   render() {
     return (
-      <div className="container-fluid fomments-container">
-        <div className="comment-container">
-          <Header />
-          <CommentList />
-          <CreditLink />
+      <Frame contentDidMount={() => this.contentDidMount()} head={<link rel="stylesheet" href="/style/main.css" />}>
+        <div className="container-fluid fomments-container">
+          <div className="comment-container">
+            <Header />
+            <CommentList />
+            <CreditLink />
+          </div>
         </div>
-      </div>
+      </Frame>
     );
   }
 }

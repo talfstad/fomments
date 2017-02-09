@@ -37,7 +37,7 @@ class CommentEdit extends Component {
       showEdit,
     } = this.props;
 
-    if (!showEdit) return null;
+    if (!showEdit) return <noscript />;
 
     return (
       <div className="add-comment reply">

@@ -13,12 +13,10 @@ const createStoreWithMiddleware = applyMiddleware(
 
 const store = createStoreWithMiddleware(reducers);
 
-Meteor.startup(() => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-    , document.getElementById('fomments'));
-});
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , document.querySelector('.fomments'));
 
 export default store;

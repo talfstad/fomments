@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
+import 'bootstrap/dist/js/bootstrap';
 
 import * as actions from '../actions/index';
 
@@ -86,7 +88,7 @@ class CommentMenu extends Component {
     const { showEdit, showing } = this.props;
     const { open, tooltip } = this.state;
 
-    if(showEdit) return null;
+    if (showEdit) return <noscript />;
 
     return (
       <div className={`comment-menu ${(showing || open) ? '' : 'hidden'}`}>

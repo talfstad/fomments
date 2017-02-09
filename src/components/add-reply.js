@@ -75,7 +75,7 @@ class AddReply extends Component {
         </div>
       );
     }
-    return null;
+    return <noscript />;
   }
 }
 

@@ -72,7 +72,7 @@ export const ReportCommentModal = ({
       </Modal>
     );
   }
-  return null;
+  return <noscript />;
 };
 
 ReportCommentModal.propTypes = {
@@ -112,7 +112,7 @@ export const DeleteCommentModal = ({
       </Modal>
     );
   }
-  return null;
+  return <noscript />;
 };
 
 DeleteCommentModal.propTypes = {
@@ -155,14 +155,14 @@ export const CommentText = (props) => {
     setCollapsed,
     setSpam } = props;
 
-  if (showEdit) return null;
+  if (showEdit) return <noscript />;
 
   const { content, user } = comment;
   const buildAffiliation = () => {
     if (user.affiliation.name) {
       return (
         <span>
-          <span className="dot"> · </span>
+          <span className="dot"> &middot; </span>
           <a className="page" target="_blank" rel="noopener noreferrer" href={user.affiliation.url}>
             {user.affiliation.name}
           </a>
@@ -282,7 +282,7 @@ export const CommentInfo = (props) => {
     edited,
   } = props;
 
-  if (showEdit) return null;
+  if (showEdit) return <noscript />;
 
   const { likes, date } = comment;
 
@@ -290,7 +290,7 @@ export const CommentInfo = (props) => {
     if (likes > 0) {
       return (
         <span>
-          <span className="dot"> · </span>
+          <span className="dot"> &middot; </span>
           <span>
             <i className="like-icon" /> {likes}
           </span>
@@ -335,12 +335,12 @@ export const CommentInfo = (props) => {
     if (edited) {
       return (
         <span>
-          <span className="dot"> · </span>
+          <span className="dot"> &middot; </span>
           Edited
         </span>
       );
     }
-    return null;
+    return <noscript />;
   };
 
   const setDate = () => {
@@ -351,15 +351,15 @@ export const CommentInfo = (props) => {
     return moment(date).format('MMM DD, YYYY h:MMa');
   };
 
-  if (collapsed || spam) return null;
+  if (collapsed || spam) return <noscript />;
 
   return (
     <div className="row comment-info">
       {buildLikeLink()}
-      <span className="dot"> · </span>
+      <span className="dot"> &middot; </span>
       <a onClick={e => handleSetReply(e)} href="#reply"><em>Reply</em></a>
       {buildLikes()}
-      <span className="dot"> · </span>
+      <span className="dot"> &middot; </span>
       {setDate()}
       {showIfEdited()}
     </div>

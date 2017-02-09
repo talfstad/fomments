@@ -8,7 +8,7 @@ const ReplyPaging = (props) => {
     props.handleShowMoreReplies();
   };
 
-  if (showing === total) return null;
+  if (showing === total) return <noscript />;
 
   const newTotalShowing = showing + defaultRepliesToLoadAtOnce;
   const toLoadText = (newTotalShowing >= total) ? total - showing : defaultRepliesToLoadAtOnce;

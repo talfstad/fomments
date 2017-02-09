@@ -55,7 +55,7 @@ class ReplyList extends Component {
       collapsed,
     } = this.props;
 
-    if (!replies || collapsed) return null;
+    if (!replies || collapsed) return <noscript />;
 
     const sortedReplies = sortComments({
       list: replies,
@@ -87,7 +87,7 @@ class ReplyList extends Component {
       spam,
     } = this.props;
 
-    if (spam) return null;
+    if (spam) return <noscript />;
 
     return (
       <div className="replies">

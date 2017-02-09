@@ -8,7 +8,7 @@ const CommentPaging = (props) => {
     props.handleShowMoreComments();
   };
 
-  if (showing === total) return null;
+  if (showing === total) return <noscript />;
   const newTotalShowing = showing + defaultCommentsToLoadAtOnce;
   const toLoadText = (newTotalShowing >= total) ? total - showing : defaultCommentsToLoadAtOnce;
 
