@@ -6,6 +6,36 @@ import INITIAL_STATE from '../initial-state';
 import * as actions from '../actions/index';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    if (window.self !== window.top) {
+      // inside iframe render app
+      this.liveUpdateHeight();
+    } else {
+      const registerParentEvents = () => {
+        // add window listener to update iframe height
+        window.addEventListener('message', (e) => {
+          const iframeId = e.data[1];
+          const iframe = jQuery(`#${iframeId}`);
+          const eventName = e.data[0];
+          const height = e.data[2];
+          switch (eventName) {
+            case 'setFommentsIframeHeight':
+              if (`${height}px` !== iframe.css('height')) {
+                iframe.css('height', `${height}px`);
+              }
+              break;
+            default:
+              break;
+          }
+        }, false);
+      };
+      registerParentEvents();
+    }
+  }
+
   componentWillMount() {
     // load up the data
     const { loadLocalStorageState } = this.props;
@@ -20,23 +50,8 @@ class App extends Component {
     }
   }
 
-  registerParentEvents() {
-    // add window listener to update iframe height
-    window.addEventListener('message', (e) => {
-      const iframeId = e.data[1];
-      const iframe = jQuery(`#${iframeId}`);
-      const eventName = e.data[0];
-      const height = e.data[2];
-      switch (eventName) {
-        case 'setFommentsIframeHeight':
-          if (`${height}px` !== iframe.css('height')) {
-            iframe.css('height', `${height}px`);
-          }
-          break;
-        default:
-          break;
-      }
-    }, false);
+  setEl(el) {
+    this.el = el;
   }
 
   liveUpdateHeight() {
@@ -53,21 +68,15 @@ class App extends Component {
     updateHeight();
   }
 
-  setEl(el) {
-    this.el = el;
-  }
-
   render() {
     // if we're in an iframe render just the app, if not render the iframe with the src
     if (window.self !== window.top) {
       // inside iframe render app
-      this.liveUpdateHeight();
       return (
         <Main setEl={el => this.setEl(el)} />
       );
     }
 
-    this.registerParentEvents();
     // not in iframe so show iframe with src
     // TODO: dynamically update ID based on url
     return (
