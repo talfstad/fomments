@@ -11,7 +11,8 @@ module.exports = {
     'jasmine': true
   },
   'rules': {
-    'react/jsx-filename-extension': ['error', { 'extensions': ['.js', '.jsx'] }]
+    'react/jsx-filename-extension': ['error', { 'extensions': ['.js', '.jsx'] }],
+    'global-require': 'off'
   },
   'parser': 'babel-eslint'
 };

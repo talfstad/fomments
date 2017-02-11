@@ -9,11 +9,11 @@ class Modal extends Component {
     this.modalTarget = document.createElement('div');
     this.modalTarget.className = 'fomments-modal';
     document.body.appendChild(this.modalTarget);
-    this._render();
+    this.renderer();
   }
 
   componentWillUpdate() {
-    this._render();
+    this.renderer();
   }
 
   componentWillUnmount() {
@@ -21,7 +21,7 @@ class Modal extends Component {
     document.body.removeChild(this.modalTarget);
   }
 
-  _render() {
+  renderer() {
     const { marginTop } = this.props;
 
     ReactDOM.render(

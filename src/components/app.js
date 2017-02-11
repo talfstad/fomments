@@ -5,6 +5,10 @@ import Main from './main';
 import INITIAL_STATE from '../initial-state';
 import * as actions from '../actions/index';
 
+if (window.self !== window.top) {
+  require('../style/main.css');
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -50,22 +54,28 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('fomments');
+  }
+
   setEl(el) {
     this.el = el;
   }
 
   liveUpdateHeight() {
     const updateHeight = () => {
-      setTimeout(() => {
-        if (this.el) {
-          const height = jQuery(this.el).outerHeight(true);
-          window.parent.postMessage(['setFommentsIframeHeight', window.frameElement.getAttribute('id'), height], '*');
-          updateHeight();
+      if (this.el) {
+        const height = jQuery(this.el).outerHeight(true);
+        if (height !== this.oldHeight) {
+          this.oldHeight = height;
+          window.parent.postMessage(['setFommentsIframeHeight', '20f32f08hdsflh', height], '*');
         }
-      }, 100);
+      }
     };
 
-    updateHeight();
+    setInterval(() => {
+      updateHeight();
+    }, 100);
   }
 
   render() {
@@ -81,10 +91,13 @@ class App extends Component {
     // TODO: dynamically update ID based on url
     return (
       <iframe
-        id="fomments-ski3001nch"
+        id="20f32f08hdsflh" // randomly generated just to get acces to el from parent
+        data-id="12fes00afsdaeaf3af3daf3"
+        marginheight="50"
+        data-demographic="ski3001nch"
         width="100%"
         frameBorder="0"
-        src="/index.html"
+        src="http://localhost:8080/index.html"
       />
     );
   }

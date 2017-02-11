@@ -3,8 +3,6 @@ import Header from './header';
 import CommentList from './comment-list';
 import CreditLink from './credit-link';
 
-require('../style/main.css');
-
 const Main = props =>
   <div ref={(c) => { props.setEl(c); }} className="container-fluid fomments-container">
     <div className="comment-container">

@@ -17,6 +17,6 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>
-  , document.querySelector('.fomments'));
+  , document.querySelector('#fomments'));
 
 export default store;
