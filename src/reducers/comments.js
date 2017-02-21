@@ -15,6 +15,8 @@ import {
 import INITIAL_STATE from '../initial-state';
 
 export default (state = INITIAL_STATE, action) => {
+  const sectionId = state.id; // Comment section id
+
   switch (action.type) {
     case LOAD_LOCAL_STORAGE: {
       return {
@@ -50,7 +52,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      if (save) localStorage.setItem('fomments', JSON.stringify(newState.list));
+      if (save) localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }
@@ -65,7 +67,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      localStorage.setItem('fomments', JSON.stringify(newState.list));
+      localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }
@@ -78,7 +80,7 @@ export default (state = INITIAL_STATE, action) => {
           parseFloat(key) === parseFloat(id)),
       };
 
-      localStorage.setItem('fomments', JSON.stringify(newState.list));
+      localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }
@@ -97,7 +99,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      localStorage.setItem('fomments', JSON.stringify(newState.list));
+      localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }
@@ -122,7 +124,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      if (save) localStorage.setItem('fomments', JSON.stringify(newState.list));
+      if (save) localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }
@@ -144,7 +146,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      localStorage.setItem('fomments', JSON.stringify(newState.list));
+      localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }
@@ -169,7 +171,7 @@ export default (state = INITIAL_STATE, action) => {
           },
         };
 
-        localStorage.setItem('fomments', JSON.stringify(newState.list));
+        localStorage.setItem(sectionId, JSON.stringify(newState.list));
         // add like to the reply of the parent comment
         return newState;
       }
@@ -186,7 +188,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      localStorage.setItem('fomments', JSON.stringify(newState.list));
+      localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }
@@ -212,7 +214,7 @@ export default (state = INITIAL_STATE, action) => {
           },
         };
 
-        localStorage.setItem('fomments', JSON.stringify(newState.list));
+        localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
         // add like to the reply of the parent comment
         return newState;
@@ -230,7 +232,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      localStorage.setItem('fomments', JSON.stringify(newState.list));
+      localStorage.setItem(sectionId, JSON.stringify(newState.list));
 
       return newState;
     }

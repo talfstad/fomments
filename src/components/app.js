@@ -1,8 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import jQuery from 'jquery';
 import Main from './main';
-import INITIAL_STATE from '../initial-state';
 import * as actions from '../actions/index';
 
 if (window.self !== window.top) {
@@ -14,43 +13,12 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    if (window.self !== window.top) {
-      // inside iframe render app
-      this.liveUpdateHeight();
-    } else {
-      const registerParentEvents = () => {
-        // add window listener to update iframe height
-        window.addEventListener('message', (e) => {
-          const iframeId = e.data[1];
-          const iframe = jQuery(`#${iframeId}`);
-          const eventName = e.data[0];
-          const height = e.data[2];
-          switch (eventName) {
-            case 'setFommentsIframeHeight':
-              if (`${height}px` !== iframe.css('height')) {
-                iframe.css('height', `${height}px`);
-              }
-              break;
-            default:
-              break;
-          }
-        }, false);
-      };
-      registerParentEvents();
-    }
-  }
+    this.state = { sectionId: null };
 
-  componentWillMount() {
-    // load up the data
-    const { loadLocalStorageState } = this.props;
-    if (localStorage) {
-      const storedComments = localStorage.getItem('fomments');
-      // localStorage keeps things as strings so test string undefined
-      if (storedComments) {
-        loadLocalStorageState(JSON.parse(storedComments));
-      } else {
-        localStorage.setItem('fomments', JSON.stringify(INITIAL_STATE.list));
-      }
+    if (window.self !== window.top) {
+      this.registerIframeEvents();
+    } else {
+      this.registerParentEvents();
     }
   }
 
@@ -62,13 +30,72 @@ class App extends Component {
     this.el = el;
   }
 
+  registerParentEvents() {
+    // get section ID or if none, set to default general-section
+    this.sectionId = jQuery('#fomments').attr('section-id') || 'general-section';
+
+    const registerParentEvents = () => {
+      // add window listener to update iframe height
+      window.addEventListener('message', (e) => {
+        const eventName = e.data[0];
+        switch (eventName) {
+          case 'setFommentsIframeHeight': {
+            const iframeId = e.data[1];
+            const iframe = jQuery(`#${iframeId}`);
+            const height = e.data[2];
+            if (`${height}px` !== iframe.css('height')) {
+              iframe.css('height', `${height}px`);
+            }
+            break;
+          }
+          case 'getSectionId': {
+            jQuery('#fomments iframe')[0]
+              .contentWindow.postMessage(['setSectionId', this.sectionId], '*');
+            break;
+          }
+          default:
+            break;
+        }
+      }, false);
+    };
+    registerParentEvents();
+  }
+
+  registerIframeEvents() {
+    // inside iframe render app
+    const registerIframeEvents = () => {
+      // add window listener to update iframe height
+      window.addEventListener('message', (e) => {
+        const eventName = e.data[0];
+        switch (eventName) {
+          case 'setSectionId': {
+            const sectionId = e.data[1];
+            this.setState({ sectionId });
+            this.liveUpdateHeight();
+            break;
+          }
+          default:
+            break;
+        }
+      }, false);
+    };
+    registerIframeEvents();
+
+    // Iframe needs sectionId to boot up
+    window.parent.postMessage(['getSectionId'], '*');
+  }
+
   liveUpdateHeight() {
+    // Saftey: Don't init multiple times
+    if (this.liveUpdateHeightRunning) return;
+    this.liveUpdateHeightRunning = true;
+
     const updateHeight = () => {
       if (this.el) {
         const height = jQuery(this.el).outerHeight(true);
         if (height !== this.oldHeight) {
           this.oldHeight = height;
-          window.parent.postMessage(['setFommentsIframeHeight', '20f32f08hdsflh', height], '*');
+          window.parent.postMessage(['setFommentsIframeHeight', this.state.sectionId, height], '*');
         }
       }
     };
@@ -80,31 +107,26 @@ class App extends Component {
 
   render() {
     // if we're in an iframe render just the app, if not render the iframe with the src
-    if (window.self !== window.top) {
+    if (window.self === window.top) {
+      return (
+        <iframe
+          id={this.sectionId} // randomly generated just to get acces to el from parent
+          marginHeight="50"
+          width="100%"
+          frameBorder="0"
+          src="http://localhost:8080/index.html"
+        />
+      );
+    } else if (this.state.sectionId) {
       // inside iframe render app
       return (
-        <Main setEl={el => this.setEl(el)} />
+        <Main sectionId={this.state.sectionId} setEl={el => this.setEl(el)} />
       );
     }
 
-    // not in iframe so show iframe with src
-    // TODO: dynamically update ID based on url
-    return (
-      <iframe
-        id="20f32f08hdsflh" // randomly generated just to get acces to el from parent
-        data-id="12fes00afsdaeaf3af3daf3"
-        marginheight="50"
-        data-demographic="ski3001nch"
-        width="100%"
-        frameBorder="0"
-        src="http://localhost:8080/index.html"
-      />
-    );
+    // Don't show anything until sectionId is set
+    return <noscript />;
   }
 }
-
-App.propTypes = {
-  loadLocalStorageState: PropTypes.func,
-};
 
 export default connect(null, actions)(App);
