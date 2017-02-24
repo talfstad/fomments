@@ -1,34 +1,54 @@
-export default function ({ dispatch }) {
-  return next => (action) => {
+export default () => store => next => (action) => {
+  const { dispatch } = store;
+  const { iframeMessage } = action.payload;
 
-    // If no iframeMessage attr do nothing
-    // if we have one send message out
+  // If no iframeMessage attr do nothing
+  if (!iframeMessage) return next(action);
 
-    // if we send message and need response then we wait for it and then dispatch
-    // a new event with the data all there
+  function handleMessage() {
+    next(action);
+    // Once reducer results hit, send the state to messageResponder
+    const {
+        callback,
+        responseEl = window.parent,
+      } = iframeMessage;
 
-    // if we send message and don't need response we remove the iframeMessage object
-    // from payload and create a new event
+    iframeMessage.state = store.getState();
 
-    if (!action.save) return next(action);
+    const sendMessage = new Promise((resolve) => {
+        // add event listener to listen for result from parent
+      if (callback) {
+        const onResponse = ({ data }) => {
+          const [namespace, responseData] = data;
 
-    // Make sure action is saved to parent
-    const saveStateToParent = new Promise((resolve, reject) => {
-      // send save event to parent
-      window.parent.postMessage(['saveStateToParent', action.payload], '*');
+          // if not iframe message, ignore
+          if (namespace !== 'iframe-message') return;
 
+          if (responseData) {
+            const response = responseData[callback];
 
-      // add event listener to listen for result from parent
+            if (response) {
+              // we have correct response, remove listener and resolve
+              window.removeEventListener('message', onResponse);
+              resolve(response);
+            }
+          }
+        };
+        window.addEventListener('message', onResponse);
+      }
 
-      // on response remove it
-
-      // on receive event resolve
-
-
+      // send action to responder
+      responseEl.postMessage(['iframe-message', action], '*');
     });
 
-    saveStateToParent.then(() => {
-      // dispatch new event
+    sendMessage.then((response) => {
+      // Dispatch new event with response data and no iframeMessage on payload
+      dispatch({
+        ...action,
+        payload: response,
+      });
     });
-  };
-}
+  }
+
+  return handleMessage();
+};
