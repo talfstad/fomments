@@ -1,3 +1,15 @@
+- main cannot load local storage, must be in app
+  . have to save and load from messaging
+
+- on clear localStorage why do 2 load ? when only 1 should
+  . have to make paging not be state dependent
+  . get rid of state in components, use redux but dont save to localStorage
+
+
+
+
+
+
 # meteor endpoint that loads the initial state based on section id, user id, product name
 
 . if no product name, load general version else load product name version ?

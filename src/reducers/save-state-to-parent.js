@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import jQuery from 'jquery';
 import {
   ADD_COMMENT,
   UPDATE_COMMENT,
@@ -25,10 +26,14 @@ export default (state = INITIAL_STATE, action) => {
       };
     }
     case LOAD_INITIAL_STATE: {
+      const fommentsIframeEl = jQuery('#fomments iframe')[0];
       const newState = {
         ...state,
         ...action.payload,
       };
+
+      fommentsIframeEl.contentWindow
+        .postMessage(['setInitialState', newState], '*');
 
       return newState;
     }

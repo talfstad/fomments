@@ -1,5 +1,4 @@
 export default {
-  id: 1,
   defaultCommentsToShow: 1,
   defaultCommentsToLoadAtOnce: 1,
   defaultRepliesToShow: 3,
