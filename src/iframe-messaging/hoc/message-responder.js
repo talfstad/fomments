@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { MESSAGE_NAMESPACE } from '../config';
 
 export default actions => (ComposedComponent) => {
   class MessageResponder extends Component {
@@ -7,6 +8,7 @@ export default actions => (ComposedComponent) => {
         <ComposedComponent
           ref={component =>
             MessageResponder.registerResponder(component)}
+          {...this.props}
         />
       );
     }
@@ -14,26 +16,24 @@ export default actions => (ComposedComponent) => {
 
   MessageResponder.registerResponder = (component) => {
     window.addEventListener('message', ({ data }) => {
-      const [namespace, requestedAction = {}] = data;
-      const { iframeMessage } = requestedAction.payload;
-      const {
-        action,
-        callback,
-      } = iframeMessage;
+      const [namespace, action = {}] = data;
+      const { iframeMessage } = action.payload;
+      const { callback } = iframeMessage;
 
-      if (namespace !== 'iframe-message') return;
+      if (namespace !== MESSAGE_NAMESPACE) return;
 
-      if (actions[action]) {
-        actions[action](component, requestedAction, (response) => {
+      try {
+        actions[action.type](component, action.payload, (response) => {
           if (callback) {
             // send response to child
-            component.postMessage([
-              'iframe-message',
-              callback,
-              response,
+            component.el.contentWindow.postMessage([
+              MESSAGE_NAMESPACE,
+              { [action.type]: response },
             ], '*');
           }
         });
+      } catch (err) {
+        throw new Error(err);
       }
     }, false);
   };

@@ -25,7 +25,6 @@ class App extends Component {
     if (window.self === window.top) {
       return (
         <Iframe
-          sectionId={this.sectionId}
           src="http://localhost:8080/index.html"
         />
       );

@@ -9,29 +9,23 @@ import {
   UPDATE_REPLY,
   DELETE_COMMENT,
   DELETE_REPLY,
-  SET_IFRAME_STATE,
-  LOAD_INITIAL_STATE,
+  LOAD_FROM_PARENT,
 } from '../actions/types';
 
 import INITIAL_STATE from '../initial-state';
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    // Fully load in state from remote
-    case SET_IFRAME_STATE: {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    }
-    case LOAD_INITIAL_STATE: {
+    case LOAD_FROM_PARENT: {
+      console.log('in last reducer');
       const newState = {
         ...state,
         ...action.payload,
       };
-
       return newState;
     }
+
+
     case CHANGE_SORT_BY: {
       const sortBy = {
         top: false,

@@ -4,12 +4,11 @@ import * as messageActions from '../actions/iframe';
 
 class Iframe extends Component {
   render() {
-    const { sectionId, src } = this.props;
+    const { src } = this.props;
 
     return (
       <iframe
         ref={(c) => { this.el = c; }}
-        id={sectionId}
         src={src}
         marginHeight="50"
         width="100%"
@@ -20,7 +19,6 @@ class Iframe extends Component {
 }
 
 Iframe.propTypes = {
-  sectionId: PropTypes.string,
   src: PropTypes.string,
 };
 
