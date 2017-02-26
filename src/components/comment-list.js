@@ -5,7 +5,7 @@ import Comment from './comment';
 import { sortComments } from './shared-components';
 import CommentPaging from './comment-paging';
 
-import * as actions from '../actions/index';
+import * as commentActions from '../actions/comments';
 
 class CommentList extends Component {
   constructor(props) {
@@ -24,6 +24,16 @@ class CommentList extends Component {
     this.state = {
       showing,
     };
+  }
+
+  componentDidMount() {
+    const { updateIframeHeight } = this.props;
+    updateIframeHeight();
+  }
+
+  componentDidUpdate() {
+    const { updateIframeHeight } = this.props;
+    updateIframeHeight();
   }
 
   handleShowMoreComments() {
@@ -102,6 +112,7 @@ class CommentList extends Component {
 
 
 CommentList.propTypes = {
+  updateIframeHeight: PropTypes.func,
   defaultCommentsToLoadAtOnce: PropTypes.number,
   defaultCommentsToShow: PropTypes.number,
   defaultRepliesToShow: PropTypes.number,
@@ -121,4 +132,4 @@ const mapStateToProps = state => ({
   comments: sortComments(state.comments),
 });
 
-export default connect(mapStateToProps, actions)(CommentList);
+export default connect(mapStateToProps, commentActions)(CommentList);

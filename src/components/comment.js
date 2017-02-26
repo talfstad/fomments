@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions/index';
+import * as commentActions from '../actions/comments';
 import CommentMenu from './comment-menu';
 import CommentEdit from './comment-edit';
 import ReplyList from './reply-list';
@@ -258,4 +258,4 @@ Comment.propTypes = {
   }),
 };
 
-export default connect(null, actions)(Comment);
+export default connect(null, commentActions)(Comment);

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
-import * as actions from '../actions/index';
+import * as commentActions from '../actions/comments';
 
 class CommentEdit extends Component {
 
@@ -62,4 +62,4 @@ CommentEdit.propTypes = {
   showEditComment: PropTypes.func,
 };
 
-export default connect(null, actions)(CommentEdit);
+export default connect(null, commentActions)(CommentEdit);

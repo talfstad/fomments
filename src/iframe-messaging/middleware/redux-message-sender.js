@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { MESSAGE_NAMESPACE } from '../config';
 
 const messageSender = store => next => (action) => {
@@ -8,11 +9,6 @@ const messageSender = store => next => (action) => {
   if (!iframeMessage) return next(action);
 
   function handleMessage() {
-    next(action);
-
-    // Reducers have now changed state
-    iframeMessage.state = store.getState();
-
     const sendMessage = new Promise((resolve) => {
       const { callback } = iframeMessage;
       if (callback) {
@@ -33,7 +29,18 @@ const messageSender = store => next => (action) => {
           }
         };
         window.addEventListener('message', onResponse);
+      } else {
+        // no callback so ignore at this point forward on
+        // post message once reducer changes hit
+        next({
+          ...action,
+          payload: {
+            ...(_.omit(action.payload, 'iframeMessage')),
+          },
+        });
       }
+
+      iframeMessage.state = store.getState();
 
       // send action to responder
       window.parent.postMessage([MESSAGE_NAMESPACE, action], '*');

@@ -17,32 +17,31 @@ import INITIAL_STATE from '../initial-state';
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_FROM_PARENT: {
-      console.log('in last reducer');
-      const newState = {
+      return {
         ...state,
         ...action.payload,
       };
-      return newState;
     }
 
-
     case CHANGE_SORT_BY: {
-      const sortBy = {
+      const { sortyBy } = action.payload;
+      const newState = {
         top: false,
         newest: false,
         oldest: false,
       };
-      sortBy[action.payload] = true;
+      newState[sortyBy] = true;
 
       return {
         ...state,
-        sortBy,
+        newState,
       };
     }
+
     case UPDATE_COMMENT: {
-      const sectionId = state.id;
-      const { id, updates, save } = action.payload;
-      const newState = {
+      const { updates } = action.payload;
+      const { id } = updates;
+      return {
         ...state,
         list: {
           ...state.list,
@@ -52,46 +51,36 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
-
-      if (save) localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
-    case ADD_COMMENT: {
-      const sectionId = state.id;
-      const { id } = action.payload;
 
-      const newState = {
+    case ADD_COMMENT: {
+      const { post } = action.payload;
+      const { id } = post;
+
+      return {
         ...state,
         list: {
           ...state.list,
-          [id]: action.payload,
+          [id]: post,
         },
       };
-
-      localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
 
     case DELETE_COMMENT: {
-      const sectionId = state.id;
-      const { id } = action.payload;
-      const newState = {
+      const { comment } = action.payload;
+      const { id } = comment;
+
+      return {
         ...state,
         list: _.omitBy(state.list, (value, key) =>
           parseFloat(key) === parseFloat(id)),
       };
-
-      localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
 
     case DELETE_REPLY: {
-      const sectionId = state.id;
-      const { id, parentId } = action.payload;
-      const newState = {
+      const { reply } = action.payload;
+      const { id, parentId } = reply;
+      return {
         ...state,
         list: {
           ...state.list,
@@ -102,17 +91,12 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
-
-      localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
 
     case UPDATE_REPLY: {
-      const sectionId = state.id;
-      const { id, parentId, updates, save } = action.payload;
-
-      const newState = {
+      const { updates } = action.payload;
+      const { id, parentId } = updates;
+      return {
         ...state,
         list: {
           ...state.list,
@@ -128,15 +112,12 @@ export default (state = INITIAL_STATE, action) => {
           },
         },
       };
-
-      if (save) localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
+
     case ADD_REPLY: {
-      const sectionId = state.id;
-      const { id, parentId } = action.payload;
-      const newState = {
+      const { reply } = action.payload;
+      const { id, parentId } = reply;
+      return {
         ...state,
         list: {
           ...state.list,
@@ -145,22 +126,19 @@ export default (state = INITIAL_STATE, action) => {
             replies: {
               ...state.list[parentId].replies,
               [id]: {
-                ...action.payload,
+                ...reply,
               },
             },
           },
         },
       };
-
-      localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
     case ADD_LIKE: {
-      const sectionId = state.id;
-      const { id, likes, parentId } = action.payload;
+      const { comment } = action.payload;
+      const { id, likes, parentId } = comment;
+
       if (parentId) {
-        const newState = {
+        return {
           ...state,
           list: {
             ...state.list,
@@ -169,7 +147,7 @@ export default (state = INITIAL_STATE, action) => {
               replies: {
                 ...state.list[parentId].replies,
                 [id]: {
-                  ...action.payload,
+                  ...comment,
                   liked: true,
                   likes: likes + 1,
                 },
@@ -177,34 +155,27 @@ export default (state = INITIAL_STATE, action) => {
             },
           },
         };
-
-        localStorage.setItem(sectionId, JSON.stringify(newState.list));
-        // add like to the reply of the parent comment
-        return newState;
       }
 
-      const newState = {
+      return {
         ...state,
         list: {
           ...state.list,
           [id]: {
-            ...action.payload,
+            ...comment,
             liked: true,
             likes: likes + 1,
           },
         },
       };
-
-      localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
 
     case REMOVE_LIKE: {
-      const sectionId = state.id;
-      const { id, likes, parentId } = action.payload;
+      const { comment } = action.payload;
+      const { id, likes, parentId } = comment;
+
       if (parentId) {
-        const newState = {
+        return {
           ...state,
           list: {
             ...state.list,
@@ -213,7 +184,7 @@ export default (state = INITIAL_STATE, action) => {
               replies: {
                 ...state.list[parentId].replies,
                 [id]: {
-                  ...action.payload,
+                  ...comment,
                   liked: false,
                   likes: likes - 1,
                 },
@@ -221,28 +192,19 @@ export default (state = INITIAL_STATE, action) => {
             },
           },
         };
-
-        localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-        // add like to the reply of the parent comment
-        return newState;
       }
 
-      const newState = {
+      return {
         ...state,
         list: {
           ...state.list,
           [id]: {
-            ...action.payload,
+            ...comment,
             liked: false,
             likes: likes - 1,
           },
         },
       };
-
-      localStorage.setItem(sectionId, JSON.stringify(newState.list));
-
-      return newState;
     }
     default:
       return state;

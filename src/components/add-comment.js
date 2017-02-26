@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { GetDefaultCommentState } from '../defaults';
 
-import * as actions from '../actions/index';
+import * as commentActions from '../actions/comments';
 
 class AddComment extends Component {
 
@@ -83,4 +83,4 @@ const mapStateToProps = state => ({
   user: state.comments.user,
 });
 
-export default connect(mapStateToProps, actions)(AddComment);
+export default connect(mapStateToProps, commentActions)(AddComment);

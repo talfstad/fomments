@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
@@ -22,9 +22,11 @@ class App extends Component {
   }
 
   render() {
+    const { sectionId } = this.props;
     if (window.self === window.top) {
       return (
         <Iframe
+          sectionId={sectionId}
           src="http://localhost:8080/index.html"
         />
       );
@@ -37,5 +39,9 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  sectionId: PropTypes.string,
+};
 
 export default App;

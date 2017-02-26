@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 
-import * as actions from '../actions/index';
+import * as commentActions from '../actions/comments';
 
 class CommentMenu extends Component {
   constructor(props) {
@@ -126,4 +126,4 @@ CommentMenu.propTypes = {
   showing: PropTypes.bool,
 };
 
-export default connect(null, actions)(CommentMenu);
+export default connect(null, commentActions)(CommentMenu);

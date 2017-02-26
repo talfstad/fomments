@@ -8,3 +8,4 @@ export const UPDATE_COMMENT = 'updateComment';
 export const UPDATE_REPLY = 'updateReply';
 export const DELETE_REPLY = 'deleteReply';
 export const LOAD_FROM_PARENT = 'loadFromParent';
+export const UPDATE_IFRAME_HEIGHT = 'updateIframeHeight';
