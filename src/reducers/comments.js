@@ -24,23 +24,24 @@ export default (state = INITIAL_STATE, action) => {
     }
 
     case CHANGE_SORT_BY: {
-      const { sortyBy } = action.payload;
+      const { sortBy } = action.payload;
       const newState = {
         top: false,
         newest: false,
         oldest: false,
       };
-      newState[sortyBy] = true;
+
+      newState[sortBy] = true;
 
       return {
         ...state,
-        newState,
+        sortBy: newState,
       };
     }
 
     case UPDATE_COMMENT: {
-      const { updates } = action.payload;
-      const { id } = updates;
+      const { comment } = action.payload;
+      const { id, updates } = comment;
       return {
         ...state,
         list: {
@@ -54,14 +55,14 @@ export default (state = INITIAL_STATE, action) => {
     }
 
     case ADD_COMMENT: {
-      const { post } = action.payload;
-      const { id } = post;
+      const { comment } = action.payload;
+      const { id } = comment;
 
       return {
         ...state,
         list: {
           ...state.list,
-          [id]: post,
+          [id]: comment,
         },
       };
     }
@@ -94,8 +95,8 @@ export default (state = INITIAL_STATE, action) => {
     }
 
     case UPDATE_REPLY: {
-      const { updates } = action.payload;
-      const { id, parentId } = updates;
+      const { reply } = action.payload;
+      const { id, parentId, updates } = reply;
       return {
         ...state,
         list: {
@@ -133,6 +134,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
     }
+
     case ADD_LIKE: {
       const { comment } = action.payload;
       const { id, likes, parentId } = comment;

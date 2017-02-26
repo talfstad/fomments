@@ -10,27 +10,27 @@ import {
   DELETE_REPLY,
 } from './types';
 
-export const changeSortBy = sortby => ({
+export const changeSortBy = sortBy => ({
   type: CHANGE_SORT_BY,
   payload: {
-    sortby,
+    sortBy,
   },
 });
 
-export const addComment = post => ({
+export const addComment = comment => ({
   type: ADD_COMMENT,
   payload: {
-    post,
+    comment,
     iframeMessage: {
       callback: false,
     },
   },
 });
 
-export const updateComment = updates => ({
+export const updateComment = comment => ({
   type: UPDATE_COMMENT,
   payload: {
-    updates,
+    comment,
     iframeMessage: {
       callback: false,
     },
@@ -67,10 +67,10 @@ export const addReply = reply => ({
   },
 });
 
-export const updateReply = updates => ({
+export const updateReply = reply => ({
   type: UPDATE_REPLY,
   payload: {
-    updates,
+    reply,
     iframeMessage: {
       callback: false,
     },

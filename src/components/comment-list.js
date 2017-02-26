@@ -13,9 +13,10 @@ class CommentList extends Component {
     const {
       comments,
       defaultCommentsToShow,
-    } = this.props;
+    } = props;
 
     let showing = defaultCommentsToShow;
+
     if (comments) {
       showing = defaultCommentsToShow > Object.keys(comments).length ?
         Object.keys(comments).length : defaultCommentsToShow;
@@ -63,8 +64,6 @@ class CommentList extends Component {
     const { defaultCommentsToShow } = this.props;
     const { showing } = this.state;
 
-    // test if showing less than default show
-    // if is then dont slice it
     if (showing < defaultCommentsToShow) {
       return sortedCommentList;
     }
@@ -72,9 +71,9 @@ class CommentList extends Component {
   }
 
   buildCommentList() {
-    const { user, defaultRepliesToShow, defaultRepliesToLoadAtOnce } = this.props;
+    const { user, comments, defaultRepliesToShow, defaultRepliesToLoadAtOnce } = this.props;
 
-    return this.pageComments(this.props.comments.map(comment =>
+    return this.pageComments(comments.map(comment =>
       <Comment
         key={comment.id}
         user={user}
@@ -91,7 +90,6 @@ class CommentList extends Component {
       defaultCommentsToLoadAtOnce,
       total,
     } = this.props;
-
     return (
       <div className="comment-list">
         <AddComment

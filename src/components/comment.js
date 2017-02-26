@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import $ from 'jquery';
 import * as commentActions from '../actions/comments';
 import CommentMenu from './comment-menu';
 import CommentEdit from './comment-edit';
@@ -63,7 +63,6 @@ class Comment extends Component {
     } else {
       const userId = this.props.user.id;
       const commentUserId = this.props.comment.user.id;
-
       this.setState({
         collapsed,
         menuOptions: {
