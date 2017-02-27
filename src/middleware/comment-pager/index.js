@@ -10,10 +10,13 @@ export default (sorters = {}) => store => next => (action) => {
   // If no listChanged attr do nothing
   if (!pageComments) return next(action);
 
+  const { showMore, sort = true } = pageComments;
+
   function handleListChanged() {
     const state = store.getState();
     const { comments, commentPager } = state;
     const {
+      list,
       defaultCommentsToShow,
       defaultCommentsToLoadAtOnce,
       sortBy,
@@ -25,7 +28,8 @@ export default (sorters = {}) => store => next => (action) => {
     const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
 
     try {
-      const sortedList = sorters[sortByKey](comments);
+      const sortedList = sort ? sorters[sortByKey](comments) :
+        Object.keys(list).map(key => list[key]);
 
       if (sortedList.length < defaultCommentsToShow) {
         dispatch({
@@ -36,10 +40,13 @@ export default (sorters = {}) => store => next => (action) => {
           },
         });
       } else {
-        let pagedSortedList = sortedList;
+        let pagedSortedList = sortedList.slice(0, pagedList.length);
 
-        if ((pagedList.length + defaultCommentsToLoadAtOnce) < sortedList.length) {
-          pagedSortedList = sortedList.slice(0, (pagedList.length + defaultCommentsToLoadAtOnce));
+        if (showMore) {
+          pagedSortedList = sortedList;
+          if ((pagedList.length + defaultCommentsToLoadAtOnce) < sortedList.length) {
+            pagedSortedList = sortedList.slice(0, (pagedList.length + defaultCommentsToLoadAtOnce));
+          }
         }
 
         const remainingToLoad = (sortedList.length - pagedSortedList.length);

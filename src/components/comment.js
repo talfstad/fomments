@@ -19,13 +19,9 @@ class Comment extends Component {
     const {
       comment,
       setReplyShowing,
-      defaultRepliesToLoadAtOnce,
-      defaultRepliesToShow,
     } = props;
 
     this.state = {
-      defaultRepliesToShow,
-      defaultRepliesToLoadAtOnce,
       replyShowing: false,
       setReplyShowing:
         setReplyShowing || (showing => this.setReplyShowing(showing)),
@@ -128,7 +124,7 @@ class Comment extends Component {
   }
 
   handleDeleteComment() {
-    const { comment, deleteReply, deleteComment, decrementComments } = this.props;
+    const { comment, deleteReply, deleteComment } = this.props;
     const { parentId } = comment;
 
     if (parentId) {
@@ -136,7 +132,6 @@ class Comment extends Component {
     } else {
       deleteComment(comment);
     }
-    decrementComments();
     this.showDeleteCommentModal(false);
     this.showReportCommentModal(false);
   }
@@ -235,13 +230,10 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
-  defaultRepliesToLoadAtOnce: PropTypes.number,
-  defaultRepliesToShow: PropTypes.number,
   updateComment: PropTypes.func,
   updateReply: PropTypes.func,
   deleteReply: PropTypes.func,
   deleteComment: PropTypes.func,
-  decrementComments: PropTypes.func,
   setReplyShowing: PropTypes.func,
   user: PropTypes.shape({
     id: PropTypes.number,

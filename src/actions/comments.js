@@ -13,7 +13,10 @@ import {
 
 export const showMoreComments = () => ({
   type: SHOW_MORE_COMMENTS,
-  pageComments: true,
+  pageComments: {
+    showMore: true,
+    sort: true,
+  },
 });
 
 export const changeSortBy = sortBy => ({
@@ -21,7 +24,9 @@ export const changeSortBy = sortBy => ({
   payload: {
     sortBy,
   },
-  pageComments: true,
+  pageComments: {
+    sort: true,
+  },
 });
 
 export const addComment = comment => ({
@@ -32,7 +37,9 @@ export const addComment = comment => ({
   iframeMessage: {
     callback: false,
   },
-  pageComments: true,
+  pageComments: {
+    sort: true,
+  },
 });
 
 export const updateComment = comment => ({
@@ -43,7 +50,9 @@ export const updateComment = comment => ({
   iframeMessage: {
     callback: false,
   },
-  pageComments: true,
+  pageComments: {
+    sort: true,
+  },
 });
 
 export const deleteComment = comment => ({
@@ -54,7 +63,9 @@ export const deleteComment = comment => ({
   iframeMessage: {
     callback: false,
   },
-  pageComments: true,
+  pageComments: {
+    sort: true,
+  },
 });
 
 export const deleteReply = reply => ({

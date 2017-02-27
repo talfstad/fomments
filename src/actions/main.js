@@ -18,5 +18,8 @@ export const loadFromParent = () => ({
   iframeMessage: {
     callback: true,
   },
-  pageComments: true,
+  pageComments: {
+    showMore: true,
+    sort: true,
+  },
 });

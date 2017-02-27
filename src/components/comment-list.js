@@ -30,7 +30,6 @@ class CommentList extends Component {
         key={comment.id}
         user={user}
         comment={comment}
-        decrementComments={() => this.decrementComments()}
       />);
   }
 
