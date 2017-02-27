@@ -1,30 +1,21 @@
 import React, { PropTypes } from 'react';
 
 const CommentPaging = (props) => {
-  const { showing, total, defaultCommentsToLoadAtOnce } = props;
+  const { nextCountToLoad, handleShowMoreComments } = props;
 
-  const handleShowMoreComments = (e) => {
-    e.preventDefault();
-    props.handleShowMoreComments();
-  };
-
-  if (showing === total) return <noscript />;
-  const newTotalShowing = showing + defaultCommentsToLoadAtOnce;
-  const toLoadText = (newTotalShowing >= total) ? total - showing : defaultCommentsToLoadAtOnce;
-
+  if (nextCountToLoad < 1) return <noscript />;
   return (
     <div className="load-more-comments">
-      <button onClick={e => handleShowMoreComments(e)}>
-        <em>Load {toLoadText} more {`${toLoadText === 1 ? 'comment' : 'comments'}`}</em>
+      <button onClick={handleShowMoreComments}>
+        <em>Load {nextCountToLoad} more {`${nextCountToLoad === 1 ? 'comment' : 'comments'}`}</em>
       </button>
     </div>
   );
 };
 
 CommentPaging.propTypes = {
-  showing: PropTypes.number,
-  total: PropTypes.number,
-  defaultCommentsToLoadAtOnce: PropTypes.number,
+  nextCountToLoad: PropTypes.number,
+  handleShowMoreComments: PropTypes.func,
 };
 
 export default CommentPaging;

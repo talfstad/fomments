@@ -4,7 +4,11 @@ import ReduxThunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 
 import { messageSender } from '../iframe-messaging';
+import { commentPager } from '../middleware';
+
 import reducers from '../reducers';
+
+import { commentSorter } from '../sorters';
 
 import Main from './main';
 import Iframe from './iframe';
@@ -12,6 +16,7 @@ import Iframe from './iframe';
 const createStoreWithMiddleware = applyMiddleware(
   ReduxThunk,
   messageSender,
+  commentPager(commentSorter),
 )(createStore);
 
 export const store = createStoreWithMiddleware(reducers);

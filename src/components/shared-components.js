@@ -2,46 +2,6 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import Modal from './modal';
 
-export const sortComments = (comments) => {
-  const { user, list, sortBy } = comments;
-  const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
-  switch (sortByKey) {
-    case 'newest': {
-      return Object.keys(list)
-        .sort((a, b) => list[b].date - list[a].date)
-        .map(key => list[key]);
-    }
-    case 'oldest': {
-      return Object.keys(list)
-        .sort((a, b) => list[a].date - list[b].date)
-        .map(key => list[key]);
-    }
-    default: {
-      // remove users comments from list
-      const userComments = Object.keys(list).filter((key) => {
-        const comment = list[key];
-        return comment.user.name === user.name;
-      })
-      .sort((a, b) => list[b].date - list[a].date)
-      .map(key => list[key]);
-
-      // sort remaining (remove users comments)
-      const sortedComments = Object.keys(list)
-        .filter((key) => {
-          const comment = list[key];
-          return comment.user.name !== user.name;
-        })
-        .sort((a, b) => list[b].likes - list[a].likes)
-        .map(key => list[key]);
-
-      return [
-        ...userComments,
-        ...sortedComments,
-      ];
-    }
-  }
-};
-
 export const ReportCommentModal = ({
   handleDeleteComment,
   showReportCommentModal,

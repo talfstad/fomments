@@ -7,7 +7,7 @@ import {
   GENERAL_SECTION_ID,
 } from '../config';
 
-export const updateIframeHeight = (component, payload, next) => {
+export const updateIframeHeight = (component, { payload }, next) => {
   const { height } = payload;
   const $iFrame = $(component.el);
   if (`${height}px` !== $iFrame.css('height')) {
@@ -16,7 +16,7 @@ export const updateIframeHeight = (component, payload, next) => {
   next();
 };
 
-export const loadFromParent = (component, payload, next) => {
+export const loadFromParent = (component, { payload }, next) => {
   const sectionId = component.props.sectionId || GENERAL_SECTION_ID;
 
   const storedState = localStorage.getItem(sectionId);
@@ -43,9 +43,9 @@ export const loadFromParent = (component, payload, next) => {
   }
 };
 
-export const saveToParent = (component, payload, next) => {
+export const saveToParent = (component, { iframeMessage }, next) => {
   const sectionId = component.props.sectionId || GENERAL_SECTION_ID;
-  const { state } = payload.iframeMessage;
+  const { state } = iframeMessage;
   localStorage.setItem(sectionId, JSON.stringify(state.comments));
   next();
 };

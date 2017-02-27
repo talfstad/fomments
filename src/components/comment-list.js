@@ -2,30 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import AddComment from './add-comment';
 import Comment from './comment';
-import { sortComments } from './shared-components';
 import CommentPaging from './comment-paging';
 
 import * as commentActions from '../actions/comments';
 
 class CommentList extends Component {
-  constructor(props) {
-    super(props);
-    const {
-      comments,
-      defaultCommentsToShow,
-    } = props;
-
-    let showing = defaultCommentsToShow;
-
-    if (comments) {
-      showing = defaultCommentsToShow > Object.keys(comments).length ?
-        Object.keys(comments).length : defaultCommentsToShow;
-    }
-
-    this.state = {
-      showing,
-    };
-  }
 
   componentDidMount() {
     const { updateIframeHeight } = this.props;
@@ -38,96 +19,50 @@ class CommentList extends Component {
   }
 
   handleShowMoreComments() {
-    const { defaultCommentsToLoadAtOnce, total } = this.props;
-    const { showing } = this.state;
-    const newShowing = showing + defaultCommentsToLoadAtOnce;
-    if (newShowing > total) {
-      this.setState({ showing: total });
-    } else {
-      this.setState({ showing: newShowing });
-    }
-  }
-
-  incrementComments() {
-    this.setState({
-      showing: this.state.showing + 1,
-    });
-  }
-
-  decrementComments() {
-    this.setState({
-      showing: this.state.showing > 1 ? this.state.showing - 1 : 1,
-    });
-  }
-
-  pageComments(sortedCommentList) {
-    const { defaultCommentsToShow } = this.props;
-    const { showing } = this.state;
-
-    if (showing < defaultCommentsToShow) {
-      return sortedCommentList;
-    }
-    return sortedCommentList.slice(0, this.state.showing);
+    const { showMoreComments } = this.props;
+    showMoreComments();
   }
 
   buildCommentList() {
-    const { user, comments, defaultRepliesToShow, defaultRepliesToLoadAtOnce } = this.props;
-
-    return this.pageComments(comments.map(comment =>
+    const { pagedList, user } = this.props;
+    return pagedList.map(comment =>
       <Comment
         key={comment.id}
         user={user}
         comment={comment}
         decrementComments={() => this.decrementComments()}
-        defaultRepliesToShow={defaultRepliesToShow}
-        defaultRepliesToLoadAtOnce={defaultRepliesToLoadAtOnce}
-      />));
+      />);
   }
 
   render() {
     const {
-      defaultCommentsToShow,
-      defaultCommentsToLoadAtOnce,
-      total,
+      nextCountToLoad,
     } = this.props;
     return (
       <div className="comment-list">
-        <AddComment
-          incrementComments={() => this.incrementComments()}
-        />
+        <AddComment />
         {this.buildCommentList()}
         <CommentPaging
-          showing={this.state.showing}
-          total={total}
+          nextCountToLoad={nextCountToLoad}
           handleShowMoreComments={() => this.handleShowMoreComments()}
-          defaultCommentsToShow={defaultCommentsToShow}
-          defaultCommentsToLoadAtOnce={defaultCommentsToLoadAtOnce}
         />
       </div>
     );
   }
 }
 
-
 CommentList.propTypes = {
+  showMoreComments: PropTypes.func,
+  pagedList: PropTypes.arrayOf(PropTypes.object),
+  nextCountToLoad: PropTypes.number,
   updateIframeHeight: PropTypes.func,
-  defaultCommentsToLoadAtOnce: PropTypes.number,
-  defaultCommentsToShow: PropTypes.number,
-  defaultRepliesToShow: PropTypes.number,
-  defaultRepliesToLoadAtOnce: PropTypes.number,
-  comments: PropTypes.arrayOf(PropTypes.object),
   user: PropTypes.shape({}),
-  total: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
-  total: Object.keys(state.comments.list).length,
-  defaultCommentsToShow: state.comments.defaultCommentsToShow,
-  defaultCommentsToLoadAtOnce: state.comments.defaultCommentsToLoadAtOnce,
-  defaultRepliesToShow: state.comments.defaultRepliesToShow,
-  defaultRepliesToLoadAtOnce: state.comments.defaultRepliesToLoadAtOnce,
+  pagedList: state.commentPager.pagedList,
+  nextCountToLoad: state.commentPager.nextCountToLoad,
   user: state.comments.user,
-  comments: sortComments(state.comments),
 });
 
 export default connect(mapStateToProps, commentActions)(CommentList);

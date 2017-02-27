@@ -57,23 +57,13 @@ class ReplyList extends Component {
 
     if (!replies || collapsed) return <noscript />;
 
-    const sortedReplies = sortComments({
-      list: replies,
-      sortBy: {
-        oldest: true,
-      },
-    });
-
-    const pageReplies = sortedReplyList =>
-      sortedReplyList.slice(0, this.state.showing);
-
-    return pageReplies(Object.keys(sortedReplies).map(key =>
+    return Object.keys(replies).map(key =>
       <Comment
         key={key}
         decrementComments={() => this.decrementReplies()}
         setReplyShowing={setReplyShowing}
-        comment={sortedReplies[key]}
-      />));
+        comment={replies[key]}
+      />);
   }
 
   render() {

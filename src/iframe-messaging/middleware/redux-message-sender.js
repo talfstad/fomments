@@ -3,7 +3,7 @@ import { MESSAGE_NAMESPACE } from '../config';
 
 const messageSender = store => next => (action) => {
   const { dispatch } = store;
-  const { iframeMessage } = action.payload;
+  const { iframeMessage } = action;
 
   // If no iframeMessage attr do nothing
   if (!iframeMessage) return next(action);
@@ -20,7 +20,6 @@ const messageSender = store => next => (action) => {
 
           if (responseData) {
             const response = responseData[action.type];
-
             if (response) {
               // we have correct response, remove listener and resolve
               window.removeEventListener('message', onResponse);
@@ -32,16 +31,10 @@ const messageSender = store => next => (action) => {
       } else {
         // no callback so ignore at this point forward on
         // post message once reducer changes hit
-        next({
-          ...action,
-          payload: {
-            ...(_.omit(action.payload, 'iframeMessage')),
-          },
-        });
+        next(action);
       }
 
       iframeMessage.state = store.getState();
-
       // send action to responder
       window.parent.postMessage([MESSAGE_NAMESPACE, action], '*');
     });
@@ -49,7 +42,7 @@ const messageSender = store => next => (action) => {
     sendMessage.then((response) => {
       // Dispatch new event with response data and no iframeMessage on payload
       dispatch({
-        ...action,
+        ...(_.omit(action, 'iframeMessage')),
         payload: response,
       });
     });

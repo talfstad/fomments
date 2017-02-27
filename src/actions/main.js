@@ -7,17 +7,16 @@ export const updateIframeHeight = height => ({
   type: UPDATE_IFRAME_HEIGHT,
   payload: {
     height,
-    iframeMessage: {
-      callback: false,
-    },
+  },
+  iframeMessage: {
+    callback: false,
   },
 });
 
 export const loadFromParent = () => ({
   type: LOAD_FROM_PARENT,
-  payload: {
-    iframeMessage: {
-      callback: true,
-    },
+  iframeMessage: {
+    callback: true,
   },
+  pageComments: true,
 });

@@ -17,13 +17,13 @@ export default actions => (ComposedComponent) => {
   MessageResponder.registerResponder = (component) => {
     window.addEventListener('message', ({ data }) => {
       const [namespace, action = {}] = data;
-      const { iframeMessage } = action.payload;
+      const { iframeMessage } = action;
       const { callback } = iframeMessage;
 
       if (namespace !== MESSAGE_NAMESPACE) return;
 
       try {
-        actions[action.type](component, action.payload, (response) => {
+        actions[action.type](component, action, (response) => {
           if (callback) {
             // send response to child
             component.el.contentWindow.postMessage([
