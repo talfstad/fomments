@@ -27,13 +27,7 @@ module.exports = {
     path: path.join(__dirname, '/src/'),
     filename: 'fomments.min.js',
   },
-  plugins: debug ? [
-    new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery',
-      jquery: 'jquery',
-    }),
-  ] : [
+  plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
@@ -41,6 +35,9 @@ module.exports = {
       compress: true,
       mangle: true,
       sourcemap: false,
+      compressor: {
+        warnings: false,
+      },
     }),
     new webpack.ProvidePlugin({
       jQuery: 'jquery',

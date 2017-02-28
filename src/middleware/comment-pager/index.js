@@ -1,4 +1,13 @@
 import commentPagerReducer from './reducer';
+
+import {
+  getPagedPayload,
+  getSortedComments,
+  getNumberCommentsToLoad,
+} from './comment-pager';
+
+import { pageReplyGetSortedAndPagedComments } from './reply-pager';
+
 import { SET_PAGED_COMMENT_LIST } from './types';
 
 export const reducer = commentPagerReducer;
@@ -7,68 +16,46 @@ export default (sorters = {}) => store => next => (action) => {
   const { dispatch } = store;
   const { pageComments } = action;
 
-  // If no listChanged attr do nothing
+  // If no pageComments attr do nothing
   if (!pageComments) return next(action);
 
-  const { showMore, sort = true } = pageComments;
-
-  function handleListChanged() {
+  function handlePageComments() {
+    // Get state after we pass through reducers
     const state = store.getState();
-    const { comments, commentPager } = state;
+    const { commentPager, comments } = state;
+    const { defaultCommentsToShow, defaultCommentsToLoadAtOnce } = comments;
+    const { pagedList } = commentPager;
+
+    // Middleware options
     const {
-      list,
-      defaultCommentsToShow,
-      defaultCommentsToLoadAtOnce,
-      sortBy,
-    } = comments;
-    const {
-      pagedList,
-    } = commentPager;
+      pageReply = null,
+      showMore = false,
+      sort = true,
+    } = pageComments;
 
-    const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
-
-    try {
-      const sortedList = sort ? sorters[sortByKey](comments) :
-        Object.keys(list).map(key => list[key]);
-
-      if (sortedList.length < defaultCommentsToShow) {
-        dispatch({
-          type: SET_PAGED_COMMENT_LIST,
-          payload: {
-            pagedList: sortedList,
-            nextCountToLoad: 0,
-          },
-        });
-      } else {
-        let pagedSortedList = sortedList.slice(0, pagedList.length);
-
-        if (showMore) {
-          pagedSortedList = sortedList;
-          if ((pagedList.length + defaultCommentsToLoadAtOnce) < sortedList.length) {
-            pagedSortedList = sortedList.slice(0, (pagedList.length + defaultCommentsToLoadAtOnce));
-          }
-        }
-
-        const remainingToLoad = (sortedList.length - pagedSortedList.length);
-        let nextCountToLoad = defaultCommentsToLoadAtOnce;
-
-        if (remainingToLoad < defaultCommentsToLoadAtOnce) {
-          nextCountToLoad = remainingToLoad;
-        }
-
-        dispatch({
-          type: SET_PAGED_COMMENT_LIST,
-          payload: {
-            pagedList: pagedSortedList,
-            nextCountToLoad,
-          },
-        });
-      }
-    } catch (err) {
-      throw new Error(err);
+    // if pageReply don't re-page or sort everything
+    if (pageReply) {
+      dispatch({
+        type: SET_PAGED_COMMENT_LIST,
+        payload: pageReplyGetSortedAndPagedComments(),
+      });
+    } else {
+      dispatch({
+        type: SET_PAGED_COMMENT_LIST,
+        payload: getPagedPayload(
+          getSortedComments({ comments, sorters, options: { sort } }),
+          pagedList,
+          getNumberCommentsToLoad({
+            showMore,
+            defaultCommentsToShow,
+            pagedList,
+            defaultCommentsToLoadAtOnce,
+          }),
+        ),
+      });
     }
   }
 
   next(action);
-  return handleListChanged();
+  return handlePageComments();
 };
