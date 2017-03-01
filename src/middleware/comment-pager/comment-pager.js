@@ -1,66 +1,50 @@
-export const getNumberCommentsToLoad = ({
-  defaultCommentsToShow,
-  defaultCommentsToLoadAtOnce,
-  pagedList,
-  showMore,
-}) => {
-  // determine number of comments to load
-  let numberCommentsToLoad = 0;
-  if (typeof showMore === 'number') {
-    numberCommentsToLoad = showMore;
-  } else if (showMore) {
-    // If we already have loaded default #, use default load at once
-    if (!pagedList.length) {
-      numberCommentsToLoad = defaultCommentsToShow;
-    } else {
-      numberCommentsToLoad = defaultCommentsToLoadAtOnce;
-    }
-  }
-  return numberCommentsToLoad;
-};
-
 export const getPagedPayload =
-  (sortedCommentList, pagedList, numberCommentsToLoad) => {
-    if (sortedCommentList.length < numberCommentsToLoad) {
+  ({ list, pagedListLength, numToAdd }) => {
+    if (list.length < numToAdd) {
       return {
-        pagedList: sortedCommentList,
+        pagedList: list,
         nextCountToLoad: 0,
       };
     }
 
-    let pagedSortedList = sortedCommentList.slice(0, pagedList.length);
+    let pagedList = list.slice(0, pagedListLength);
 
-    if (numberCommentsToLoad > 0) {
-      pagedSortedList = sortedCommentList;
-      if ((pagedList.length + numberCommentsToLoad) < sortedCommentList.length) {
-        pagedSortedList = sortedCommentList.slice(0, (pagedList.length + numberCommentsToLoad));
+    if (numToAdd > 0) {
+      pagedList = list;
+      if ((pagedListLength + numToAdd) < list.length) {
+        pagedList = list.slice(0, (pagedListLength + numToAdd));
       }
     }
 
-    const remainingToLoad = (sortedCommentList.length - pagedSortedList.length);
-    let nextCountToLoad = numberCommentsToLoad;
+    const remainingToLoad = (list.length - pagedList.length);
+    let nextCountToLoad = numToAdd;
 
-    if (remainingToLoad < numberCommentsToLoad) {
+    if (remainingToLoad < numToAdd) {
       nextCountToLoad = remainingToLoad;
     }
 
     return {
-      pagedList: pagedSortedList,
+      pagedList,
       nextCountToLoad,
     };
   };
 
 // args: comments reducer state, sorters functions, options
 // return: sortedCommentList array
-export const getSortedComments = ({ comments, sorters, options: { sort } }) => {
+export const getSortedComments = ({ comments, sorters }) => {
   const { list, sortBy } = comments;
   let sortedCommentList = Object.keys(list).map(key => list[key]);
   try {
     const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
-    if (sort) {
-      sortedCommentList = sorters[sortByKey](comments);
-    }
-    return sortedCommentList;
+    sortedCommentList = sorters[sortByKey](comments);
+
+    // Return the sorted comments and sorted replies
+    return sortedCommentList.map((comment) => {
+      const commentWithSortedReplies = comment;
+      const { replies } = commentWithSortedReplies;
+      commentWithSortedReplies.replies = sorters.oldest(replies);
+      return commentWithSortedReplies;
+    });
   } catch (err) {
     return sortedCommentList;
   }
