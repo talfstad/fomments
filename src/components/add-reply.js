@@ -26,7 +26,6 @@ class AddReply extends Component {
   handleSubmitReply(e) {
     e.preventDefault();
     const {
-      incrementReplies,
       setReplyShowing,
       addReply,
       user,
@@ -35,7 +34,6 @@ class AddReply extends Component {
     addReply(this.state);
     setReplyShowing(false);
     this.setState(GetDefaultReplyState({ user, parentId }));
-    incrementReplies();
   }
 
   handleCancelReply(e) {
@@ -80,7 +78,6 @@ class AddReply extends Component {
 }
 
 AddReply.propTypes = {
-  incrementReplies: PropTypes.func,
   setReplyShowing: PropTypes.func,
   replyShowing: PropTypes.bool,
   user: PropTypes.shape({}),

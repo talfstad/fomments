@@ -9,13 +9,22 @@ import {
   DELETE_COMMENT,
   DELETE_REPLY,
   SHOW_MORE_COMMENTS,
+  SHOW_MORE_REPLIES,
 } from './types';
 
 export const showMoreComments = () => ({
   type: SHOW_MORE_COMMENTS,
   pageComments: {
-    showMore: true,
-    sort: true,
+    showMoreComments: true,
+  },
+});
+
+export const showMoreReplies = commentId => ({
+  type: SHOW_MORE_REPLIES,
+  pageComments: {
+    showMoreReplies: {
+      commentId,
+    },
   },
 });
 
@@ -24,9 +33,7 @@ export const changeSortBy = sortBy => ({
   payload: {
     sortBy,
   },
-  pageComments: {
-    sort: true,
-  },
+  pageComments: true,
 });
 
 export const addComment = comment => ({
@@ -37,9 +44,7 @@ export const addComment = comment => ({
   iframeMessage: {
     callback: false,
   },
-  pageComments: {
-    sort: true,
-  },
+  pageComments: true,
 });
 
 export const updateComment = comment => ({
@@ -50,9 +55,7 @@ export const updateComment = comment => ({
   iframeMessage: {
     callback: false,
   },
-  pageComments: {
-    sort: true,
-  },
+  pageComments: true,
 });
 
 export const deleteComment = comment => ({
@@ -63,9 +66,7 @@ export const deleteComment = comment => ({
   iframeMessage: {
     callback: false,
   },
-  pageComments: {
-    sort: true,
-  },
+  pageComments: true,
 });
 
 export const deleteReply = reply => ({

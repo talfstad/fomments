@@ -2,67 +2,27 @@ import React, { Component, PropTypes } from 'react';
 import Comment from './comment';
 import AddReply from './add-reply';
 import ReplyPaging from './reply-paging';
-import { sortComments } from './shared-components';
 
 class ReplyList extends Component {
-  constructor(props) {
-    super(props);
-
-    const {
-      replies,
-      defaultRepliesToShow,
-    } = this.props;
-
-    let showing = 0;
-    if (replies) {
-      showing = defaultRepliesToShow > Object.keys(replies).length ?
-        Object.keys(replies).length : defaultRepliesToShow;
-    }
-
-    this.state = {
-      showing,
-    };
-  }
-
   handleShowMoreReplies() {
-    const { defaultRepliesToLoadAtOnce, total } = this.props;
-    const { showing } = this.state;
-
-    const newShowing = showing + defaultRepliesToLoadAtOnce;
-    if (newShowing > total) {
-      this.setState({ showing: total });
-    } else {
-      this.setState({ showing: newShowing });
-    }
-  }
-
-  incrementReplies() {
-    this.setState({
-      showing: this.state.showing + 1,
-    });
-  }
-
-  decrementReplies() {
-    this.setState({
-      showing: this.state.showing - 1,
-    });
+    const { parentId, showMoreReplies } = this.props;
+    showMoreReplies(parentId);
   }
 
   buildReplyList() {
     const {
       setReplyShowing,
-      replies,
       collapsed,
+      pagedReplies,
     } = this.props;
 
-    if (!replies || collapsed) return <noscript />;
-
-    return Object.keys(replies).map(key =>
+    if (!pagedReplies || collapsed) return <noscript />;
+    const { pagedList } = pagedReplies;
+    return pagedList.map(reply =>
       <Comment
-        key={key}
-        decrementComments={() => this.decrementReplies()}
+        key={reply.id}
         setReplyShowing={setReplyShowing}
-        comment={replies[key]}
+        comment={reply}
       />);
   }
 
@@ -71,11 +31,13 @@ class ReplyList extends Component {
       setReplyShowing,
       replyShowing,
       parentId,
-      defaultRepliesToShow,
-      defaultRepliesToLoadAtOnce,
-      total,
       spam,
+      pagedReplies = {
+        nextCountToLoad: 0,
+        pagedList: [],
+      },
     } = this.props;
+    const { nextCountToLoad } = pagedReplies;
 
     if (spam) return <noscript />;
 
@@ -83,14 +45,10 @@ class ReplyList extends Component {
       <div className="replies">
         {this.buildReplyList()}
         <ReplyPaging
-          showing={this.state.showing}
-          total={total}
-          handleShowMoreReplies={() => this.handleShowMoreReplies()}
-          defaultRepliesToShow={defaultRepliesToShow}
-          defaultRepliesToLoadAtOnce={defaultRepliesToLoadAtOnce}
+          nextCountToLoad={nextCountToLoad}
+          showMoreReplies={() => this.handleShowMoreReplies()}
         />
         <AddReply
-          incrementReplies={() => this.incrementReplies()}
           setReplyShowing={setReplyShowing}
           replyShowing={replyShowing}
           parentId={parentId}
@@ -101,10 +59,8 @@ class ReplyList extends Component {
 }
 
 ReplyList.propTypes = {
-  total: PropTypes.number,
-  defaultRepliesToLoadAtOnce: PropTypes.number,
-  defaultRepliesToShow: PropTypes.number,
-  replies: PropTypes.shape({}),
+  showMoreReplies: PropTypes.func,
+  pagedReplies: PropTypes.arrayOf(PropTypes.object),
   parentId: PropTypes.number,
   collapsed: PropTypes.bool,
   spam: PropTypes.bool,

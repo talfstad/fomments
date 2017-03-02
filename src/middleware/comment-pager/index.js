@@ -29,6 +29,7 @@ export default (sorters = {}) => store => next => (action) => {
     const {
       list,
       defaultCommentsToShow,
+      defaultRepliesToShow,
       defaultRepliesToLoadAtOnce,
       defaultCommentsToLoadAtOnce,
     } = comments;
@@ -40,11 +41,13 @@ export default (sorters = {}) => store => next => (action) => {
       showMoreComments = null,
     } = pageComments;
 
+    const listArr = Object.keys(list).map(key => list[key]);
+
     if (showMoreComments) {
       dispatch({
         type: SET_PAGED_COMMENT_LIST,
         payload: getPagedPayload({
-          list,
+          list: listArr,
           pagedListLength: pagedList.length,
           numToAdd: defaultCommentsToLoadAtOnce,
         }),
@@ -61,17 +64,17 @@ export default (sorters = {}) => store => next => (action) => {
       } = comment;
 
       // update pagedReplies (by ref)
+      const repliesArr = Object.keys(replies).map(key => replies[key]);
       comment.pagedReplies = getPagedPayload({
-        list: replies,
+        list: repliesArr,
         pagedListLength: pagedReplies.pagedList.length,
         numToAdd: defaultRepliesToLoadAtOnce,
       });
-
       // page it again, but load no new comments
       dispatch({
         type: SET_PAGED_COMMENT_LIST,
         payload: getPagedPayload({
-          list,
+          list: listArr,
           pagedListLength: pagedList.length,
           numToAdd: 0,
         }),
@@ -84,26 +87,28 @@ export default (sorters = {}) => store => next => (action) => {
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list,
+              list: listArr,
               pagedListLength: pagedList.length,
               numToAdd: 1,
             }),
           });
           break;
         }
+
         case DELETE_COMMENT: {
           // remove 1 comment to page
           // We must have this comment in pagedList to delete from GUI
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list,
+              list: listArr,
               pagedListLength: pagedList.length,
               numToAdd: -1,
             }),
           });
           break;
         }
+
         case ADD_REPLY: {
           // we always put replies at bottom
           // and use pagedList.length + 1 for reply
@@ -116,10 +121,11 @@ export default (sorters = {}) => store => next => (action) => {
               nextCountToLoad: 0,
             },
           } = comment;
+          const repliesArr = Object.keys(replies).map(key => replies[key]);
 
           // update pagedReplies (by ref)
           comment.pagedReplies = getPagedPayload({
-            list: replies,
+            list: repliesArr,
             pagedListLength: pagedReplies.pagedList.length,
             numToAdd: 1,
           });
@@ -128,13 +134,14 @@ export default (sorters = {}) => store => next => (action) => {
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list,
+              list: listArr,
               pagedListLength: pagedList.length,
               numToAdd: 0,
             }),
           });
           break;
         }
+
         case DELETE_REPLY: {
           const { parentId } = action.payload;
           const comment = list[parentId];
@@ -145,10 +152,10 @@ export default (sorters = {}) => store => next => (action) => {
               nextCountToLoad: 0,
             },
           } = comment;
-
           // update pagedReplies (by ref)
+          const repliesArr = Object.keys(replies).map(key => replies[key]);
           comment.pagedReplies = getPagedPayload({
-            list: replies,
+            list: repliesArr,
             pagedListLength: pagedReplies.pagedList.length,
             numToAdd: -1,
           });
@@ -157,15 +164,17 @@ export default (sorters = {}) => store => next => (action) => {
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list,
+              list: listArr,
               pagedListLength: pagedList.length,
               numToAdd: 0,
             }),
           });
           break;
         }
+
         default: {
-          // do all, resort list create pagedList based on list, set to defaults
+          // do all, sort list create pagedList based on list, set to defaults
+          // this should only be done on initial load
           const sortedList = getSortedComments({ comments, sorters });
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
@@ -173,6 +182,7 @@ export default (sorters = {}) => store => next => (action) => {
               list: sortedList,
               pagedListLength: 0,
               numToAdd: defaultCommentsToShow,
+              defaultRepliesToShow,
             }),
           });
           break;

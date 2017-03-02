@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import $ from 'jquery';
-import * as commentActions from '../actions/comments';
 import CommentMenu from './comment-menu';
 import CommentEdit from './comment-edit';
 import ReplyList from './reply-list';
@@ -156,7 +154,7 @@ class Comment extends Component {
 
 
   render() {
-    const { comment } = this.props;
+    const { comment, showMoreReplies } = this.props;
 
     return (
       <div ref={(c) => { this.el = c; }}>
@@ -202,14 +200,12 @@ class Comment extends Component {
           </div>
           <ReplyList
             spam={comment.spam}
-            collapsed={this.state.collapsed}
             setReplyShowing={this.state.setReplyShowing}
             replyShowing={this.state.replyShowing}
-            replies={comment.replies}
-            total={Object.keys(comment.replies || []).length}
+            collapsed={this.state.collapsed}
             parentId={comment.id}
-            defaultRepliesToShow={this.state.defaultRepliesToShow}
-            defaultRepliesToLoadAtOnce={this.state.defaultRepliesToLoadAtOnce}
+            pagedReplies={comment.pagedReplies}
+            showMoreReplies={showMoreReplies}
           />
         </div>
         <ReportCommentModal
@@ -230,6 +226,7 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
+  showMoreReplies: PropTypes.func,
   updateComment: PropTypes.func,
   updateReply: PropTypes.func,
   deleteReply: PropTypes.func,
@@ -249,4 +246,4 @@ Comment.propTypes = {
   }),
 };
 
-export default connect(null, commentActions)(Comment);
+export default Comment;
