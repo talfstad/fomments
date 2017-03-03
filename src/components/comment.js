@@ -154,7 +154,7 @@ class Comment extends Component {
 
 
   render() {
-    const { comment, showMoreReplies } = this.props;
+    const { comment, showMoreReplies, deleteReply } = this.props;
 
     return (
       <div ref={(c) => { this.el = c; }}>
@@ -206,6 +206,7 @@ class Comment extends Component {
             parentId={comment.id}
             pagedReplies={comment.pagedReplies}
             showMoreReplies={showMoreReplies}
+            deleteReply={deleteReply}
           />
         </div>
         <ReportCommentModal

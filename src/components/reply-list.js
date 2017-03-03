@@ -14,6 +14,7 @@ class ReplyList extends Component {
       setReplyShowing,
       collapsed,
       pagedReplies,
+      deleteReply,
     } = this.props;
 
     if (!pagedReplies || collapsed) return <noscript />;
@@ -23,6 +24,7 @@ class ReplyList extends Component {
         key={reply.id}
         setReplyShowing={setReplyShowing}
         comment={reply}
+        deleteReply={deleteReply}
       />);
   }
 
@@ -59,6 +61,7 @@ class ReplyList extends Component {
 }
 
 ReplyList.propTypes = {
+  deleteReply: PropTypes.func,
   showMoreReplies: PropTypes.func,
   pagedReplies: PropTypes.arrayOf(PropTypes.object),
   parentId: PropTypes.number,

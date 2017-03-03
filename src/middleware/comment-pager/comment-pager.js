@@ -1,45 +1,28 @@
 export const getPagedPayload =
-  ({ list, pagedListLength, numToAdd = 0, defaultRepliesToShow }) => {
+  ({
+    list,
+    pagedListLength,
+    numToAdd = 0,
+    defaultToLoadAtOnce,
+  }) => {
     // ensure we have a list that has replies paged for all entries
-    let listWithPagedReplies = list;
-    if (defaultRepliesToShow) {
-      listWithPagedReplies = list.map((comment) => {
-        const updatedComment = comment;
-        const {
-          replies,
-          pagedReplies,
-        } = updatedComment;
-        // Only page replies if we haven't already
-        if (replies && !pagedReplies) {
-          const repliesArr = Object.keys(replies).map(key => replies[key]);
-          updatedComment.pagedReplies = getPagedPayload({
-            list: repliesArr,
-            pagedListLength: 0,
-            numToAdd: defaultRepliesToShow,
-          });
-        }
-        return updatedComment;
-      });
-    }
-
-    if (listWithPagedReplies.length < numToAdd) {
+    if (list.length < numToAdd) {
       return {
-        pagedList: listWithPagedReplies,
+        pagedList: list,
         nextCountToLoad: 0,
       };
     }
-    let pagedList = listWithPagedReplies.slice(0, pagedListLength);
+    let pagedList = list.slice(0, pagedListLength);
     if (numToAdd > 0) {
-      pagedList = listWithPagedReplies;
-      if ((pagedListLength + numToAdd) < listWithPagedReplies.length) {
-        pagedList = listWithPagedReplies.slice(0, (pagedListLength + numToAdd));
+      pagedList = list;
+      if ((pagedListLength + numToAdd) < list.length) {
+        pagedList = list.slice(0, (pagedListLength + numToAdd));
       }
     }
 
-    const remainingToLoad = (listWithPagedReplies.length - pagedList.length);
-    let nextCountToLoad = numToAdd;
-
-    if (remainingToLoad < numToAdd) {
+    const remainingToLoad = (list.length - pagedList.length);
+    let nextCountToLoad = defaultToLoadAtOnce;
+    if (remainingToLoad < defaultToLoadAtOnce) {
       nextCountToLoad = remainingToLoad;
     }
 
@@ -57,14 +40,7 @@ export const getSortedComments = ({ comments, sorters }) => {
   try {
     const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
     sortedCommentList = sorters[sortByKey](comments);
-
-    // Return the sorted comments and sorted replies
-    return sortedCommentList.map((comment) => {
-      const commentWithSortedReplies = comment;
-      const { replies } = commentWithSortedReplies;
-      commentWithSortedReplies.replies = sorters.oldest(replies);
-      return commentWithSortedReplies;
-    });
+    return sortedCommentList;
   } catch (err) {
     return sortedCommentList;
   }

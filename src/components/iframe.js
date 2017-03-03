@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { messageResponder } from '../iframe-messaging';
-import * as messageActions from '../actions/iframe';
+import * as messageActions from '../actions/iframe/';
 
 class Iframe extends Component {
   render() {

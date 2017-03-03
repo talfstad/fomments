@@ -5,7 +5,9 @@ import {
   ROOT_URL,
   CDN_ROOT_URL,
   GENERAL_SECTION_ID,
-} from '../config';
+} from '../../config';
+
+import preSaveFilter from './pre-save-filter';
 
 export const updateIframeHeight = (component, { payload }, next) => {
   const { height } = payload;
@@ -46,7 +48,8 @@ export const loadFromParent = (component, { payload }, next) => {
 export const saveToParent = (component, { iframeMessage }, next) => {
   const sectionId = component.props.sectionId || GENERAL_SECTION_ID;
   const { state } = iframeMessage;
-  localStorage.setItem(sectionId, JSON.stringify(state.comments));
+  // Filter out things we don't want saved
+  localStorage.setItem(sectionId, JSON.stringify(preSaveFilter(state.comments)));
   next();
 };
 

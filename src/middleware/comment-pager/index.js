@@ -11,6 +11,9 @@ import {
   DELETE_COMMENT,
   ADD_REPLY,
   DELETE_REPLY,
+  CHANGE_SORT_BY,
+  UPDATE_COMMENT,
+  UPDATE_REPLY,
 } from '../../actions/types';
 
 export const reducer = commentPagerReducer;
@@ -27,7 +30,6 @@ export default (sorters = {}) => store => next => (action) => {
     const state = store.getState();
     const { commentPager, comments } = state;
     const {
-      list,
       defaultCommentsToShow,
       defaultRepliesToShow,
       defaultRepliesToLoadAtOnce,
@@ -41,20 +43,51 @@ export default (sorters = {}) => store => next => (action) => {
       showMoreComments = null,
     } = pageComments;
 
-    const listArr = Object.keys(list).map(key => list[key]);
+    const sortedList = getSortedComments({ comments, sorters }).map((comment) => {
+      const {
+        replies,
+        pagedReplies = {
+          pagedList: [],
+        },
+      } = comment;
+      if (replies) {
+        // if you have pagedReplies for this comment already loaded, use them
+        // otherwise load the default
+        const [pagedListComment] = pagedList.filter(o => o.id === comment.id);
+        if (pagedListComment) {
+          return {
+            ...comment,
+            pagedReplies: pagedListComment.pagedReplies,
+          };
+        }
+
+        const sortedReplies = sorters.oldest({ list: replies });
+        return {
+          ...comment,
+          pagedReplies: getPagedPayload({
+            list: sortedReplies,
+            numToAdd: defaultRepliesToShow,
+            pagedListLength: pagedReplies.pagedList.length,
+            defaultToLoadAtOnce: defaultRepliesToLoadAtOnce,
+          }),
+        };
+      }
+      return comment;
+    });
 
     if (showMoreComments) {
       dispatch({
         type: SET_PAGED_COMMENT_LIST,
         payload: getPagedPayload({
-          list: listArr,
+          list: sortedList,
           pagedListLength: pagedList.length,
           numToAdd: defaultCommentsToLoadAtOnce,
+          defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
         }),
       });
     } else if (showMoreReplies) {
       const { commentId } = showMoreReplies;
-      const comment = list[commentId];
+      const [comment] = sortedList.filter(o => o.id === commentId);
       const {
         replies,
         pagedReplies = {
@@ -62,21 +95,23 @@ export default (sorters = {}) => store => next => (action) => {
           nextCountToLoad: 0,
         },
       } = comment;
-
-      // update pagedReplies (by ref)
-      const repliesArr = Object.keys(replies).map(key => replies[key]);
+      const sortedReplies = sorters.oldest({ list: replies });
+      // Replace in place since array
       comment.pagedReplies = getPagedPayload({
-        list: repliesArr,
+        list: sortedReplies,
         pagedListLength: pagedReplies.pagedList.length,
         numToAdd: defaultRepliesToLoadAtOnce,
+        defaultToLoadAtOnce: defaultRepliesToLoadAtOnce,
       });
+
       // page it again, but load no new comments
       dispatch({
         type: SET_PAGED_COMMENT_LIST,
         payload: getPagedPayload({
-          list: listArr,
+          list: sortedList,
           pagedListLength: pagedList.length,
           numToAdd: 0,
+          defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
         }),
       });
     } else {
@@ -87,9 +122,10 @@ export default (sorters = {}) => store => next => (action) => {
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list: listArr,
+              list: sortedList,
               pagedListLength: pagedList.length,
               numToAdd: 1,
+              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
             }),
           });
           break;
@@ -101,72 +137,74 @@ export default (sorters = {}) => store => next => (action) => {
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list: listArr,
+              list: sortedList,
               pagedListLength: pagedList.length,
               numToAdd: -1,
+              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
             }),
           });
           break;
         }
 
         case ADD_REPLY: {
-          // we always put replies at bottom
-          // and use pagedList.length + 1 for reply
-          const { parentId } = action.payload;
-          const comment = list[parentId];
+          const { reply } = action.payload;
+          const [comment] = sortedList.filter(o => o.id === reply.parentId);
           const {
-            replies,
             pagedReplies = {
-              pagedList: [],
               nextCountToLoad: 0,
+              pagedList: [],
             },
           } = comment;
-          const repliesArr = Object.keys(replies).map(key => replies[key]);
 
-          // update pagedReplies (by ref)
-          comment.pagedReplies = getPagedPayload({
-            list: repliesArr,
-            pagedListLength: pagedReplies.pagedList.length,
-            numToAdd: 1,
-          });
+          comment.pagedReplies = {
+            ...pagedReplies,
+            pagedList: [...pagedReplies.pagedList, reply],
+          };
 
-          // page it again, but load no new comments
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list: listArr,
+              list: sortedList,
               pagedListLength: pagedList.length,
               numToAdd: 0,
+              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
             }),
           });
           break;
         }
 
         case DELETE_REPLY: {
-          const { parentId } = action.payload;
-          const comment = list[parentId];
-          const {
-            replies,
-            pagedReplies = {
-              pagedList: [],
-              nextCountToLoad: 0,
-            },
-          } = comment;
-          // update pagedReplies (by ref)
-          const repliesArr = Object.keys(replies).map(key => replies[key]);
-          comment.pagedReplies = getPagedPayload({
-            list: repliesArr,
-            pagedListLength: pagedReplies.pagedList.length,
-            numToAdd: -1,
-          });
+          const { reply } = action.payload;
+          const [comment] = sortedList.filter(o => o.id === reply.parentId);
+
+          comment.pagedReplies = {
+            ...comment.pagedReplies,
+            pagedList: comment.pagedReplies.pagedList.filter(o => o.id !== reply.id),
+          };
 
           // page it again, but load no new comments
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
-              list: listArr,
+              list: sortedList,
               pagedListLength: pagedList.length,
               numToAdd: 0,
+              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
+            }),
+          });
+          break;
+        }
+        case UPDATE_REPLY:
+        case UPDATE_COMMENT:
+        case CHANGE_SORT_BY: {
+          // sort it and reset it, but don't show more
+          dispatch({
+            type: SET_PAGED_COMMENT_LIST,
+            payload: getPagedPayload({
+              list: sortedList,
+              pagedListLength: pagedList.length,
+              numToAdd: 0,
+              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
             }),
           });
           break;
@@ -175,14 +213,13 @@ export default (sorters = {}) => store => next => (action) => {
         default: {
           // do all, sort list create pagedList based on list, set to defaults
           // this should only be done on initial load
-          const sortedList = getSortedComments({ comments, sorters });
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
             payload: getPagedPayload({
               list: sortedList,
               pagedListLength: 0,
               numToAdd: defaultCommentsToShow,
-              defaultRepliesToShow,
+              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
             }),
           });
           break;

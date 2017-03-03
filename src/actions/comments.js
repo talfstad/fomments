@@ -77,6 +77,7 @@ export const deleteReply = reply => ({
   iframeMessage: {
     callback: false,
   },
+  pageComments: true,
 });
 
 export const addReply = reply => ({
@@ -87,6 +88,7 @@ export const addReply = reply => ({
   iframeMessage: {
     callback: false,
   },
+  pageComments: true,
 });
 
 export const updateReply = reply => ({

@@ -24,10 +24,9 @@ class AddComment extends Component {
 
   handleSubmitComment(e) {
     e.preventDefault();
-    const { incrementComments, addComment, user } = this.props;
+    const { addComment, user } = this.props;
     addComment(this.state);
     this.setState(GetDefaultCommentState(user));
-    incrementComments();
   }
 
   buildCommentBox() {
@@ -75,7 +74,6 @@ class AddComment extends Component {
 
 AddComment.propTypes = {
   user: PropTypes.shape({}),
-  incrementComments: PropTypes.func,
   addComment: PropTypes.func,
 };
 

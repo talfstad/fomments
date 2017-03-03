@@ -24,10 +24,22 @@ class CommentList extends Component {
   }
 
   buildCommentList() {
-    const { pagedList, user, showMoreReplies } = this.props;
+    const {
+      pagedList,
+      user,
+      showMoreReplies,
+      updateComment,
+      updateReply,
+      deleteComment,
+      deleteReply,
+    } = this.props;
     return pagedList.map(comment =>
       <Comment
         showMoreReplies={showMoreReplies}
+        updateComment={updateComment}
+        updateReply={updateReply}
+        deleteComment={deleteComment}
+        deleteReply={deleteReply}
         key={comment.id}
         user={user}
         comment={comment}
@@ -52,6 +64,10 @@ class CommentList extends Component {
 }
 
 CommentList.propTypes = {
+  deleteComment: PropTypes.func,
+  deleteReply: PropTypes.func,
+  updateReply: PropTypes.func,
+  updateComment: PropTypes.func,
   showMoreReplies: PropTypes.func,
   showMoreComments: PropTypes.func,
   pagedList: PropTypes.arrayOf(PropTypes.object),
