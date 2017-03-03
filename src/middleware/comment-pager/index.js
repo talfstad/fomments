@@ -117,31 +117,28 @@ export default (sorters = {}) => store => next => (action) => {
     } else {
       switch (action.type) {
         case ADD_COMMENT: {
-          // list already sorted, just add 1 comment to page
-          // We always add comment to the top no matter sort order
+          const { comment } = action.payload;
+
+          // add it to the top of newPagedlist and set it
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
-            payload: getPagedPayload({
-              list: sortedList,
-              pagedListLength: pagedList.length,
-              numToAdd: 1,
-              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
-            }),
+            payload: {
+              ...commentPager,
+              pagedList: [comment, ...pagedList],
+            },
           });
           break;
         }
 
         case DELETE_COMMENT: {
-          // remove 1 comment to page
-          // We must have this comment in pagedList to delete from GUI
+          const { comment } = action.payload;
+
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
-            payload: getPagedPayload({
-              list: sortedList,
-              pagedListLength: pagedList.length,
-              numToAdd: -1,
-              defaultToLoadAtOnce: defaultCommentsToLoadAtOnce,
-            }),
+            payload: {
+              ...commentPager,
+              pagedList: pagedList.filter(o => o.id !== comment.id),
+            },
           });
           break;
         }
