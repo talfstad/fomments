@@ -12,6 +12,11 @@ class AddComment extends Component {
     this.state = GetDefaultCommentState(props.user);
   }
 
+  componentDidUpdate() {
+    const { updateIframeHeight } = this.props;
+    updateIframeHeight();
+  }
+
   handleContentChange(e) {
     e.preventDefault();
     const content = e.currentTarget.value;
@@ -75,6 +80,7 @@ class AddComment extends Component {
 AddComment.propTypes = {
   user: PropTypes.shape({}),
   addComment: PropTypes.func,
+  updateIframeHeight: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

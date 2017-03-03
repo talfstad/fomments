@@ -237,14 +237,12 @@ export const CommentInfo = (props) => {
     addLike,
     removeLike,
     collapsed,
-    spam,
     showEdit,
-    edited,
   } = props;
 
   if (showEdit) return <noscript />;
 
-  const { likes, date } = comment;
+  const { likes, date, spam, edited } = comment;
 
   const buildLikes = () => {
     if (likes > 0) {
@@ -328,11 +326,9 @@ export const CommentInfo = (props) => {
 
 CommentInfo.propTypes = {
   showEdit: PropTypes.bool,
-  edited: PropTypes.bool,
   comment: PropTypes.shape({}),
   addLike: PropTypes.func,
   removeLike: PropTypes.func,
   setReplyShowing: PropTypes.func,
-  spam: PropTypes.bool,
   collapsed: PropTypes.bool,
 };

@@ -12,6 +12,7 @@ module.exports = {
   },
   'rules': {
     'react/jsx-filename-extension': ['error', { 'extensions': ['.js', '.jsx'] }],
+    'global-require': 'off',
   },
   'parser': 'babel-eslint'
 };

@@ -99,6 +99,7 @@ export const updateReply = reply => ({
   iframeMessage: {
     callback: false,
   },
+  pageComments: true,
 });
 
 export const addLike = comment => ({
@@ -109,6 +110,7 @@ export const addLike = comment => ({
   iframeMessage: {
     callback: false,
   },
+  pageComments: true,
 });
 
 export const removeLike = comment => ({
@@ -119,4 +121,5 @@ export const removeLike = comment => ({
   iframeMessage: {
     callback: false,
   },
+  pageComments: true,
 });

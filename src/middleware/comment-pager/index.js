@@ -14,6 +14,8 @@ import {
   CHANGE_SORT_BY,
   UPDATE_COMMENT,
   UPDATE_REPLY,
+  ADD_LIKE,
+  REMOVE_LIKE,
 } from '../../actions/types';
 
 export const reducer = commentPagerReducer;
@@ -46,22 +48,39 @@ export default (sorters = {}) => store => next => (action) => {
     const sortedList = getSortedComments({ comments, sorters }).map((comment) => {
       const {
         replies,
-        pagedReplies = {
-          pagedList: [],
-        },
       } = comment;
+
       if (replies) {
+        const sortedReplies = sorters.oldest({ list: replies });
         // if you have pagedReplies for this comment already loaded, use them
         // otherwise load the default
         const [pagedListComment] = pagedList.filter(o => o.id === comment.id);
         if (pagedListComment) {
+          const {
+            pagedReplies = {
+              nextCountToLoad: 0,
+              pagedList: [],
+            },
+          } = pagedListComment;
+          // Comment is in the paged list, get how many replies are showing and
+          // show that many but use the new comment replies
+          // Comment is in the paged list, get how many replies are showing and
+          // show that many but use the new comment replies
           return {
             ...comment,
-            pagedReplies: pagedListComment.pagedReplies,
+            pagedReplies: {
+              ...pagedReplies,
+              pagedList: sortedReplies.slice(0, pagedReplies.pagedList.length),
+            },
           };
         }
 
-        const sortedReplies = sorters.oldest({ list: replies });
+        const {
+          pagedReplies = {
+            pagedList: [],
+          },
+        } = comment;
+
         return {
           ...comment,
           pagedReplies: getPagedPayload({
@@ -191,6 +210,8 @@ export default (sorters = {}) => store => next => (action) => {
           });
           break;
         }
+        case ADD_LIKE:
+        case REMOVE_LIKE:
         case UPDATE_REPLY:
         case UPDATE_COMMENT:
         case CHANGE_SORT_BY: {

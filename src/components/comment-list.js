@@ -32,14 +32,20 @@ class CommentList extends Component {
       updateReply,
       deleteComment,
       deleteReply,
+      updateIframeHeight,
+      addLike,
+      removeLike,
     } = this.props;
     return pagedList.map(comment =>
       <Comment
+        updateIframeHeight={updateIframeHeight}
         showMoreReplies={showMoreReplies}
         updateComment={updateComment}
         updateReply={updateReply}
         deleteComment={deleteComment}
         deleteReply={deleteReply}
+        addLike={addLike}
+        removeLike={removeLike}
         key={comment.id}
         user={user}
         comment={comment}
@@ -48,11 +54,12 @@ class CommentList extends Component {
 
   render() {
     const {
+      updateIframeHeight,
       nextCountToLoad,
     } = this.props;
     return (
       <div className="comment-list">
-        <AddComment />
+        <AddComment updateIframeHeight={() => updateIframeHeight()} />
         {this.buildCommentList()}
         <CommentPaging
           nextCountToLoad={nextCountToLoad}
@@ -64,6 +71,8 @@ class CommentList extends Component {
 }
 
 CommentList.propTypes = {
+  addLike: PropTypes.func,
+  removeLike: PropTypes.func,
   deleteComment: PropTypes.func,
   deleteReply: PropTypes.func,
   updateReply: PropTypes.func,

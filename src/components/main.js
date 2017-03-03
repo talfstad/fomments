@@ -16,8 +16,8 @@ class Main extends Component {
     const { updateIframeHeight } = this.props;
     const height = $(this.el).outerHeight(true);
     if (height !== this.oldHeight) {
-      this.oldHeight = height;
       updateIframeHeight(height);
+      this.oldHeight = height;
     }
   }
 

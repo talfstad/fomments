@@ -154,7 +154,14 @@ class Comment extends Component {
 
 
   render() {
-    const { comment, showMoreReplies, deleteReply } = this.props;
+    const {
+      comment,
+      showMoreReplies,
+      deleteReply,
+      updateIframeHeight,
+      addLike,
+      removeLike,
+    } = this.props;
 
     return (
       <div ref={(c) => { this.el = c; }}>
@@ -189,21 +196,26 @@ class Comment extends Component {
               content={comment.content}
             />
             <CommentInfo
-              {...this.props}
+              addLike={addLike}
+              removeLike={removeLike}
               showEdit={this.state.showEdit}
               collapsed={this.state.collapsed}
               spam={comment.spam}
               setReplyShowing={this.state.setReplyShowing}
               reply={this.state.reply}
               edited={comment.edited}
+              comment={comment}
             />
           </div>
           <ReplyList
+            updateIframeHeight={() => updateIframeHeight()}
             spam={comment.spam}
             setReplyShowing={this.state.setReplyShowing}
             replyShowing={this.state.replyShowing}
             collapsed={this.state.collapsed}
             parentId={comment.id}
+            addLike={addLike}
+            removeLike={removeLike}
             pagedReplies={comment.pagedReplies}
             showMoreReplies={showMoreReplies}
             deleteReply={deleteReply}
@@ -227,6 +239,9 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
+  updateIframeHeight: PropTypes.func,
+  addLike: PropTypes.func,
+  removeLike: PropTypes.func,
   showMoreReplies: PropTypes.func,
   updateComment: PropTypes.func,
   updateReply: PropTypes.func,

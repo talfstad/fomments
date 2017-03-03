@@ -4,6 +4,12 @@ import AddReply from './add-reply';
 import ReplyPaging from './reply-paging';
 
 class ReplyList extends Component {
+
+  componentDidUpdate() {
+    const { updateIframeHeight } = this.props;
+    updateIframeHeight();
+  }
+
   handleShowMoreReplies() {
     const { parentId, showMoreReplies } = this.props;
     showMoreReplies(parentId);
@@ -11,10 +17,13 @@ class ReplyList extends Component {
 
   buildReplyList() {
     const {
+      updateIframeHeight,
       setReplyShowing,
       collapsed,
       pagedReplies,
       deleteReply,
+      addLike,
+      removeLike,
     } = this.props;
 
     if (!pagedReplies || collapsed) return <noscript />;
@@ -22,6 +31,9 @@ class ReplyList extends Component {
     return pagedList.map(reply =>
       <Comment
         key={reply.id}
+        addLike={addLike}
+        removeLike={removeLike}
+        updateIframeHeight={updateIframeHeight}
         setReplyShowing={setReplyShowing}
         comment={reply}
         deleteReply={deleteReply}
@@ -61,6 +73,9 @@ class ReplyList extends Component {
 }
 
 ReplyList.propTypes = {
+  addLike: PropTypes.func,
+  removeLike: PropTypes.func,
+  updateIframeHeight: PropTypes.func,
   deleteReply: PropTypes.func,
   showMoreReplies: PropTypes.func,
   pagedReplies: PropTypes.arrayOf(PropTypes.object),
