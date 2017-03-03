@@ -161,6 +161,8 @@ class Comment extends Component {
       updateIframeHeight,
       addLike,
       removeLike,
+      updateComment,
+      updateReply,
     } = this.props;
 
     return (
@@ -216,6 +218,8 @@ class Comment extends Component {
             parentId={comment.id}
             addLike={addLike}
             removeLike={removeLike}
+            updateComment={updateComment}
+            updateReply={updateReply}
             pagedReplies={comment.pagedReplies}
             showMoreReplies={showMoreReplies}
             deleteReply={deleteReply}

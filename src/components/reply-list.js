@@ -24,6 +24,8 @@ class ReplyList extends Component {
       deleteReply,
       addLike,
       removeLike,
+      updateComment,
+      updateReply,
     } = this.props;
 
     if (!pagedReplies || collapsed) return <noscript />;
@@ -33,6 +35,8 @@ class ReplyList extends Component {
         key={reply.id}
         addLike={addLike}
         removeLike={removeLike}
+        updateComment={updateComment}
+        updateReply={updateReply}
         updateIframeHeight={updateIframeHeight}
         setReplyShowing={setReplyShowing}
         comment={reply}
@@ -73,6 +77,8 @@ class ReplyList extends Component {
 }
 
 ReplyList.propTypes = {
+  updateComment: PropTypes.func,
+  updateReply: PropTypes.func,
   addLike: PropTypes.func,
   removeLike: PropTypes.func,
   updateIframeHeight: PropTypes.func,
