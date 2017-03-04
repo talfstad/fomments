@@ -12,6 +12,11 @@ class Main extends Component {
     loadFromParent();
   }
 
+  componentDidMount() {
+    // Initial load needs some time to render ... sketchy fix
+    setTimeout(() => this.updateIframeHeight(), 100);
+  }
+
   updateIframeHeight() {
     const { updateIframeHeight } = this.props;
     const height = $(this.el).outerHeight(true);

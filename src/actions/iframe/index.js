@@ -44,7 +44,10 @@ export const loadFromParent = (component, { payload }, next) => {
     .then((responseData) => {
       const response = {
         ...responseData.data,
-        ...storedState.list,
+        list: {
+          ...responseData.data.list,
+          ...storedState.list,
+        },
       };
       localStorage.setItem(sectionId, JSON.stringify({ list: response.list }));
       next(response);
