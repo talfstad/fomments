@@ -114,7 +114,8 @@ class Comment extends Component {
   }
 
   handleShowOptionsMenu(show) {
-    if (show) {
+    const { showEdit } = this.state;
+    if (show && !showEdit) {
       this.setState({ showing: true });
     } else {
       this.setState({ showing: false });
@@ -135,7 +136,7 @@ class Comment extends Component {
   }
 
   showEditComment(show) {
-    this.setState({ showEdit: show });
+    this.setState({ showEdit: show, showing: !show });
   }
 
   saveEditComment(content) {
@@ -173,7 +174,6 @@ class Comment extends Component {
             setCollapsed={collapse => this.setCollapsed(collapse)}
             showReportCommentModal={show => this.showReportCommentModal(show)}
             showDeleteCommentModal={show => this.showDeleteCommentModal(show)}
-            showEdit={this.state.showEdit}
             showEditComment={show => this.showEditComment(show)}
             setSpam={spam => this.setSpam(spam)}
             menuOptions={this.state.menuOptions}
@@ -192,7 +192,7 @@ class Comment extends Component {
             />
             <CommentEdit
               showEdit={this.state.showEdit}
-              showEditComment={() => this.showEditComment()}
+              showEditComment={show => this.showEditComment(show)}
               saveEditComment={content =>
                 this.saveEditComment(content)}
               content={comment.content}

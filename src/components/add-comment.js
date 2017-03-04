@@ -40,7 +40,7 @@ class AddComment extends Component {
     const initialState = () =>
       <div className="add-comment">
         <div className="row">
-          <textarea value={content} onFocus={() => this.setState({ editing: true })} type="text" placeholder="Add a comment..." />
+          <textarea style={{ height: '51px' }} value={content} onFocus={() => this.setState({ editing: true })} type="text" placeholder="Add a comment..." />
         </div>
       </div>;
 

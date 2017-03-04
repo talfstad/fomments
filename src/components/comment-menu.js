@@ -15,7 +15,9 @@ class CommentMenu extends Component {
   }
 
   componentDidMount() {
-    $(this.dropdown).on('show.bs.dropdown', () => this.setState({ open: true }));
+    $(this.dropdown).on('show.bs.dropdown', () => {
+      this.setState({ open: true });
+    });
     $(this.dropdown).on('hide.bs.dropdown', () => this.setState({ open: false }));
   }
 
@@ -85,10 +87,8 @@ class CommentMenu extends Component {
   }
 
   render() {
-    const { showEdit, showing } = this.props;
+    const { showing } = this.props;
     const { open, tooltip } = this.state;
-
-    if (showEdit) return <noscript />;
 
     return (
       <div className={`comment-menu ${(showing || open) ? '' : 'hidden'}`}>
@@ -116,7 +116,6 @@ class CommentMenu extends Component {
 }
 
 CommentMenu.propTypes = {
-  showEdit: PropTypes.bool,
   setCollapsed: PropTypes.func,
   showEditComment: PropTypes.func,
   showDeleteCommentModal: PropTypes.func,

@@ -192,12 +192,14 @@ export default (sorters = {}) => store => next => (action) => {
         case DELETE_REPLY: {
           const { reply } = action.payload;
           const [comment] = sortedList.filter(o => o.id === reply.parentId);
-
+          // replies is already re-sorted and re-paged which adds an extra
+          // reply on if it was there. to handle this we just pop it back off
+          // since it was already sorted, we always want to just remove the last
+          comment.pagedReplies.pagedList.pop();
           comment.pagedReplies = {
             ...comment.pagedReplies,
-            pagedList: comment.pagedReplies.pagedList.filter(o => o.id !== reply.id),
+            pagedList: comment.pagedReplies.pagedList,
           };
-
           // page it again, but load no new comments
           dispatch({
             type: SET_PAGED_COMMENT_LIST,
