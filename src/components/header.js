@@ -68,7 +68,7 @@ Header.propTypes = {
 
 const mapStateToProps = state => ({
   commentCount: Object.keys(state.comments.list).length,
-  sortBy: state.comments.sortBy,
+  sortBy: state.sortBy,
 });
 
 export default connect(mapStateToProps, commentActions)(Header);

@@ -12,30 +12,16 @@ import {
   LOAD_FROM_PARENT,
 } from '../actions/types';
 
-import INITIAL_STATE from '../initial-state';
+const INITIAL_STATE = {
+  list: {},
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_FROM_PARENT: {
       return {
         ...state,
-        ...action.payload,
-      };
-    }
-
-    case CHANGE_SORT_BY: {
-      const { sortBy } = action.payload;
-      const newState = {
-        top: false,
-        newest: false,
-        oldest: false,
-      };
-
-      newState[sortBy] = true;
-
-      return {
-        ...state,
-        sortBy: newState,
+        list: action.payload.list,
       };
     }
 

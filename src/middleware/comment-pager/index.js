@@ -30,13 +30,14 @@ export default (sorters = {}) => store => next => (action) => {
   function handlePageComments() {
     // Get state after we pass through reducers
     const state = store.getState();
-    const { commentPager, comments } = state;
+    const { commentPager, comments, user, sectionInfo, sortBy } = state;
     const {
       defaultCommentsToShow,
       defaultRepliesToShow,
       defaultRepliesToLoadAtOnce,
       defaultCommentsToLoadAtOnce,
-    } = comments;
+    } = sectionInfo;
+
     const { pagedList } = commentPager;
 
     // Middleware options
@@ -45,7 +46,7 @@ export default (sorters = {}) => store => next => (action) => {
       showMoreComments = null,
     } = pageComments;
 
-    const sortedList = getSortedComments({ comments, sorters }).map((comment) => {
+    const sortedList = getSortedComments({ comments, user, sortBy, sorters }).map((comment) => {
       const {
         replies,
       } = comment;
@@ -193,9 +194,11 @@ export default (sorters = {}) => store => next => (action) => {
           const { reply } = action.payload;
           const [comment] = sortedList.filter(o => o.id === reply.parentId);
           // replies is already re-sorted and re-paged which adds an extra
-          // reply on if it was there. to handle this we just pop it back off
-          // since it was already sorted, we always want to just remove the last
-          comment.pagedReplies.pagedList.pop();
+          // reply on if there were any left to page. In that case
+          // we need to pop it back off
+          if (comment.pagedReplies.nextCountToLoad > 0) {
+            comment.pagedReplies.pagedList.pop();
+          }
           comment.pagedReplies = {
             ...comment.pagedReplies,
             pagedList: comment.pagedReplies.pagedList,

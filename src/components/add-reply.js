@@ -86,7 +86,7 @@ AddReply.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.comments.user,
+  user: state.user,
 });
 
 export default connect(mapStateToProps, commentActions)(AddReply);

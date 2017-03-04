@@ -34,12 +34,15 @@ export const getPagedPayload =
 
 // args: comments reducer state, sorters functions, options
 // return: sortedCommentList array
-export const getSortedComments = ({ comments, sorters }) => {
-  const { list, sortBy } = comments;
+export const getSortedComments = ({ comments, user, sortBy, sorters }) => {
+  const { list } = comments;
   let sortedCommentList = Object.keys(list).map(key => list[key]);
   try {
     const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
-    sortedCommentList = sorters[sortByKey](comments);
+    sortedCommentList = sorters[sortByKey]({
+      user,
+      list: comments.list,
+    });
     return sortedCommentList;
   } catch (err) {
     return sortedCommentList;

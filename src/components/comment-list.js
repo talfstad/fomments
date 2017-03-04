@@ -88,7 +88,7 @@ CommentList.propTypes = {
 const mapStateToProps = state => ({
   pagedList: state.commentPager.pagedList,
   nextCountToLoad: state.commentPager.nextCountToLoad,
-  user: state.comments.user,
+  user: state.user,
 });
 
 export default connect(mapStateToProps, commentActions)(CommentList);
