@@ -164,6 +164,7 @@ class Comment extends Component {
       removeLike,
       updateComment,
       updateReply,
+      productName,
     } = this.props;
 
     return (
@@ -182,6 +183,7 @@ class Comment extends Component {
           <div className="comment-detail">
             <CommentText
               {...this.props}
+              productName={productName}
               collapsed={this.state.collapsed}
               showEdit={this.state.showEdit}
               truncated={this.state.truncated}
@@ -210,6 +212,7 @@ class Comment extends Component {
             />
           </div>
           <ReplyList
+            productName={productName}
             updateIframeHeight={() => updateIframeHeight()}
             spam={comment.spam}
             setReplyShowing={this.state.setReplyShowing}
@@ -243,6 +246,7 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
+  productName: PropTypes.string,
   updateIframeHeight: PropTypes.func,
   addLike: PropTypes.func,
   removeLike: PropTypes.func,

@@ -5,6 +5,7 @@ import {
   ROOT_URL,
   CDN_ROOT_URL,
   GENERAL_SECTION_ID,
+  GENERAL_PRODUCT_NAME,
 } from '../../config';
 
 export const updateIframeHeight = (component, { payload }, next) => {
@@ -18,41 +19,32 @@ export const updateIframeHeight = (component, { payload }, next) => {
 
 export const loadFromParent = (component, { payload }, next) => {
   const sectionId = component.props.sectionId || GENERAL_SECTION_ID;
-
+  const productName = component.props.productName || GENERAL_PRODUCT_NAME;
   const storedState = JSON.parse((localStorage.getItem(sectionId) || '{}'));
-  // if (storedState && storedState !== 'undefined') {
-  //   const response = JSON.parse(storedState);
-  //   next(response);
-  // } else
+
+  let request;
   if (!sectionId || sectionId.includes('general')) {
     // general sectionId need to get from CDN
-    axios.get(`${CDN_ROOT_URL}/sections/${sectionId}`)
-    .then((responseData) => {
-      const response = {
-        ...responseData.data,
-        list: {
-          ...responseData.data.list,
-          ...storedState.list,
-        },
-      };
-      localStorage.setItem(sectionId, JSON.stringify({ list: response.list }));
-      next(response);
-    });
+    request = axios.get(`${CDN_ROOT_URL}/sections/${sectionId}`);
   } else {
     // custom sectionId need to get it from our server
-    axios.get(`${ROOT_URL}/sections/${sectionId}`)
-    .then((responseData) => {
-      const response = {
-        ...responseData.data,
-        list: {
-          ...responseData.data.list,
-          ...storedState.list,
-        },
-      };
-      localStorage.setItem(sectionId, JSON.stringify({ list: response.list }));
-      next(response);
-    });
+    request = axios.get(`${ROOT_URL}/sections/${sectionId}`);
   }
+  request.then((responseData) => {
+    const response = {
+      ...responseData.data,
+      sectionInfo: {
+        ...responseData.data.sectionInfo,
+        productName,
+      },
+      list: {
+        ...responseData.data.list,
+        ...storedState.list,
+      },
+    };
+    localStorage.setItem(sectionId, JSON.stringify({ list: response.list }));
+    next(response);
+  });
 };
 
 export const saveToParent = (component, { iframeMessage }, next) => {

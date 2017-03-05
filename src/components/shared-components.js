@@ -113,7 +113,9 @@ export const CommentText = (props) => {
     spam,
     showEdit,
     setCollapsed,
-    setSpam } = props;
+    setSpam,
+    productName,
+  } = props;
 
   if (showEdit) return <noscript />;
 
@@ -180,9 +182,9 @@ export const CommentText = (props) => {
         </span>
       );
     }
-
+    const contentWithProductName = content.replace(/PRODUCT_NAME/g, productName);
     if (comment.parentId && truncated) {
-      const truncatedContent = content.substring(0, 100);
+      const truncatedContent = contentWithProductName.substring(0, 100);
       return (
         <span>
           {truncatedContent}
@@ -190,7 +192,7 @@ export const CommentText = (props) => {
         </span>
       );
     } else if (truncated) {
-      const truncatedContent = content.substring(0, 600);
+      const truncatedContent = contentWithProductName.substring(0, 600);
       return (
         <span>
           {truncatedContent}
@@ -201,7 +203,7 @@ export const CommentText = (props) => {
 
     return (
       <span>
-        {content}
+        {contentWithProductName}
       </span>
     );
   };
@@ -220,6 +222,7 @@ export const CommentText = (props) => {
 };
 
 CommentText.propTypes = {
+  productName: PropTypes.string,
   comment: PropTypes.shape({}),
   truncated: PropTypes.bool,
   showEdit: PropTypes.bool,

@@ -26,6 +26,7 @@ class ReplyList extends Component {
       removeLike,
       updateComment,
       updateReply,
+      productName,
     } = this.props;
 
     if (!pagedReplies || collapsed) return <noscript />;
@@ -33,6 +34,7 @@ class ReplyList extends Component {
     return pagedList.map(reply =>
       <Comment
         key={reply.id}
+        productName={productName}
         addLike={addLike}
         removeLike={removeLike}
         updateComment={updateComment}
@@ -77,6 +79,7 @@ class ReplyList extends Component {
 }
 
 ReplyList.propTypes = {
+  productName: PropTypes.string,
   updateComment: PropTypes.func,
   updateReply: PropTypes.func,
   addLike: PropTypes.func,

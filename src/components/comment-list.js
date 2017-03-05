@@ -35,9 +35,11 @@ class CommentList extends Component {
       updateIframeHeight,
       addLike,
       removeLike,
+      productName,
     } = this.props;
     return pagedList.map(comment =>
       <Comment
+        productName={productName}
         updateIframeHeight={updateIframeHeight}
         showMoreReplies={showMoreReplies}
         updateComment={updateComment}
@@ -71,6 +73,7 @@ class CommentList extends Component {
 }
 
 CommentList.propTypes = {
+  productName: PropTypes.string,
   addLike: PropTypes.func,
   removeLike: PropTypes.func,
   deleteComment: PropTypes.func,
@@ -86,6 +89,7 @@ CommentList.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  productName: state.sectionInfo.productName,
   pagedList: state.commentPager.pagedList,
   nextCountToLoad: state.commentPager.nextCountToLoad,
   user: state.user,

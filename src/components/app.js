@@ -22,11 +22,12 @@ const createStoreWithMiddleware = applyMiddleware(
 export const store = createStoreWithMiddleware(reducers);
 
 const App = (props) => {
-  const { sectionId } = props;
+  const { sectionId, productName } = props;
   if (window.self === window.top) {
     return (
       <Iframe
         sectionId={sectionId}
+        productName={productName}
         src="http://localhost:8080/index.html"
       />
     );
@@ -41,6 +42,7 @@ const App = (props) => {
 
 App.propTypes = {
   sectionId: PropTypes.string,
+  productName: PropTypes.string,
 };
 
 export default App;
