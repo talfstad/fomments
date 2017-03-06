@@ -305,11 +305,15 @@ export const CommentInfo = (props) => {
   };
 
   const setDate = () => {
+    // Date is a duration actually, not a date. Take this duration and calculate
+    // the date relative to now. This allows dates to never get old.
     const now = moment();
-    if (!moment(date).add(1, 'day').isBefore(now)) {
-      return moment(date).fromNow();
+    const relativeDate = (moment()).subtract(date, 'ms');
+    if (!moment(relativeDate).add(1, 'day').isBefore(now)) {
+      // less than 1 day ago
+      return moment(relativeDate).fromNow();
     }
-    return moment(date).format('MMM DD, YYYY h:MMa');
+    return moment(relativeDate).format('MMM DD, YYYY h:MMa');
   };
 
   if (collapsed || spam) return <noscript />;

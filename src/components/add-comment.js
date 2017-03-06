@@ -6,12 +6,13 @@ import { GetDefaultCommentState } from '../defaults';
 import * as commentActions from '../actions/comments';
 
 class AddComment extends Component {
-
   constructor(props) {
     super(props);
-    this.state = GetDefaultCommentState(props.user);
+    this.state = {
+      content: '',
+      editing: false,
+    };
   }
-
   componentDidUpdate() {
     const { updateIframeHeight } = this.props;
     updateIframeHeight();
@@ -29,9 +30,17 @@ class AddComment extends Component {
 
   handleSubmitComment(e) {
     e.preventDefault();
+    const { content } = this.state;
     const { addComment, user } = this.props;
-    addComment(this.state);
-    this.setState(GetDefaultCommentState(user));
+
+    addComment({
+      ...GetDefaultCommentState(user),
+      content,
+    });
+    this.setState({
+      content: '',
+      editing: false,
+    });
   }
 
   buildCommentBox() {
@@ -65,7 +74,6 @@ class AddComment extends Component {
 
   render() {
     const { user } = this.props;
-
     return (
       <div className="row comment-row">
         <div className="profile-pic">

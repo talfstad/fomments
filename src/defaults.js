@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 const getSharedDefaults = user => ({
   user,
   id: Math.floor(Math.random() * 1000),
@@ -27,7 +25,7 @@ const getSharedDefaults = user => ({
     },
   },
   likes: 0,
-  date: (moment().unix()) * 1000,
+  date: 0, // Date is a duration new comments are new, so 0
   report: false,
   spam: false,
   showing: true,
