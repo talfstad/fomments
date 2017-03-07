@@ -27,7 +27,7 @@ const getSharedDefaults = user => ({
     },
   },
   likes: 0,
-  date: (moment().unix()) * 1000,
+  date: (moment()).unix() * 1000,
   report: false,
   spam: false,
   showing: true,

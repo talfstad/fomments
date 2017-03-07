@@ -34,23 +34,6 @@ export const getPagedPayload =
     };
   };
 
-// args: comments reducer state, sorters functions, options
-// return: sortedCommentList array
-export const getSortedComments = ({ comments, user, sortBy, sorters }) => {
-  const { list } = comments;
-  let sortedCommentList = Object.keys(list).map(key => list[key]);
-  try {
-    const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
-    sortedCommentList = sorters[sortByKey]({
-      user,
-      list: comments.list,
-    });
-    return sortedCommentList;
-  } catch (err) {
-    return sortedCommentList;
-  }
-};
-
 export const setDateOnComment = (comment) => {
   const { date, relativeDate } = comment;
 
@@ -61,4 +44,35 @@ export const setDateOnComment = (comment) => {
   }
 
   return date;
+};
+
+// Aggregate keys are keys in comments that are calculated
+// and not stored.
+// (date bases itself on relative date, etc.)
+export const setAggregateKeys = ({ list }) =>
+  Object.keys(list).map((key) => {
+    const comment = list[key];
+
+    // return new object with updated aggregates.
+    return {
+      ...comment,
+      date: setDateOnComment(comment),
+    };
+  });
+
+// args: comments reducer state, sorters functions, options
+// return: sortedCommentList array
+export const getSortedComments = ({ comments, user, sortBy, sorters }) => {
+  const { list } = comments;
+  const updatedList = setAggregateKeys({ list });
+  try {
+    const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);
+    const sortedCommentList = sorters[sortByKey]({
+      user,
+      list: updatedList,
+    });
+    return sortedCommentList;
+  } catch (err) {
+    return updatedList;
+  }
 };
