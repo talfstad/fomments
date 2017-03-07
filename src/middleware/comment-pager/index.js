@@ -3,6 +3,7 @@ import commentPagerReducer from './reducer';
 import {
   getPagedPayload,
   getSortedComments,
+  setDateOnComment,
 } from './comment-pager';
 
 import { SET_PAGED_COMMENT_LIST } from './types';
@@ -46,13 +47,23 @@ export default (sorters = {}) => store => next => (action) => {
       showMoreComments = null,
     } = pageComments;
 
+    // can't sort until dates are set
+    // TODO: set up the dates here before we sort anything ...
     const sortedList = getSortedComments({ comments, user, sortBy, sorters }).map((comment) => {
       const {
         replies,
+        date,
+        relativeDate,
       } = comment;
 
       if (replies) {
-        const sortedReplies = sorters.oldest({ list: replies });
+        const sortedReplies = sorters.oldest({ list: replies }).map(reply => ({
+          ...reply,
+          date: setDateOnComment({
+            date: reply.date,
+            relativeDate: reply.relativeDate,
+          }),
+        }));
         // if you have pagedReplies for this comment already loaded, use them
         // otherwise load the default
         const [pagedListComment] = pagedList.filter(o => o.id === comment.id);
@@ -69,6 +80,7 @@ export default (sorters = {}) => store => next => (action) => {
           // show that many but use the new comment replies
           return {
             ...comment,
+            date: setDateOnComment({ date, relativeDate }),
             pagedReplies: {
               ...pagedReplies,
               pagedList: sortedReplies.slice(0, pagedReplies.pagedList.length),
@@ -84,6 +96,7 @@ export default (sorters = {}) => store => next => (action) => {
 
         return {
           ...comment,
+          date: setDateOnComment({ date, relativeDate }),
           pagedReplies: getPagedPayload({
             list: sortedReplies,
             numToAdd: defaultRepliesToShow,
@@ -92,7 +105,11 @@ export default (sorters = {}) => store => next => (action) => {
           }),
         };
       }
-      return comment;
+
+      return {
+        ...comment,
+        date: setDateOnComment({ date, relativeDate }),
+      };
     });
 
     if (showMoreComments) {

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getPagedPayload =
   ({
     list,
@@ -47,4 +49,16 @@ export const getSortedComments = ({ comments, user, sortBy, sorters }) => {
   } catch (err) {
     return sortedCommentList;
   }
+};
+
+export const setDateOnComment = (comment) => {
+  const { date, relativeDate } = comment;
+
+  if (!date && relativeDate) {
+    // set relative date (used for all non-user comments)
+    const now = (moment().unix()) * 1000;
+    return now - relativeDate;
+  }
+
+  return date;
 };

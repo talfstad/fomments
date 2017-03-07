@@ -1,9 +1,9 @@
 export default {
-  oldest: ({ list }) => Object.keys(list)
+  newest: ({ list }) => Object.keys(list)
     .sort((a, b) => list[b].date - list[a].date)
     .map(key => list[key]),
 
-  newest: ({ list }) => Object.keys(list)
+  oldest: ({ list }) => Object.keys(list)
     .sort((a, b) => list[a].date - list[b].date)
     .map(key => list[key]),
 
