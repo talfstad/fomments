@@ -33,6 +33,9 @@ const App = (props) => {
     );
   }
 
+  // Require bootstrap ONLY inside IFRAME to not mess up other bootstrap
+  // installations
+  require('bootstrap/dist/js/bootstrap');
   return (
     <Provider store={store}>
       <Main />

@@ -1,7 +1,6 @@
+import $ from 'jquery';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
-import 'bootstrap/dist/js/bootstrap';
 
 import * as commentActions from '../actions/comments';
 
