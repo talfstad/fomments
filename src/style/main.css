@@ -515,3 +515,50 @@ body {
 .mr5 {
   margin-right: 5px !important;
 }
+
+.translate-text {
+  margin-top: 3px;
+}
+
+.flag-icon:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+    position: relative;
+    top: -2px;
+    width: 23px;
+    height: 17px;
+    background-image: url(/images/flags-sprite.png);
+    background-size: 207px 204px;
+}
+.flag-icon-us:before {
+    background-position: 0 -187px;
+}
+
+
+
+
+
+
+/* MEDIA QUERIES FOR MOBILE */
+/* Iphone 5 */
+@media (max-width: 320px) {
+  .fomments-container .comment-container .profile-pic img {
+    width: 20px;
+  }
+}
+
+/* Iphone 6 */
+@media (max-width: 375px) {
+  .fomments-container .comment-container .profile-pic img {
+    width: 20px;
+  }
+}
+
+/* Iphone 6 Plus */
+@media (max-width: 414px) {
+  .fomments-container .comment-container .profile-pic img {
+    width: 20px;
+  }
+}

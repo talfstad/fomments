@@ -18,33 +18,39 @@ export const updateIframeHeight = (component, { payload }, next) => {
 };
 
 export const loadFromParent = (component, { payload }, next) => {
-  const sectionId = component.props.sectionId || GENERAL_SECTION_ID;
+  const sectionId = component.props.sectionId;
   const productName = component.props.productName || GENERAL_PRODUCT_NAME;
   const storedState = JSON.parse((localStorage.getItem(sectionId) || '{}'));
 
-  let request;
-  if (!sectionId || sectionId.includes('general')) {
-    // general sectionId need to get from CDN
-    request = axios.get(`${CDN_ROOT_URL}/sections/${sectionId}`);
+  if (!sectionId) {
+    // No sectionId to get
+    next({ list: {} });
   } else {
-    // custom sectionId need to get it from our server
-    request = axios.get(`${ROOT_URL}/sections/${sectionId}`);
+    let request;
+    if (sectionId.includes('english')) {
+      // english are all free sectionId need to get from CDN
+      // loaded from CDN
+      request = axios.get(`${CDN_ROOT_URL}/sections/${sectionId}`);
+    } else {
+      // custom sectionId need to get it from our server
+      request = axios.get(`${ROOT_URL}/sections/${sectionId}`);
+    }
+    request.then((responseData) => {
+      const response = {
+        ...responseData.data,
+        sectionInfo: {
+          ...responseData.data.sectionInfo,
+          productName,
+        },
+        list: {
+          ...responseData.data.list,
+          ...storedState.list,
+        },
+      };
+      localStorage.setItem(sectionId, JSON.stringify({ list: response.list }));
+      next(response);
+    });
   }
-  request.then((responseData) => {
-    const response = {
-      ...responseData.data,
-      sectionInfo: {
-        ...responseData.data.sectionInfo,
-        productName,
-      },
-      list: {
-        ...responseData.data.list,
-        ...storedState.list,
-      },
-    };
-    localStorage.setItem(sectionId, JSON.stringify({ list: response.list }));
-    next(response);
-  });
 };
 
 export const saveToParent = (component, { iframeMessage }, next) => {

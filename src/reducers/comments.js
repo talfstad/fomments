@@ -2,7 +2,6 @@ import _ from 'lodash';
 import {
   ADD_COMMENT,
   UPDATE_COMMENT,
-  CHANGE_SORT_BY,
   ADD_LIKE,
   REMOVE_LIKE,
   ADD_REPLY,
