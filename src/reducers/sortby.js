@@ -1,5 +1,6 @@
 import {
   LOAD_FROM_PARENT,
+  LOAD_FOMMENT_SECTION,
   CHANGE_SORT_BY,
 } from '../actions/types';
 
@@ -12,6 +13,12 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_FROM_PARENT: {
+      return {
+        ...state,
+        ...action.payload.sortBy,
+      };
+    }
+    case LOAD_FOMMENT_SECTION: {
       return {
         ...state,
         ...action.payload.sortBy,

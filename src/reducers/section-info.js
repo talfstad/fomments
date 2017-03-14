@@ -1,5 +1,7 @@
 import {
   LOAD_FROM_PARENT,
+  LOAD_FOMMENT_SECTION,
+  SET_FOMMENT_SECTION_PRODUCT_NAME,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,6 +19,22 @@ export default (state = INITIAL_STATE, action) => {
         ...action.payload.sectionInfo,
       };
     }
+
+    case LOAD_FOMMENT_SECTION: {
+      return {
+        ...state,
+        ...action.payload.sectionInfo,
+      };
+    }
+
+    case SET_FOMMENT_SECTION_PRODUCT_NAME: {
+      const { productName } = action.payload;
+      return {
+        ...state,
+        productName,
+      };
+    }
+
     default:
       return state;
   }

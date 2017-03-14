@@ -1,5 +1,6 @@
 import {
   LOAD_FROM_PARENT,
+  LOAD_FOMMENT_SECTION,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -16,6 +17,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_FROM_PARENT: {
+      return {
+        ...state,
+        ...action.payload.user,
+      };
+    }
+
+    case LOAD_FOMMENT_SECTION: {
       return {
         ...state,
         ...action.payload.user,

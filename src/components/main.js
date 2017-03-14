@@ -5,8 +5,12 @@ import { connect } from 'react-redux';
 import {
   EXTERNAL_MESSAGE_NAMESPACE,
   EXTERNAL_RESPONSE_NAMESPACE,
-  LOAD_FOMMENT_SECTION,
 } from '../config';
+
+import {
+  LOAD_FOMMENT_SECTION,
+  SET_FOMMENT_SECTION_PRODUCT_NAME,
+} from '../actions/types';
 
 import Header from './header';
 import CommentList from './comment-list';
@@ -26,7 +30,10 @@ class Main extends Component {
   }
 
   listenForExternalMessages() {
-    // const { loadNewSection } = this.props;
+    const {
+      loadFommentSection,
+      setFommentProductName,
+    } = this.props;
 
     // Listen for external events to come in and trigger action based on what comes in
     const onReceiveExternalMessage = ({ data }) => {
@@ -44,8 +51,12 @@ class Main extends Component {
         switch (type) {
           case LOAD_FOMMENT_SECTION: {
             const { sectionId } = action;
-            console.log(`load section id: ${sectionId}`);
-            console.log(action);
+            loadFommentSection(sectionId);
+            break;
+          }
+          case SET_FOMMENT_SECTION_PRODUCT_NAME: {
+            const { productName } = action;
+            setFommentProductName(productName);
             break;
           }
           default:
@@ -83,6 +94,8 @@ class Main extends Component {
 }
 
 Main.propTypes = {
+  setFommentProductName: PropTypes.func,
+  loadFommentSection: PropTypes.func,
   loadFromParent: PropTypes.func,
   updateIframeHeight: PropTypes.func,
 };

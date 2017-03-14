@@ -11,3 +11,5 @@ export const LOAD_FROM_PARENT = 'loadFromParent';
 export const UPDATE_IFRAME_HEIGHT = 'updateIframeHeight';
 export const SHOW_MORE_COMMENTS = 'showMoreComments';
 export const SHOW_MORE_REPLIES = 'showMoreReplies';
+export const LOAD_FOMMENT_SECTION = 'loadFommentSection';
+export const SET_FOMMENT_SECTION_PRODUCT_NAME = 'setFommentSectionProductName';

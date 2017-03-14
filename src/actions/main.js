@@ -1,6 +1,8 @@
 import {
   LOAD_FROM_PARENT,
   UPDATE_IFRAME_HEIGHT,
+  LOAD_FOMMENT_SECTION,
+  SET_FOMMENT_SECTION_PRODUCT_NAME,
 } from './types';
 
 export const updateIframeHeight = height => (dispatch) => {
@@ -17,6 +19,24 @@ export const updateIframeHeight = height => (dispatch) => {
 
 export const loadFromParent = () => ({
   type: LOAD_FROM_PARENT,
+  iframeMessage: {
+    callback: true,
+  },
+  pageComments: true,
+});
+
+export const setFommentProductName = productName => ({
+  type: SET_FOMMENT_SECTION_PRODUCT_NAME,
+  payload: {
+    productName,
+  },
+});
+
+export const loadFommentSection = sectionId => ({
+  type: LOAD_FOMMENT_SECTION,
+  payload: {
+    sectionId,
+  },
   iframeMessage: {
     callback: true,
   },

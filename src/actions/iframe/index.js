@@ -17,6 +17,44 @@ export const updateIframeHeight = (component, { payload }, next) => {
   next();
 };
 
+const requestSection = (sectionId) => {
+  let request;
+
+  if (sectionId.includes('english')) {
+    // english are all free sectionId need to get from CDN
+    // loaded from CDN
+    request = axios.get(`${CDN_ROOT_URL}/sections/${sectionId}`);
+  } else {
+    request = axios.get(`${ROOT_URL}/sections/${sectionId}`);
+  }
+
+  return request;
+};
+
+export const loadFommentSection = (component, { payload }, next) => {
+  const {
+    sectionId,
+  } = payload;
+  const productName = component.props.productName || GENERAL_PRODUCT_NAME;
+  const storedState = JSON.parse((localStorage.getItem(sectionId) || '{}'));
+
+  requestSection(sectionId).then((responseData) => {
+    const response = {
+      ...responseData.data,
+      sectionInfo: {
+        ...responseData.data.sectionInfo,
+        productName,
+      },
+      list: {
+        ...responseData.data.list,
+        ...storedState.list,
+      },
+    };
+    localStorage.setItem(sectionId, JSON.stringify({ list: response.list }));
+    next(response);
+  });
+};
+
 export const loadFromParent = (component, { payload }, next) => {
   const sectionId = component.props.sectionId;
   const productName = component.props.productName || GENERAL_PRODUCT_NAME;
@@ -26,16 +64,7 @@ export const loadFromParent = (component, { payload }, next) => {
     // No sectionId to get
     next({ list: {} });
   } else {
-    let request;
-    if (sectionId.includes('english')) {
-      // english are all free sectionId need to get from CDN
-      // loaded from CDN
-      request = axios.get(`${CDN_ROOT_URL}/sections/${sectionId}`);
-    } else {
-      // custom sectionId need to get it from our server
-      request = axios.get(`${ROOT_URL}/sections/${sectionId}`);
-    }
-    request.then((responseData) => {
+    requestSection(sectionId).then((responseData) => {
       const response = {
         ...responseData.data,
         sectionInfo: {

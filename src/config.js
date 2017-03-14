@@ -4,4 +4,3 @@ export const GENERAL_SECTION_ID = 'skin-1-english';
 export const GENERAL_PRODUCT_NAME = 'this';
 export const EXTERNAL_MESSAGE_NAMESPACE = 'fomments-external-message';
 export const EXTERNAL_RESPONSE_NAMESPACE = 'fomments-external-message-response';
-export const LOAD_FOMMENT_SECTION = 'loadFommentSection';

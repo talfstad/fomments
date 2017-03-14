@@ -9,6 +9,7 @@ import {
   DELETE_COMMENT,
   DELETE_REPLY,
   LOAD_FROM_PARENT,
+  LOAD_FOMMENT_SECTION,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,6 +19,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOAD_FROM_PARENT: {
+      return {
+        ...state,
+        list: action.payload.list,
+      };
+    }
+
+    case LOAD_FOMMENT_SECTION: {
       return {
         ...state,
         list: action.payload.list,
