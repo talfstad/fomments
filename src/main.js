@@ -4,8 +4,8 @@ import App from './components/app';
 
 const fommentsContainer = document.getElementById('fomments');
 if (fommentsContainer) {
-  const sectionId = fommentsContainer.getAttribute('section-id');
-  const productName = fommentsContainer.getAttribute('product-name');
+  const sectionId = fommentsContainer.getAttribute('data-section-id');
+  const productName = fommentsContainer.getAttribute('data-product-name');
   ReactDOM.render(
     <App
       productName={productName}
