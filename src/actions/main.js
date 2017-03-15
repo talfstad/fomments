@@ -32,10 +32,11 @@ export const setFommentProductName = productName => ({
   },
 });
 
-export const loadFommentSection = sectionId => ({
+export const loadFommentSection = ({ sectionId, productName }) => ({
   type: LOAD_FOMMENT_SECTION,
   payload: {
     sectionId,
+    productName,
   },
   iframeMessage: {
     callback: true,

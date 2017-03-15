@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 const CreditLink = (props) => {
-  const { language, translateText } = props;
-  if (language !== 'english') {
+  const { id = 'english', translateText } = props;
+  if (!id.includes('english')) {
     return (
       <div className="credit-link">
         <a href="/">
@@ -23,7 +23,7 @@ const CreditLink = (props) => {
 };
 
 CreditLink.propTypes = {
-  language: PropTypes.string,
+  id: PropTypes.string,
   translateText: PropTypes.string,
 };
 

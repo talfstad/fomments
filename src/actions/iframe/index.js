@@ -4,7 +4,6 @@ import axios from 'axios';
 import {
   ROOT_URL,
   CDN_ROOT_URL,
-  GENERAL_SECTION_ID,
   GENERAL_PRODUCT_NAME,
 } from '../../config';
 
@@ -34,16 +33,22 @@ const requestSection = (sectionId) => {
 export const loadFommentSection = (component, { payload }, next) => {
   const {
     sectionId,
+    productName,
   } = payload;
-  const productName = component.props.productName || GENERAL_PRODUCT_NAME;
+
   const storedState = JSON.parse((localStorage.getItem(sectionId) || '{}'));
+  let finalProductName = productName;
+
+  if (productName.replace(/ /g, '').length <= 0) {
+    finalProductName = GENERAL_PRODUCT_NAME;
+  }
 
   requestSection(sectionId).then((responseData) => {
     const response = {
       ...responseData.data,
       sectionInfo: {
         ...responseData.data.sectionInfo,
-        productName,
+        productName: finalProductName,
       },
       list: {
         ...responseData.data.list,
@@ -83,8 +88,8 @@ export const loadFromParent = (component, { payload }, next) => {
 };
 
 export const saveToParent = (component, { iframeMessage }, next) => {
-  const sectionId = component.props.sectionId || GENERAL_SECTION_ID;
   const { state } = iframeMessage;
+  const sectionId = state.sectionInfo.id;
   // Filter out things we don't want saved
   localStorage.setItem(sectionId, JSON.stringify(state.comments));
   next();

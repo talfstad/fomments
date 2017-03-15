@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   EXTERNAL_MESSAGE_NAMESPACE,
   EXTERNAL_RESPONSE_NAMESPACE,
+  GENERAL_PRODUCT_NAME,
 } from '../config';
 
 import {
@@ -50,13 +51,17 @@ class Main extends Component {
         const { type } = action;
         switch (type) {
           case LOAD_FOMMENT_SECTION: {
-            const { sectionId } = action;
-            loadFommentSection(sectionId);
+            const { sectionId, productName } = action;
+            loadFommentSection({ sectionId, productName });
             break;
           }
           case SET_FOMMENT_SECTION_PRODUCT_NAME: {
             const { productName } = action;
-            setFommentProductName(productName);
+            if (productName.replace(/ /g, '').length > 0) {
+              setFommentProductName(productName);
+            } else {
+              setFommentProductName(GENERAL_PRODUCT_NAME);
+            }
             break;
           }
           default:
