@@ -9,7 +9,7 @@ const CreditLink = (props) => {
         <a href="/">
           <em>Comments Plugin</em>
         </a>
-        <em className="translate-text pull-right">{translateText} English <i className="flag-icon flag-icon-us" /></em>
+        <em className="translate-text pull-right">{translateText} <i className="flag-icon flag-icon-us" /></em>
       </div>
     );
   }
