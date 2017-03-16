@@ -38,9 +38,12 @@ export const setDateOnComment = (comment) => {
   const { date, relativeDate } = comment;
 
   if (!date && relativeDate) {
+    const [numberOfDays, numberOfHours, numberOfMinutes] = relativeDate;
     // set relative date (used for all non-user comments)
-    const now = (moment().unix()) * 1000;
-    return now - relativeDate;
+    const now = moment();
+    const newDate = now.subtract(numberOfDays, 'days').subtract(numberOfHours, 'hours')
+      .subtract(numberOfMinutes, 'minutes');
+    return (newDate.unix() * 1000);
   }
 
   return date;
@@ -50,7 +53,7 @@ export const setDateOnComment = (comment) => {
 // and not stored.
 // (date bases itself on relative date, etc.)
 export const setAggregateKeys = ({ list }) =>
-  Object.keys(list).map((key) => {
+  Object.keys(list).filter(key => !list[key].report).map((key) => {
     const comment = list[key];
 
     // return new object with updated aggregates.
@@ -64,6 +67,7 @@ export const setAggregateKeys = ({ list }) =>
 // return: sortedCommentList array
 export const getSortedComments = ({ comments, user, sortBy, sorters }) => {
   const { list } = comments;
+
   const updatedList = setAggregateKeys({ list });
   try {
     const [sortByKey] = Object.keys(sortBy).filter(key => sortBy[key]);

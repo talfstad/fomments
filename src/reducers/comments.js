@@ -66,8 +66,7 @@ export default (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
-        list: _.omitBy(state.list, (value, key) =>
-          parseFloat(key) === parseFloat(id)),
+        list: _.omit(state.list, id),
       };
     }
 

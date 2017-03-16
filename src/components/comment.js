@@ -77,6 +77,7 @@ class Comment extends Component {
   setSpam(spam) {
     const { comment, updateComment, updateReply } = this.props;
     const { id, parentId } = comment;
+
     this.setCollapsed(spam);
 
     if (parentId) {
@@ -122,6 +123,21 @@ class Comment extends Component {
     }
   }
 
+  handleReportComment() {
+    const { updateComment, updateReply, comment } = this.props;
+    if (comment.parentId) {
+      updateReply({
+        parentId: comment.parentId,
+        id: comment.id,
+        save: true,
+        updates: { report: true },
+      });
+    } else {
+      updateComment({ id: comment.id, save: true, updates: { report: true } });
+    }
+    this.showReportCommentModal(false);
+  }
+
   handleDeleteComment() {
     const { comment, deleteReply, deleteComment } = this.props;
     const { parentId } = comment;
@@ -132,7 +148,6 @@ class Comment extends Component {
       deleteComment(comment);
     }
     this.showDeleteCommentModal(false);
-    this.showReportCommentModal(false);
   }
 
   showEditComment(show) {
@@ -231,7 +246,7 @@ class Comment extends Component {
         <ReportCommentModal
           marginTop={this.state.offsetY}
           show={this.state.showReportCommentModal}
-          handleDeleteComment={() => this.handleDeleteComment()}
+          handleDeleteComment={() => this.handleReportComment()}
           showReportCommentModal={show => this.showReportCommentModal(show)}
         />
         <DeleteCommentModal
