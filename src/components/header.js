@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
@@ -66,8 +67,9 @@ Header.propTypes = {
   changeSortBy: PropTypes.func,
 };
 
+// Comment count filters comments with report = true
 const mapStateToProps = state => ({
-  commentCount: Object.keys(state.comments.list).length,
+  commentCount: Object.keys(_.pickBy(state.comments.list, comment => !comment.report)).length,
   sortBy: state.sortBy,
 });
 

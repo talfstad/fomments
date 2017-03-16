@@ -227,6 +227,7 @@ export default (sorters = {}) => store => next => (action) => {
           });
           break;
         }
+
         case ADD_LIKE:
         case REMOVE_LIKE:
         case UPDATE_REPLY:
