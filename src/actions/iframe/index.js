@@ -4,7 +4,6 @@ import axios from 'axios';
 import {
   ROOT_URL,
   CDN_ROOT_URL,
-  GENERAL_PRODUCT_NAME,
 } from '../../config';
 
 export const updateIframeHeight = (component, { payload }, next) => {
@@ -37,18 +36,12 @@ export const loadFommentSection = (component, { payload }, next) => {
   } = payload;
 
   const storedState = JSON.parse((localStorage.getItem(sectionId) || '{}'));
-  let finalProductName = productName;
-
-  if (productName.replace(/ /g, '').length <= 0) {
-    finalProductName = GENERAL_PRODUCT_NAME;
-  }
-
   requestSection(sectionId).then((responseData) => {
     const response = {
       ...responseData.data,
       sectionInfo: {
         ...responseData.data.sectionInfo,
-        productName: finalProductName,
+        productName,
       },
       list: {
         ...responseData.data.list,
@@ -62,7 +55,7 @@ export const loadFommentSection = (component, { payload }, next) => {
 
 export const loadFromParent = (component, { payload }, next) => {
   const sectionId = component.props.sectionId;
-  const productName = component.props.productName || GENERAL_PRODUCT_NAME;
+  const productName = component.props.productName;
   const storedState = JSON.parse((localStorage.getItem(sectionId) || '{}'));
 
   if (!sectionId) {

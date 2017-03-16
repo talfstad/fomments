@@ -36,10 +36,18 @@ class CommentList extends Component {
       addLike,
       removeLike,
       productName,
+      generalProductName,
     } = this.props;
+
+    let finalProductName = productName || '';
+
+    if (finalProductName.replace(/ /g, '').length <= 0) {
+      finalProductName = generalProductName;
+    }
+
     return pagedList.map(comment =>
       <Comment
-        productName={productName}
+        productName={finalProductName}
         updateIframeHeight={updateIframeHeight}
         showMoreReplies={showMoreReplies}
         updateComment={updateComment}
@@ -74,6 +82,7 @@ class CommentList extends Component {
 
 CommentList.propTypes = {
   productName: PropTypes.string,
+  generalProductName: PropTypes.string,
   addLike: PropTypes.func,
   removeLike: PropTypes.func,
   deleteComment: PropTypes.func,
@@ -88,11 +97,14 @@ CommentList.propTypes = {
   user: PropTypes.shape({}),
 };
 
-const mapStateToProps = state => ({
-  productName: state.sectionInfo.productName,
-  pagedList: state.commentPager.pagedList,
-  nextCountToLoad: state.commentPager.nextCountToLoad,
-  user: state.user,
-});
+const mapStateToProps = (state) => {
+  return ({
+    productName: state.sectionInfo.productName,
+    generalProductName: state.sectionInfo.generalProductName,
+    pagedList: state.commentPager.pagedList,
+    nextCountToLoad: state.commentPager.nextCountToLoad,
+    user: state.user,
+  });
+};
 
 export default connect(mapStateToProps, commentActions)(CommentList);

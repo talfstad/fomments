@@ -168,7 +168,6 @@ class Comment extends Component {
     }
   }
 
-
   render() {
     const {
       comment,
