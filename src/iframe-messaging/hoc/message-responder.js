@@ -16,6 +16,8 @@ export default actions => (ComposedComponent) => {
 
   MessageResponder.registerResponder = (component) => {
     window.addEventListener('message', ({ data }) => {
+      if (!Array.isArray(data)) return;
+
       const [namespace, action = {}] = data;
       const { iframeMessage = {} } = action;
       const { callback } = iframeMessage;

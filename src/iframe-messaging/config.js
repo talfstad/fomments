@@ -1,1 +1,1 @@
-export const NAMESPACE = 'fomments-iframe-messaging';
+export const MESSAGE_NAMESPACE = 'fomments-iframe-messaging';
