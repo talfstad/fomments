@@ -1,3 +1,19 @@
+## Fomments
+### App
+
+Find more information on Fomments app here:
+https://github.com/Buildcave/fomments-app
+
+We truly believe this software is epic and hope you find it useful.
+
+Sincerely,
+
+<img alt="Trevor Alfstad Signature" class="signature" src=team/signatures/trevoralfstad.png />
+
+(Trevor Alfstad, Developer)
+
+---------------------------------------------------------------
+
 - main cannot load local storage, must be in app
   . have to save and load from messaging
 
@@ -39,4 +55,4 @@ DONE -- . make localStorage store in key = to the sku
 
 3. validation && include /sections/<sectionId>/<userId>
 
-4. if no section, no user, load general comments
+4. if no section, no user, load no comments
