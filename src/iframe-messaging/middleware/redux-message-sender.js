@@ -13,17 +13,20 @@ const messageSender = store => next => (action) => {
       const { callback } = iframeMessage;
       if (callback) {
         const onResponse = ({ data }) => {
-          const [namespace, responseData] = data;
+          // Input validation
+          if (_.isArray(data)) {
+            const [namespace, responseData] = data;
 
-          // if not iframe message, ignore
-          if (namespace !== MESSAGE_NAMESPACE) return;
+            // if not iframe message, ignore
+            if (namespace !== MESSAGE_NAMESPACE) return;
 
-          if (responseData) {
-            const response = responseData[action.type];
-            if (response) {
-              // we have correct response, remove listener and resolve
-              window.removeEventListener('message', onResponse);
-              resolve(response);
+            if (responseData) {
+              const response = responseData[action.type];
+              if (response) {
+                // we have correct response, remove listener and resolve
+                window.removeEventListener('message', onResponse);
+                resolve(response);
+              }
             }
           }
         };

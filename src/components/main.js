@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import $ from 'jquery';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -15,12 +16,17 @@ import {
 import Header from './header';
 import CommentList from './comment-list';
 import CreditLink from './credit-link';
-import * as mainActions from '../actions/main';
+import {
+  loadFromParent,
+  setFommentProductName,
+  updateIframeHeight,
+  loadFommentSection,
+} from '../actions/main';
 
 class Main extends Component {
   componentWillMount() {
-    const { loadFromParent } = this.props;
-    loadFromParent();
+    const { loadFromParentAction } = this.props;
+    loadFromParentAction();
     this.listenForExternalMessages();
   }
 
@@ -31,12 +37,16 @@ class Main extends Component {
 
   listenForExternalMessages() {
     const {
-      loadFommentSection,
-      setFommentProductName,
+      loadFommentSectionAction,
+      setFommentProductNameAction,
     } = this.props;
 
     // Listen for external events to come in and trigger action based on what comes in
     const onReceiveExternalMessage = ({ data }) => {
+      // Input validation
+      if (!_.isArray(data)) {
+        return false;
+      }
       const [namespace, action] = data;
 
       const sendReceivedConfirmation = () => {
@@ -51,12 +61,12 @@ class Main extends Component {
         switch (type) {
           case LOAD_FOMMENT_SECTION: {
             const { sectionId, productName } = action;
-            loadFommentSection({ sectionId, productName });
+            loadFommentSectionAction({ sectionId, productName });
             break;
           }
           case SET_FOMMENT_SECTION_PRODUCT_NAME: {
             const { productName } = action;
-            setFommentProductName(productName);
+            setFommentProductNameAction(productName);
             break;
           }
           default:
@@ -70,10 +80,10 @@ class Main extends Component {
   }
 
   updateIframeHeight() {
-    const { updateIframeHeight } = this.props;
+    const { updateIframeHeightAction } = this.props;
     const height = $(this.el).outerHeight(true);
     if (height !== this.oldHeight) {
-      updateIframeHeight(height);
+      updateIframeHeightAction(height);
       this.oldHeight = height;
     }
   }
@@ -93,11 +103,18 @@ class Main extends Component {
   }
 }
 
+const mainActions = {
+  loadFromParentAction: loadFromParent,
+  setFommentProductNameAction: setFommentProductName,
+  updateIframeHeightAction: updateIframeHeight,
+  loadFommentSectionAction: loadFommentSection,
+};
+
 Main.propTypes = {
-  setFommentProductName: PropTypes.func,
-  loadFommentSection: PropTypes.func,
-  loadFromParent: PropTypes.func,
-  updateIframeHeight: PropTypes.func,
+  setFommentProductNameAction: PropTypes.func,
+  loadFommentSectionAction: PropTypes.func,
+  loadFromParentAction: PropTypes.func,
+  updateIframeHeightAction: PropTypes.func,
 };
 
 export default connect(null, mainActions)(Main);
