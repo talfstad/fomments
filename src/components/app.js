@@ -13,6 +13,12 @@ import { commentSorter } from '../sorters';
 import Main from './main';
 import Iframe from './iframe';
 
+import Config from '../config';
+
+const {
+  ROOT_URL,
+} = Config(process.env.NODE_ENV);
+
 const createStoreWithMiddleware = applyMiddleware(
   ReduxThunk,
   messageSender,
@@ -28,7 +34,7 @@ const App = (props) => {
       <Iframe
         sectionId={sectionId}
         productName={productName}
-        src="http://localhost:8080/fomments.html"
+        src={`${ROOT_URL}/fomments.html`}
       />
     );
   }

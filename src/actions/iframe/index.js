@@ -1,10 +1,12 @@
 import $ from 'jquery';
 import axios from 'axios';
 
-import {
+import Config from '../../config';
+
+const {
   ROOT_URL,
   CDN_ROOT_URL,
-} from '../../config';
+} = Config(process.env.NODE_ENV);
 
 export const updateIframeHeight = (component, { payload }, next) => {
   const { height } = payload;

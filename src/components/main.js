@@ -4,11 +4,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  EXTERNAL_MESSAGE_NAMESPACE,
-  EXTERNAL_RESPONSE_NAMESPACE,
-} from '../config';
-
-import {
   LOAD_FOMMENT_SECTION,
   SET_FOMMENT_SECTION_PRODUCT_NAME,
 } from '../actions/types';
@@ -23,12 +18,18 @@ import {
   loadFommentSection,
 } from '../actions/main';
 
+import Config from '../config';
+
+const {
+  EXTERNAL_MESSAGE_NAMESPACE,
+  EXTERNAL_RESPONSE_NAMESPACE,
+} = Config(process.env.NODE_ENV);
+
 class Main extends Component {
   componentWillMount() {
     const { loadFromParentAction } = this.props;
     loadFromParentAction();
     this.listenForExternalMessages();
-    console.log(process.env.NODE_ENV);
   }
 
   componentDidMount() {
