@@ -4,9 +4,11 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --content-base src --inline --hot",
     "commitmsg": "validate-commit-msg $GIT_PARAMS",
-    "build:prod": "NODE_ENV=production webpack -p"
+    "build:prod": "NODE_ENV=production webpack -p && node ./scripts/build/finish-prod.js",
+    "deploy:prod": "node ./scripts/deploy/prod.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.112.0",
     "axios": "^0.15.3",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.1.1",
@@ -23,13 +25,19 @@
     "eslint-plugin-react": "^6.8.0",
     "jquery": "^2.2.4",
     "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
     "moment": "^2.17.1",
+    "npmlog": "^4.1.2",
     "react": "^0.14.6",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^0.14.6",
     "react-redux": "^5.0.2",
     "redux": "^3.0.4",
     "redux-thunk": "^2.2.0",
+    "rimraf": "^2.6.2",
+    "rsync": "^0.6.1",
+    "s3": "^4.4.0",
+    "uuid": "^3.1.0",
     "webpack": "^1.12.9"
   },
   "devDependencies": {
