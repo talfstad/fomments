@@ -2,7 +2,7 @@ import moment from 'moment';
 
 const getSharedDefaults = user => ({
   user,
-  id: Math.floor(Math.random() * 1000),
+  id: `${Math.floor(Math.random() * 1000)}`,
   content: '',
   options: {
     collapse: {

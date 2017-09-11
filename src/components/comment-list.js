@@ -97,14 +97,12 @@ CommentList.propTypes = {
   user: PropTypes.shape({}),
 };
 
-const mapStateToProps = (state) => {
-  return ({
-    productName: state.sectionInfo.productName,
-    generalProductName: state.sectionInfo.generalProductName,
-    pagedList: state.commentPager.pagedList,
-    nextCountToLoad: state.commentPager.nextCountToLoad,
-    user: state.user,
-  });
-};
+const mapStateToProps = state => ({
+  productName: state.sectionInfo.productName,
+  generalProductName: state.sectionInfo.generalProductName,
+  pagedList: state.commentPager.pagedList,
+  nextCountToLoad: state.commentPager.nextCountToLoad,
+  user: state.user,
+});
 
 export default connect(mapStateToProps, commentActions)(CommentList);

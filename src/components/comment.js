@@ -274,8 +274,8 @@ Comment.propTypes = {
     id: PropTypes.number,
   }),
   comment: PropTypes.shape({
-    id: PropTypes.number,
-    parentId: PropTypes.number,
+    id: PropTypes.string,
+    parentId: PropTypes.string,
     user: PropTypes.shape({
       id: PropTypes.number,
     }),

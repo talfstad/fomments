@@ -28,14 +28,14 @@ const App = (props) => {
       <Iframe
         sectionId={sectionId}
         productName={productName}
-        src="http://localhost:8080/index.html"
+        src="http://localhost:8080/fomments.html"
       />
     );
   }
 
   // Require bootstrap ONLY inside IFRAME to not mess up other bootstrap
   // installations
-  require('bootstrap/dist/js/bootstrap');
+  require('bootstrap');
 
   return (
     <Provider store={store}>

@@ -82,7 +82,7 @@ AddReply.propTypes = {
   replyShowing: PropTypes.bool,
   user: PropTypes.shape({}),
   addReply: PropTypes.func,
-  parentId: PropTypes.number,
+  parentId: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

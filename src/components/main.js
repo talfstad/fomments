@@ -28,6 +28,7 @@ class Main extends Component {
     const { loadFromParentAction } = this.props;
     loadFromParentAction();
     this.listenForExternalMessages();
+    console.log(process.env.NODE_ENV);
   }
 
   componentDidMount() {
@@ -89,7 +90,7 @@ class Main extends Component {
   }
 
   render() {
-    require('../style/main.css');
+    require('../style/main.scss');
 
     return (
       <div ref={(c) => { this.el = c; }} className="container-fluid fomments-container">

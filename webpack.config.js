@@ -1,4 +1,4 @@
-const debug = process.env.NODE_ENV !== 'production';
+const debug = process.env.NODE_ENV === 'development';
 const webpack = require('webpack');
 const path = require('path');
 
@@ -18,23 +18,27 @@ module.exports = {
         },
       },
       {
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.scss$/,
+      },
+      {
         loaders: ['style-loader', 'css-loader'],
         test: /\.css$/,
       },
     ],
   },
   output: {
-    path: path.join(__dirname, '/src/'),
+    path: path.join(__dirname, '/dist/'),
     filename: 'fomments.min.js',
   },
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      comments: false,
-      compress: true,
-      mangle: true,
-      sourcemap: false,
+      comments: debug,
+      compress: !debug,
+      mangle: !debug,
+      sourcemap: debug,
       compressor: {
         warnings: false,
       },
@@ -46,8 +50,9 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production'),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
+      production: debug,
     }),
   ],
 };
