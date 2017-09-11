@@ -4,8 +4,7 @@ import axios from 'axios';
 import Config from '../../config';
 
 const {
-  ROOT_URL,
-  CDN_ROOT_URL,
+  SECTIONS_ROOT_URL,
 } = Config(process.env.NODE_ENV);
 
 export const updateIframeHeight = (component, { payload }, next) => {
@@ -17,19 +16,8 @@ export const updateIframeHeight = (component, { payload }, next) => {
   next();
 };
 
-const requestSection = (sectionId) => {
-  let request;
-
-  if (sectionId.includes('english')) {
-    // english are all free sectionId need to get from CDN
-    // loaded from CDN
-    request = axios.get(`${CDN_ROOT_URL}/sections/${sectionId}`);
-  } else {
-    request = axios.get(`${ROOT_URL}/sections/${sectionId}`);
-  }
-
-  return request;
-};
+const requestSection = sectionId =>
+  axios.get(`${SECTIONS_ROOT_URL}/sections/${sectionId}`);
 
 export const loadFommentSection = (component, { payload }, next) => {
   const {

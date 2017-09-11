@@ -16,7 +16,7 @@ import Iframe from './iframe';
 import Config from '../config';
 
 const {
-  ROOT_URL,
+  CDN_ROOT_URL,
 } = Config(process.env.NODE_ENV);
 
 const createStoreWithMiddleware = applyMiddleware(
@@ -34,7 +34,7 @@ const App = (props) => {
       <Iframe
         sectionId={sectionId}
         productName={productName}
-        src={`${ROOT_URL}/fomments.html`}
+        src={`${CDN_ROOT_URL}/fomments.html`}
       />
     );
   }
