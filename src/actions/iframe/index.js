@@ -17,7 +17,7 @@ export const updateIframeHeight = (component, { payload }, next) => {
 };
 
 const requestSection = sectionId =>
-  axios.get(`${SECTIONS_ROOT_URL}/sections/${sectionId}`);
+  axios.get(`${SECTIONS_ROOT_URL}/${sectionId}`);
 
 export const loadFommentSection = (component, { payload }, next) => {
   const {
