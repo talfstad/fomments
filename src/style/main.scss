@@ -87,12 +87,29 @@ body {
   margin-top: 12px;
 }
 
-.fomments-container .comment-container .profile-pic {
-  width: 56px;
-  float: left;
-}
-.fomments-container .comment-container .profile-pic img {
-  width: 48px;
+.fomments-container {
+  .comment-info {
+    .like-count {
+      color: #000;
+    }
+  }
+
+  .comment-container {
+    .profile-pic {
+      width: 56px;
+      float: left;
+
+      img {
+        width: 48px;
+      }
+    }
+
+    .replies {
+      .profile-pic img {
+        width: 36px;
+      }
+    }
+  }
 }
 
 .fomments-container .comment-container .comment-detail,
@@ -364,33 +381,41 @@ body {
   display: inline-block;
 }
 
-.fomments-container .user-info a.name {
-  font-weight: bold;
-  color: #365899;
-}
-.fomments-container .user-info a.page {
-  color: #90949c;
-}
-.fomments-container .comment-info {
-  color: #90949c;
-  padding-top: 2px;
-  font-size: 12px;
-}
-.fomments-container .comment-info a {
-  color: #4267b2;
-}
-.fomments-container .comment-info em {
-  font-style: normal;
-}
-.fomments-container .like-icon {
-  background-image: url("/images/sprite.png");
-  background-position-x: -174px;
-  background-position-y: -226px;
-  width: 13px;
-  height: 15px;
-  display: inline-block;
-  position: relative;
-  bottom: -2px;
+.fomments-container {
+  .like-icon {
+    background-image: url("/images/sprite.png");
+    background-position-x: -174px;
+    background-position-y: -226px;
+    width: 13px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+    bottom: -2px;
+  }
+
+  .user-info {
+    padding-right: 20px;
+
+    a.name {
+      font-weight: bold;
+      color: #365899;
+    }
+    a.page {
+      color: #90949c;
+    }
+  }
+  .comment-info {
+    color: #90949c;
+    padding-top: 2px;
+    font-size: 12px;
+
+    a {
+      color: #4267b2;
+    }
+    em {
+      font-style: normal;
+    }
+  }
 }
 
 .fomments-container .dropdown-menu ul a {
@@ -544,21 +569,39 @@ body {
 /* MEDIA QUERIES FOR MOBILE */
 /* Iphone 5 */
 @media (max-width: 320px) {
-  .fomments-container .comment-container .profile-pic img {
-    width: 20px;
-  }
+
 }
 
 /* Iphone 6 */
 @media (max-width: 375px) {
-  .fomments-container .comment-container .profile-pic img {
-    width: 20px;
-  }
+
 }
 
 /* Iphone 6 Plus */
-@media (max-width: 414px) {
-  .fomments-container .comment-container .profile-pic img {
-    width: 20px;
+@media (max-width: 480px) {
+  .fomments-container {
+    .comment-container {
+      padding: 16px 0;
+
+      .profile-pic {
+        width: 43px;
+
+        img {
+          width: 32px;
+        }
+      }
+
+      .replies {
+        .profile-pic img {
+          width: 32px;
+        }
+      }
+    }
+    .user-info {
+      line-height: 14px;
+    }
+    a.page {
+      font-size: 11px;
+    }
   }
 }

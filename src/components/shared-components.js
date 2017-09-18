@@ -252,7 +252,7 @@ export const CommentInfo = (props) => {
       return (
         <span>
           <span className="dot"> &middot; </span>
-          <span>
+          <span className="like-count">
             <i className="like-icon" /> {likes}
           </span>
         </span>
