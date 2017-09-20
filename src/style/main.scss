@@ -643,3 +643,28 @@ body {
     }
   }
 }
+
+// Modal max width 565
+@media (max-width: 565px) {
+  .fomments-modal {
+    .fomments-modal-content {
+      width: 345px;
+    }
+  }
+}
+
+@media (max-width: 475px) {
+  .fomments-modal {
+    .fomments-modal-content {
+      width: 275px;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .fomments-modal {
+    .fomments-modal-content {
+      width: 235px;
+    }
+  }
+}

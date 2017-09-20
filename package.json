@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --content-base src --inline --hot",
     "commitmsg": "validate-commit-msg $GIT_PARAMS",
-    "build:prod": "NODE_ENV=production webpack -p && node ./scripts/build/finish-prod.js",
-    "deploy:prod": "node ./scripts/deploy/prod.js"
+    "build": "NODE_ENV=production webpack -p && node ./scripts/build/finish-prod.js",
+    "deploy": "node ./scripts/deploy/prod.js"
   },
   "dependencies": {
     "aws-sdk": "^2.112.0",
