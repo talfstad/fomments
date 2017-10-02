@@ -28,11 +28,11 @@ const copyImages = () =>
   removeOutdatedImages()
     .then(() => copyNewImages());
 
-// Copy fomments.html
+// Copy fomments-18fj8FA8f38j301f8j13f8jdfks.html
 const copyHtml = () =>
   new Promise((resolve, reject) => {
     new Rsync()
-    .source('./src/fomments.html')
+    .source('./src/fomments-18fj8FA8f38j301f8j13f8jdfks.html')
     .destination('./dist')
     .execute((executeError) => {
       if (executeError) reject(executeError);

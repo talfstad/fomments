@@ -29,12 +29,14 @@ export const store = createStoreWithMiddleware(reducers);
 
 const App = (props) => {
   const { sectionId, productName } = props;
-  if (window.self === window.top) {
+  const locationRegex = new RegExp('fomments-18fj8FA8f38j301f8j13f8jdfks.html$');
+
+  if (!locationRegex.test(location.href)) {
     return (
       <Iframe
         sectionId={sectionId}
         productName={productName}
-        src={`${CDN_ROOT_URL}/fomments.html`}
+        src={`${CDN_ROOT_URL}/fomments-18fj8FA8f38j301f8j13f8jdfks.html`}
       />
     );
   }

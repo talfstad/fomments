@@ -12,7 +12,7 @@ export default (env) => {
       return ({
         MARKETING_URL: 'https://fomments.com',
         CDN_ROOT_URL: 'http://localhost:8080',
-        SECTIONS_ROOT_URL: 'http://localhost:3000',
+        SECTIONS_ROOT_URL: 'http://localhost:3000/sections',
         EXTERNAL_MESSAGE_NAMESPACE: 'fomments-external-message',
         EXTERNAL_RESPONSE_NAMESPACE: 'fomments-external-message-response',
       });

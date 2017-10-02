@@ -11,7 +11,11 @@ const CreditLink = (props) => {
   if (!id.includes('english')) {
     return (
       <div className="credit-link">
-        <a href={MARKETING_URL}>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href={MARKETING_URL}
+        >
           <em>Comments Plugin</em>
         </a>
         <em className="translate-text pull-right">{translateText} <i className="flag-icon flag-icon-us" /></em>
@@ -20,7 +24,11 @@ const CreditLink = (props) => {
   }
   return (
     <div className="credit-link">
-      <a href={MARKETING_URL}>
+      <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href={MARKETING_URL}
+      >
         <em>Comments Plugin</em>
       </a>
     </div>
