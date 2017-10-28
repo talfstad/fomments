@@ -247,13 +247,20 @@ export const CommentInfo = (props) => {
 
   const { likes, date, spam, edited } = comment;
 
+  const formatLikes = (likeCount) => {
+    if (likeCount > 999) {
+      return `${(likeCount / 1000).toFixed(1)}k`;
+    }
+    return likeCount;
+  };
+
   const buildLikes = () => {
     if (likes > 0) {
       return (
         <span>
           <span className="dot"> &middot; </span>
           <span className="like-count">
-            <i className="like-icon" /> {likes}
+            <i className="like-icon" /> {formatLikes(likes)}
           </span>
         </span>
       );
