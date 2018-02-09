@@ -3,7 +3,6 @@
   "private": true,
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --content-base src --inline --hot",
-    "commitmsg": "validate-commit-msg $GIT_PARAMS",
     "build": "NODE_ENV=production webpack -p && node ./scripts/build/finish-prod.js",
     "deploy": "node ./scripts/deploy/prod.js"
   },
