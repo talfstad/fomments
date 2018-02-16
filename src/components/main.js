@@ -10,7 +10,7 @@ import {
 
 import Header from './header';
 import CommentList from './comment-list';
-import CreditLink from './credit-link';
+// import CreditLink from './credit-link';
 import {
   loadFromParent,
   setFommentProductName,
@@ -98,7 +98,7 @@ class Main extends Component {
         <div className="comment-container">
           <Header />
           <CommentList updateIframeHeight={() => this.updateIframeHeight()} />
-          <CreditLink />
+          { /* <CreditLink /> */ }
         </div>
       </div>
     );
